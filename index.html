@@ -1567,6 +1567,134 @@
     .arrival-badge:hover { background: rgba(192,160,98,0.18); }
   }
 </style>
+<style>
+/* Enhanced Check-In/Check-Out Card Styles */
+.checkinout-card {
+    background: linear-gradient(135deg, rgba(215, 179, 119, 0.12) 0%, rgba(203, 191, 177, 0.08) 100%);
+    border: 2px solid rgba(181, 142, 95, 0.30);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(74, 63, 53, 0.12);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.checkinout-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+}
+
+@media (hover: hover) {
+    .checkinout-card:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 12px 32px rgba(74, 63, 53, 0.18);
+        border-color: rgba(181, 142, 95, 0.45);
+    }
+}
+
+.checkinout-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+}
+
+.checkinout-label {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--bronze);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.checkinout-time {
+    font-size: 2.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--dark-bronze);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(74, 63, 53, 0.08);
+}
+
+@media (min-width: 768px) {
+    .checkinout-time {
+        font-size: 3rem;
+    }
+}
+
+.checkinout-note {
+    font-size: 0.8125rem;
+    color: rgba(26, 26, 26, 0.70);
+    line-height: 1.5;
+    margin-top: 0.75rem;
+}
+
+.checkout-card {
+    border-color: rgba(220, 38, 38, 0.30);
+    background: linear-gradient(135deg, rgba(254, 202, 202, 0.15) 0%, rgba(252, 165, 165, 0.10) 100%);
+}
+
+.checkout-card::before {
+    background: linear-gradient(90deg, transparent, #dc2626, transparent);
+}
+
+.checkout-card .checkinout-time {
+    color: #991b1b;
+}
+
+@media (max-width: 640px) {
+    .checkinout-card {
+        padding: 1.5rem;
+    }
+    
+    .checkinout-icon {
+        font-size: 2.5rem;
+    }
+    
+    .checkinout-time {
+        font-size: 2rem;
+    }
+}
+
+/* Square Space Grocery Card */
+.grocery-card {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(22, 163, 74, 0.06) 100%);
+    border-left: 4px solid #16a34a;
+}
+
+.grocery-card:hover {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(22, 163, 74, 0.08) 100%);
+}
+
+/* Enhanced Responsive Card Layouts */
+@media (max-width: 640px) {
+    .feature-card {
+        padding: 1.25rem;
+    }
+    
+    .accent-box {
+        padding: 1.25rem;
+    }
+    
+    .content-card {
+        padding: 1.5rem;
+    }
+}
+</style>
+
 </head>
 <body class="antialiased">
 <!-- Preload fonts to improve performance -->
@@ -1704,7 +1832,7 @@
 </a>
 <!-- 3. Report Issue Button (from v20) -->
 <!-- CASCADE-REPORT-ISSUE:v20 -->
-<a class="contact-option" href="mailto:cascadereservations@gmail.com" id="reportIssueBtn">
+<a class="contact-option" href="mailto:cascadereservations@gmail.com?subject=Cascade%20Hideaway%20–%20Guest%20Issue%20Report&body=Hello%20Cascade%20Team,%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20issue:%0D%0A%0D%0AIssue%20Description:%0D%0A(Location,%20Wi-Fi,%20AC,%20Plumbing,%20etc.)%0D%0A%0D%0AWhen%20did%20this%20occur?:%0D%0A%0D%0AUrgency%20Level:%20Low%20/%20Medium%20/%20High%0D%0A%0D%0AGuest%20Name:%0D%0ARoom/Booking%20Reference:%0D%0A%0D%0AThank%20you." id="reportIssueBtn">
 <span class="option-icon">
        🛠️
       </span>
@@ -1720,7 +1848,7 @@
 <!-- /CASCADE-REPORT-ISSUE:v20 -->
 <!-- 4. Feedback Button (from v21) -->
 <!-- CASCADE-FEEDBACK-BTN:v21 -->
-<a class="contact-option" href="mailto:cascadereservations@gmail.com" id="feedbackBtn">
+<a class="contact-option" href="mailto:cascadereservations@gmail.com?subject=Cascade%20Hideaway%20–%20Guest%20Issue%20Report&body=Hello%20Cascade%20Team,%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20issue:%0D%0A%0D%0AIssue%20Description:%0D%0A(Location,%20Wi-Fi,%20AC,%20Plumbing,%20etc.)%0D%0A%0D%0AWhen%20did%20this%20occur?:%0D%0A%0D%0AUrgency%20Level:%20Low%20/%20Medium%20/%20High%0D%0A%0D%0AGuest%20Name:%0D%0ARoom/Booking%20Reference:%0D%0A%0D%0AThank%20you." id="feedbackBtn">
 <span class="option-icon">
        💡
       </span>
@@ -1975,7 +2103,7 @@
 <p class="text-xs md:text-sm tracking-widest uppercase mb-4" style="color: var(--bronze); font-weight: 600; letter-spacing: 0.15em;">
          With Warm Regards
         </p>
-<p class="text-2xl md:text-3xl serif-font" style="color: var(--dark-bronze); font-weight: 500; letter-spacing: 0.01em;">
+<p class="text-2xl md:text-3xl serif-font" style="color: var(--dark-bronze); font-weight: 500; letter-spacing: 0.02em;">
          Marifel &amp; The Cascade Team
         </p>
 <p class="text-4xl mt-5 mb-4 floating-icon">
@@ -1994,7 +2122,7 @@
        Preparing for Your Arrival
       </h2>
 <p class="text-gray-600 mb-8 text-base md:text-lg leading-relaxed">
-       To ensure a seamless check-in experience, we kindly request your assistance with the following preparations. Your access code will be provided on the morning of your arrival.
+       To make your arrival smooth and effortless, we just need a few quick details from you. Your personal access code will arrive on the morning of check-in—making your entry completely seamless.
       </p>
 <div class="space-y-4">
 <div class="feature-card p-5 md:p-6 rounded-xl">
@@ -2135,7 +2263,7 @@
 <p class="text-xs text-gray-700 mb-4">
               Submit your guest IDs and security deposit confirmation directly to our reservations team.
              </p>
-<a class="btn-primary px-5 py-2.5 rounded-lg text-sm font-medium inline-flex items-center" href="mailto:cascadereservations@gmail.com">
+<a class="btn-primary px-5 py-2.5 rounded-lg text-sm font-medium inline-flex items-center" href="mailto:cascadereservations@gmail.com?subject=Cascade%20Hideaway%20–%20Guest%20Issue%20Report&body=Hello%20Cascade%20Team,%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20issue:%0D%0A%0D%0AIssue%20Description:%0D%0A(Location,%20Wi-Fi,%20AC,%20Plumbing,%20etc.)%0D%0A%0D%0AWhen%20did%20this%20occur?:%0D%0A%0D%0AUrgency%20Level:%20Low%20/%20Medium%20/%20High%0D%0A%0D%0AGuest%20Name:%0D%0ARoom/Booking%20Reference:%0D%0A%0D%0AThank%20you.">
 <span class="mr-2">
                ✉️
               </span>
@@ -2182,29 +2310,6 @@
 </div>
 </div>
 </div>
-<div class="luxury-divider">
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-<div class="accent-box p-6 md:p-8 rounded-xl text-center">
-<p class="text-xs md:text-sm uppercase mb-2" style="color: var(--bronze); font-weight: 600; letter-spacing: 0.15em;">
-         Check-In
-        </p>
-<p class="text-3xl serif-font" style="color: var(--dark-bronze); font-weight: 600; letter-spacing: 0.02em;">
-         2:00 PM
-        </p>
-</div>
-<div class="accent-box p-6 md:p-8 rounded-xl text-center">
-<p class="text-xs md:text-sm uppercase mb-2" style="color: var(--bronze); font-weight: 600; letter-spacing: 0.15em;">
-         Check-Out
-        </p>
-<p class="text-3xl serif-font text-red-700" style="font-weight: 600; letter-spacing: 0.02em;">
-         12:00 NN
-        </p>
-<p class="text-xs md:text-sm text-gray-600 mt-2">
-         Extensions available upon request. Subject to availability; additional charges may apply for late check-out.
-        </p>
-</div>
-</div>
 <div class="feature-card p-5 md:p-6 rounded-xl mt-6">
 <div class="flex items-start">
 <div class="flex-shrink-0 h-10 w-10 rounded-full step-number flex items-center justify-center font-semibold text-lg">
@@ -2214,6 +2319,9 @@
 <h3 class="font-semibold text-lg md:text-xl mb-3" style="color: var(--dark-bronze);">
            Parking Information
           </h3>
+<p class="text-xs text-gray-600 italic mb-3">
+           💡 Useful information if you're arriving with your own vehicle or transportation
+          </p>
 <div class="space-y-3">
 <div>
 <p class="text-sm font-semibold mb-1" style="color: var(--bronze);">Location</p>
@@ -2232,6 +2340,32 @@
 </div>
 </div>
 </div>
+<div class="luxury-divider">
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+<div class="checkinout-card">
+<div class="checkinout-icon">🔑</div>
+<p class="checkinout-label">
+         <span>✨</span> Check-In Time
+        </p>
+<p class="checkinout-time">
+         2:00 PM
+        </p>
+</div>
+<div class="checkinout-card checkout-card">
+<div class="checkinout-icon">🌅</div>
+<p class="checkinout-label">
+         <span>⏰</span> Check-Out Time
+        </p>
+<p class="checkinout-time">
+         12:00 NN
+        </p>
+<p class="checkinout-note">
+         Extensions available upon request. Subject to availability; additional charges may apply for late check-out.
+        </p>
+</div>
+</div>
+
 </div>
 </section>
 <section class="content-section" id="check-in" role="tabpanel">
@@ -3234,7 +3368,7 @@
 </div>
 <div class="luxury-divider">
 </div>
-<div aria-label="Quick tip: Tricycles right outside Bria’s gate" class="feature-card p-4 md:p-5 rounded-xl border border-bronze/15 bg-white/60 mt-4" id="tip-tricycles-bria" role="note"><div class="flex items-start mb-2"><span class="text-xl md:text-2xl mr-3">🛺</span><h3 class="font-semibold text-base md:text-lg serif-font" style="color: var(--dark-bronze);">Tricycles right outside Bria’s gate</h3></div><p class="text-xs md:text-sm text-gray-700 leading-relaxed mb-3">For short hops around the neighborhood or to Robinsons Mall—the closest mall—tricycles wait just outside the Bria gate. Agree on the fare before hopping in; cash only.</p><ul class="list-disc pl-5 text-xs md:text-sm text-gray-700 space-y-1 mb-3"><li>Say “Robinsons” or show the map to the driver.</li><li>It helps to carry small bills—drivers may not always have change.</li><li>For longer trips or airport runs, Grab is usually better value.</li></ul><p class="text-xs uppercase tracking-wide mb-2 font-semibold" style="color: var(--bronze);">Nearest picks</p><div aria-label="Nearest places to Bria" class="flex flex-wrap gap-2" id="nearest-picks-row"></div><div aria-label="Action buttons" class="flex flex-wrap gap-2" id="tip-actions"><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Robinsons+Mall+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Open Robinsons Mall on Maps</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=coffee+near+Cascade+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Coffee near Cascade (Maps)</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=attractions+near+Cascade+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Attractions near Cascade (Maps)</a><a class="bg-bronze/10 border border-bronze/20 font-semibold inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="grab://open" style="color: var(--bronze); background: rgba(191, 149, 63, 0.10);">Open Grab App</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://m.grab.com/booking" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Open Grab Web</a></div><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script id="nearest-picks-config" type="application/json">[{"name": "Robinsons Mall", "icon": "🛍️", "distance": "≈1–2 km", "url": "https://www.google.com/maps/search/?api=1&query=Robinsons+Mall+General+Santos"}, {"name": "Nearby Coffee", "icon": "☕", "distance": "≈1 km", "url": "https://www.google.com/maps/search/?api=1&query=coffee+near+Bria+Homes+General+Santos"}, {"name": "Tiongson Arcade", "icon": "🍢", "distance": "≈4 km", "url": "https://www.google.com/maps/search/?api=1&query=Tiongson+Arcade+General+Santos"}, {"name": "Plaza Heneral Santos", "icon": "🏛️", "distance": "≈6 km", "url": "https://www.google.com/maps/search/?api=1&query=Plaza+Heneral+Santos"}]</script><script>
+<div aria-label="Quick tip: Tricycles right outside Bria’s gate" class="feature-card p-4 md:p-5 rounded-xl border border-bronze/15 bg-white/60 mt-4" id="tip-tricycles-bria" role="note"><div class="flex items-start mb-2"><span class="text-xl md:text-2xl mr-3">🛺</span><h3 class="font-semibold text-base md:text-lg serif-font" style="color: var(--dark-bronze);">Tricycles right outside Bria’s gate</h3></div><p class="text-xs md:text-sm text-gray-700 leading-relaxed mb-3">For short hops around the neighborhood or to Robinsons Mall—the closest mall—tricycles wait just outside the Bria gate. Agree on the fare before hopping in; cash only.</p><ul class="list-disc pl-5 text-xs md:text-sm text-gray-700 space-y-1 mb-3"><li>Say “Robinsons” or show the map to the driver.</li><li>It helps to carry small bills—drivers may not always have change.</li><li>For longer trips or airport runs, Grab is usually better value.</li></ul><p class="text-xs uppercase tracking-wide mb-2 font-semibold" style="color: var(--bronze);">Nearest picks</p><div aria-label="Nearest places to Bria" class="flex flex-wrap gap-2" id="nearest-picks-row"></div><div aria-label="Action buttons" class="flex flex-wrap gap-2" id="tip-actions"><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Robinsons+Mall+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Open Robinsons Mall on Maps</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=coffee+near+Cascade+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Coffee near Cascade (Maps)</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=attractions+near+Cascade+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Attractions near Cascade (Maps)</a><a class="bg-bronze/10 border border-bronze/20 font-semibold inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="grab://open" style="color: var(--bronze); background: rgba(191, 149, 63, 0.10);">Open Grab App</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://m.grab.com/booking" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Open Grab Web</a></div><script id="nearest-picks-config" type="application/json">[{"name": "Robinsons Mall", "icon": "🛍️", "distance": "≈1–2 km", "url": "https://www.google.com/maps/search/?api=1&query=Robinsons+Mall+General+Santos"}, {"name": "Nearby Coffee", "icon": "☕", "distance": "≈1 km", "url": "https://www.google.com/maps/search/?api=1&query=coffee+near+Bria+Homes+General+Santos"}, {"name": "Tiongson Arcade", "icon": "🍢", "distance": "≈4 km", "url": "https://www.google.com/maps/search/?api=1&query=Tiongson+Arcade+General+Santos"}, {"name": "Plaza Heneral Santos", "icon": "🏛️", "distance": "≈6 km", "url": "https://www.google.com/maps/search/?api=1&query=Plaza+Heneral+Santos"}]</script><script>
 (function () {
   try {
     var cfgEl = document.getElementById('nearest-picks-config');
@@ -3857,8 +3991,8 @@
 <div class="accent-box p-6 md:p-8 rounded-2xl mt-8">
 <div class="max-w-3xl mx-auto">
 <div class="text-5xl md:text-6xl mb-5 text-center centered-block-icon">🛵</div>
-<h3 class="text-2xl md:text-3xl serif-font mb-4 text-center font-semibold" style="color: var(--dark-bronze);">Ultimate Convenience</h3>
-<p class="text-base md:text-lg text-gray-700 text-center mb-6 leading-relaxed">Your favorite restaurants, groceries, and essentials—delivered straight to your sanctuary. <strong style="color: var(--bronze);">No need to step out</strong> when everything can be brought to your doorstep with just a few taps.</p>
+<h3 class="text-2xl md:text-3xl serif-font mb-4 text-center font-semibold" style="color: var(--dark-bronze);">Everything Delivered to You</h3>
+<p class="text-base md:text-lg text-gray-700 text-center mb-6 leading-relaxed">Craving your favorite meal? Need groceries? <strong style="color: var(--bronze);">Stay in your sanctuary</strong>—we've made it effortless to have everything brought right to your door with just a few taps.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 <a class="feature-card p-5 rounded-xl hover:shadow-xl transition-all text-center" href="https://food.grab.com/ph/en/" rel="noopener noreferrer" target="_blank">
 <div class="text-4xl mb-3">🚗</div>
@@ -3866,7 +4000,7 @@
 <p class="text-sm text-gray-700">Food delivery and grocery essentials</p>
 </a>
 <a class="feature-card p-5 rounded-xl hover:shadow-xl transition-all text-center" href="https://www.foodpanda.ph/" rel="noopener noreferrer" target="_blank">
-<div class="text-4xl mb-3">🐼</div>
+<div class="text-4xl mb-3" style="filter: hue-rotate(320deg) saturate(2);">🐼</div>
 <h4 class="font-bold text-lg mb-2" style="color: var(--dark-bronze);">foodpanda</h4>
 <p class="text-sm text-gray-700">Wide restaurant selection and shops</p>
 </a>
@@ -3879,32 +4013,32 @@
           🌿
          </div>
 <h3 class="text-xl md:text-2xl serif-font mb-3" style="color: var(--dark-bronze);">
-          Local Tip: For Your Quick Cravings
+          Neighborhood Gems
          </h3>
 <p class="text-sm text-gray-600 italic mb-6">
-          Discover neighborhood favorites just steps from your door
+          Your local favorites are closer than you think
          </p>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 <div class="bg-white/70 p-5 rounded-xl border-l-4 border-green-500">
 <div class="flex items-start mb-3">
 <span class="text-3xl mr-3">
             🛒
            </span>
 <div>
-<h4 class="font-bold text-base mb-2" style="color: var(--dark-bronze);">
+<h4 class="font-semibold text-lg mb-2" style="color: var(--dark-bronze);">
              Sari-Sari Store
             </h4>
-<p class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-900 inline-block mb-3">
-             Just around the corner!
+<p class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-900 inline-block mb-2">
+             Around the corner
             </p>
 </div>
 </div>
 <p class="text-sm text-gray-700 mb-3 leading-relaxed">
-           Need something fast? Step outside, turn left, walk to the end of the street. You'll find a small local store with snacks, drinks, and daily essentials.
+           Craving a quick snack or cold drink? Your neighborhood convenience is just moments away. Simply turn left and stroll to the end of the street—you'll discover this local gem stocked with refreshments and essentials.
           </p>
 <p class="text-xs text-gray-600 italic">
-           ⏱️ Perfect for quick runs • Open most hours
+           ⏱️ Open most hours · Perfect for quick needs
           </p>
 </div>
 <div class="bg-white/70 p-5 rounded-xl border-l-4 border-orange-500" data-time-tag="evening-activity">
@@ -3913,20 +4047,41 @@
             🔥
            </span>
 <div>
-<h4 class="font-bold text-base mb-2" style="color: var(--dark-bronze);">
+<h4 class="font-semibold text-lg mb-2" style="color: var(--dark-bronze);">
              Ate Kris's BBQ
             </h4>
-<p class="text-xs px-2 py-1 rounded-full bg-orange-100 text-orange-900 inline-block mb-3">
-             A neighborhood favorite!
+<p class="text-xs px-2 py-1 rounded-full bg-orange-100 text-orange-900 inline-block mb-2">
+             Local favorite
             </p>
 </div>
 </div>
 <p class="text-sm text-gray-700 mb-3 leading-relaxed">
-           In the late afternoon, just two houses to the left, you'll catch the aroma of freshly grilled Filipino BBQ. A delicious local treat.
+           As afternoon light fades, the irresistible aroma of sizzling Filipino BBQ fills the air. Just two houses down, Ate Kris grills authentic street food perfection—tender, smoky, and utterly delicious.
           </p>
 <p class="text-xs text-gray-600 italic">
-           ⏱️ Late afternoon onwards • Authentic Filipino flavors
+           ⏱️ Late afternoon onwards · Authentic Filipino flavors
           </p>
+</div>
+<div class="bg-white/70 p-5 rounded-xl border-l-4 border-indigo-500">
+<div class="flex items-start mb-3">
+<span class="text-3xl mr-3">
+            🏪
+           </span>
+<div>
+<h4 class="font-semibold text-lg mb-2" style="color: var(--dark-bronze);">
+             Square Space Mini Grocery
+            </h4>
+<p class="text-xs px-2 py-1 rounded-full bg-indigo-100 text-indigo-900 inline-block mb-2">
+             Convenient & affordable
+            </p>
+</div>
+</div>
+<p class="text-sm text-gray-700 mb-3 leading-relaxed">
+           Everything you need without leaving the neighborhood. This well-curated mini grocery offers quality products at welcoming prices—your one-stop convenience right within the subdivision.
+          </p>
+<a class="text-xs hover:underline flex items-center gap-2" href="https://maps.app.goo.gl/GeVVnhSYxyp2XgWu6" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+           📍 Get Directions →
+          </a>
 </div>
 </div>
 <div class="mt-6 pt-6 border-t border-bronze/20 text-center">
@@ -4279,7 +4434,7 @@ Connect with Us
         Departure Day
        </h2>
 <p class="text-gray-600 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-        As your retreat draws to a close, we kindly request your assistance with these final details.
+        As your retreat comes to a close, here are a few simple steps to help us prepare for the next guest. Thank you for your cooperation!
        </p>
 </div>
 <div class="luxury-divider">
@@ -4306,7 +4461,7 @@ Connect with Us
            ✓
           </span>
 <span class="label-text">
-           Dispose of all refuse in designated containers
+           Take out the trash to designated bins
           </span>
 </label>
 <label class="checklist-item" for="check-2">
@@ -4386,10 +4541,10 @@ Connect with Us
          🙏
         </div>
 <h3 class="text-3xl md:text-4xl serif-font mb-4" style="color: var(--dark-bronze);">
-         Our Sincere Gratitude
+         Thank You for Staying With Us
         </h3>
 <p class="text-base md:text-lg text-gray-700 leading-relaxed">
-         It has been our genuine pleasure to serve as your hosts at Cascade Hideaway. We hope your time with us provided the rest, comfort, and peace you sought.
+         It's been our absolute pleasure hosting you at Cascade Hideaway. We truly hope you enjoyed every moment of your stay and found the rest and comfort you were seeking.
         </p>
 </div>
 <div class="luxury-divider">
@@ -4403,7 +4558,7 @@ Connect with Us
           Share Your Experience
          </p>
 <p class="text-sm md:text-base text-gray-700 mb-6 leading-relaxed">
-          If you found value in your experience, we would be deeply grateful if you would consider sharing your reflections. Your feedback helps us continually refine our service.
+          If you enjoyed your stay, we'd love to hear about it! Your feedback helps future guests discover what makes Cascade Hideaway special.
          </p>
 <a class="btn-primary px-7 md:px-9 py-3 md:py-4 rounded-lg font-semibold inline-flex items-center text-sm md:text-base shadow-lg" href="https://www.airbnb.com/users/reviews" rel="noopener noreferrer" target="_blank">
 <span class="mr-2 text-lg">
@@ -4416,13 +4571,13 @@ Connect with Us
 </div>
 <div class="border-t-2 border-bronze/30 pt-6">
 <p class="text-lg md:text-xl serif-font mb-3 font-medium" style="color: var(--dark-bronze);">
-          We Value Your Feedback
+          Got Suggestions?
          </p>
 <p class="text-sm md:text-base text-gray-700 mb-5 leading-relaxed">
-          Have suggestions or additional comments? We'd love to hear from you directly.
+          We're always looking to improve. Have ideas or additional comments? We'd genuinely love to hear from you.
          </p>
 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm md:text-base">
-<a class="flex items-center gap-2 hover:opacity-80 transition-opacity font-medium copyable" href="mailto:cascadereservations@gmail.com">
+<a class="flex items-center gap-2 hover:opacity-80 transition-opacity font-medium copyable" href="mailto:cascadereservations@gmail.com?subject=Cascade%20Hideaway%20–%20Guest%20Issue%20Report&body=Hello%20Cascade%20Team,%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20issue:%0D%0A%0D%0AIssue%20Description:%0D%0A(Location,%20Wi-Fi,%20AC,%20Plumbing,%20etc.)%0D%0A%0D%0AWhen%20did%20this%20occur?:%0D%0A%0D%0AUrgency%20Level:%20Low%20/%20Medium%20/%20High%0D%0A%0D%0AGuest%20Name:%0D%0ARoom/Booking%20Reference:%0D%0A%0D%0AThank%20you.">
 <span class="text-xl">
             📧
            </span>
@@ -4481,7 +4636,7 @@ Connect with Us
     Unauthorized reproduction, distribution, or commercial use is strictly prohibited.
    </p>
 </footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script defer="">
+<script defer="">
    // --- Injected Luxury Features (Swipe, FAB visibility) ---
 function setupLuxuryFeatures() {
     const contentArea = document.getElementById('content');
@@ -5480,7 +5635,7 @@ if ((val && typeof val === 'string' && val.toLowerCase() === ADMIN_NAME) && loca
 <p>Opens Cascade listing on Airbnb</p>
 </div>
 </a><a aria-label="Message us on Messenger" class="contact-option" data-cc-messenger="1" href="https://m.me/61578158229299" id="contactMessengerBtn" rel="noopener" target="_blank"><span class="option-icon">💬</span><div><strong>Message us on Messenger</strong><p>Opens chat; template copied for you</p></div></a><a aria-label="Visit our Facebook Page" class="contact-option" data-cc-fb="1" href="https://www.facebook.com/profile.php?id=61578158229299" rel="noopener" target="_blank"><span class="option-icon">📘</span><div><strong>Visit our Facebook Page</strong><p>See updates and send a message</p></div></a>
-<a class="contact-option" href="mailto:cascadereservations@gmail.com">
+<a class="contact-option" href="mailto:cascadereservations@gmail.com?subject=Cascade%20Hideaway%20–%20Guest%20Issue%20Report&body=Hello%20Cascade%20Team,%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20issue:%0D%0A%0D%0AIssue%20Description:%0D%0A(Location,%20Wi-Fi,%20AC,%20Plumbing,%20etc.)%0D%0A%0D%0AWhen%20did%20this%20occur?:%0D%0A%0D%0AUrgency%20Level:%20Low%20/%20Medium%20/%20High%0D%0A%0D%0AGuest%20Name:%0D%0ARoom/Booking%20Reference:%0D%0A%0D%0AThank%20you.">
 <span class="option-icon">
        📧
       </span>
@@ -5498,7 +5653,7 @@ if ((val && typeof val === 'string' && val.toLowerCase() === ADMIN_NAME) && loca
 </div>
 <!-- /CASCADE-CONTACT-MODAL:v24 -->
 <!-- CASCADE-CONTACT-JS:v24 -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script id="cascade-contact-js-v24">
+<script id="cascade-contact-js-v24">
    (function() {
   if (window.__CASCADE_CONTACT_JS_V24__) return;
   window.__CASCADE_CONTACT_JS_V24__ = true;
@@ -6228,69 +6383,4 @@ if ((val && typeof val === 'string' && val.toLowerCase() === ADMIN_NAME) && loca
       el = all.find(n => /\bfeels like\b/i.test(n.textContent||''));
       if (el) el = el.closest('section,div,aside,article') || el.parentElement;
     }
-    if (el) {
-      el.classList.add('cc-weather-center');
-      const icon = el.querySelector('[data-weather-icon], .weather-icon, .emoji, img, svg'); if (icon) icon.classList.add('cc-weather-icon');
-      const temp = el.querySelector('.temp, .temperature, [data-temp], .degree, .deg'); if (temp) temp.classList.add('cc-weather-temp');
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    ensureContactMessenger();
-    ensureRepairsFeedback();
-    ensureDepartureMessengerBelow();
-    feelsLikeOneLine();
-    centerWeatherOnMobile();
-  });
-})();
-</script>
-<script>
-/* Attempt to open Grab app with graceful fallback */
-function openGrabApp() {
-  try {
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    var appLink = 'grab://open';
-    var storeLink = isIOS
-      ? 'https://apps.apple.com/ph/app/grab-superapp/id641809260'
-      : 'https://play.google.com/store/apps/details?id=com.grabtaxi.passenger';
-    
-    window.location.href = appLink;
-    setTimeout(function() {
-      window.location.href = storeLink;
-    }, 1500);
-  } catch (e) {
-    window.open('https://www.grab.com', '_blank');
-  }
-}
-
-/* Open Airbnb listing in app with fallback to web */
-function openAirbnbListing(event) {
-  if (event) event.preventDefault();
-  
-  try {
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    var isAndroid = /Android/.test(navigator.userAgent);
-    var isMobile = isIOS || isAndroid;
-    
-    // Airbnb app deep link for the listing
-    var appLink = 'airbnb://rooms/cascadesgsc';
-    var webLink = 'https://airbnb.com/h/cascadesgsc';
-    
-    if (isMobile) {
-      // Try to open the app
-      window.location.href = appLink;
-      
-      // Fallback to web after delay if app doesn't open
-      setTimeout(function() {
-        window.location.href = webLink;
-      }, 1500);
-    } else {
-      // Desktop: just open web link in new tab
-      window.open(webLink, '_blank', 'noopener');
-    }
-  } catch (e) {
-    window.open('https://airbnb.com/h/cascadesgsc', '_blank', 'noopener');
-  }
-  
-  return false;
-}
+    if (e
