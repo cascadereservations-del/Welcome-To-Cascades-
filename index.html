@@ -25,7 +25,7 @@
 <script defer="" src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&amp;family=Raleway:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;family=Raleway:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <!-- CASCADE-FONT-IMPORT:v23 -->
 <link href="https://fonts.googleapis.com/css2?family=Style+Script&amp;display=swap" rel="stylesheet"/>
 <!-- /CASCADE-FONT-IMPORT:v23 -->
@@ -76,7 +76,7 @@
             position: relative;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.015em;
             padding-bottom: 80px; 
         }
         
@@ -124,7 +124,48 @@
         
         .serif-font {
             font-family: 'Cormorant Garamond', serif;
-            font-weight: 400; 
+            font-weight: 300;
+            font-optical-sizing: auto;
+            text-rendering: optimizeLegibility;
+            font-variant-ligatures: common-ligatures;
+        }
+
+        /* ── Luxury type scale ─────────────────────────────────── */
+        .serif-display {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-style: normal;
+            font-optical-sizing: auto;
+            text-rendering: optimizeLegibility;
+            font-variant-ligatures: common-ligatures;
+            letter-spacing: 0.01em;
+            line-height: 1.15;
+        }
+
+        .serif-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            font-style: italic;
+            font-optical-sizing: auto;
+            text-rendering: optimizeLegibility;
+            letter-spacing: 0.02em;
+        }
+
+        .serif-caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-style: italic;
+            font-optical-sizing: auto;
+            text-rendering: optimizeLegibility;
+            letter-spacing: 0.04em;
+        }
+
+        .script-signature {
+            font-family: 'Style Script', cursive;
+            font-weight: 400;
+            font-size: 1.6em;
+            line-height: 1.4;
+            letter-spacing: 0.02em;
         }
         
         #app {
@@ -197,6 +238,8 @@
         }
         
         .content-card {
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 254, 249, 0.9) 100%);
             backdrop-filter: blur(20px);
             border-radius: 1.5rem;
@@ -1313,7 +1356,41 @@
     /* Escape the backslash for the !important flag */
     .forecast-day-card.\!flex-col { flex-direction: column; align-items: flex-start; gap: 0.5rem; padding: 0.75rem 1rem; }
     .forecast-day-card .forecast-desc { flex: 1; text-align: left; margin-left: 0.5rem; }
-  </style>
+  
+        /* ── Welcome parchment card ─────────────────────────────── */
+        .welcome-parchment {
+            background:
+                /* Paper grain (SVG noise) */
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.028'/%3E%3C/svg%3E"),
+                /* Vignette edge darkening */
+                radial-gradient(ellipse at center, transparent 60%, rgba(193,154,107,0.07) 100%),
+                /* Creamy paper base */
+                linear-gradient(160deg, #FDF9F2 0%, #FBF6EC 40%, #F8F2E6 100%);
+            border: 1px solid rgba(193, 154, 107, 0.18);
+            box-shadow:
+                0 20px 60px rgba(74, 63, 53, 0.09),
+                0 8px 24px rgba(166, 124, 82, 0.07),
+                inset 0 0 80px rgba(193, 154, 107, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .welcome-parchment::before {
+            background: linear-gradient(90deg, var(--accent-gold) 0%, var(--bronze) 50%, var(--accent-gold) 100%);
+        }
+
+        /* Subtle ruled-line watermark behind welcome body text */
+        .welcome-body-text {
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 1.6em,
+                rgba(193, 154, 107, 0.045) 1.6em,
+                rgba(193, 154, 107, 0.045) calc(1.6em + 1px)
+            );
+            background-size: 100% 1.65em;
+            line-height: 1.65em;
+            padding: 0 2px;
+        }
+        </style>
 <!-- CASCADE-SWIPE-CSS:v16 -->
 <style id="cascade-swipe-css">
    html, body, #app { touch-action: pan-y; }
@@ -1708,7 +1785,7 @@
 <div class="hidden" id="expiredOverlay">
 <div>
 <div class="text-5xl mb-4 centered-block-icon">
-     📖
+     ⏰
     </div>
 <h2 class="text-3xl serif-font mb-4">
      Time to Reconnect?
@@ -1725,7 +1802,7 @@
 <div class="text-5xl mb-4 centered-block-icon">
       ✨
      </div>
-<h3 class="text-2xl serif-font font-light mb-2" id="nameModalTitle" style="color: var(--dark-bronze);">
+<h3 class="text-2xl serif-heading font-light mb-2" id="nameModalTitle" style="color: var(--dark-bronze);">
       Make Your Guide Special
      </h3>
 <p class="text-sm text-gray-600">
@@ -1749,7 +1826,7 @@
 <div class="text-5xl mb-4 centered-block-icon">
       🌅
      </div>
-<h3 class="text-2xl serif-font font-light mb-3" id="departureTitle" style="color: var(--dark-bronze);">
+<h3 class="text-2xl serif-heading font-light mb-3" id="departureTitle" style="color: var(--dark-bronze);">
       Departure Confirmation
      </h3>
 <div class="h-px w-20 mx-auto bg-gradient-to-r from-transparent via-bronze to-transparent">
@@ -1783,7 +1860,7 @@
 <div class="text-5xl mb-4 centered-block-icon">
       💬
      </div>
-<h3 class="text-2xl serif-font font-light mb-3" id="conciergeTitle" style="color: var(--dark-bronze);">
+<h3 class="text-2xl serif-heading font-light mb-3" id="conciergeTitle" style="color: var(--dark-bronze);">
       Concierge Support
      </h3>
 <p class="text-sm text-gray-600">
@@ -1832,7 +1909,7 @@
 </a>
 <!-- 3. Report Issue Button (from v20) -->
 <!-- CASCADE-REPORT-ISSUE:v20 -->
-<a class="contact-option" href="mailto:cascadereservations@gmail.com?subject=Cascade%20Hideaway%20–%20Guest%20Issue%20Report&body=Hello%20Cascade%20Team,%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20issue:%0D%0A%0D%0AIssue%20Description:%0D%0A(Location,%20Wi-Fi,%20AC,%20Plumbing,%20etc.)%0D%0A%0D%0AWhen%20did%20this%20occur?:%0D%0A%0D%0AUrgency%20Level:%20Low%20/%20Medium%20/%20High%0D%0A%0D%0AGuest%20Name:%0D%0ARoom/Booking%20Reference:%0D%0A%0D%0AThank%20you." id="reportIssueBtn">
+<a class="contact-option" href="mailto:cascadereservations@gmail.com" id="reportIssueBtn">
 <span class="option-icon">
        🛠️
       </span>
@@ -1848,7 +1925,7 @@
 <!-- /CASCADE-REPORT-ISSUE:v20 -->
 <!-- 4. Feedback Button (from v21) -->
 <!-- CASCADE-FEEDBACK-BTN:v21 -->
-<a class="contact-option" href="mailto:cascadereservations@gmail.com?subject=Cascade%20Hideaway%20–%20Guest%20Issue%20Report&body=Hello%20Cascade%20Team,%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20issue:%0D%0A%0D%0AIssue%20Description:%0D%0A(Location,%20Wi-Fi,%20AC,%20Plumbing,%20etc.)%0D%0A%0D%0AWhen%20did%20this%20occur?:%0D%0A%0D%0AUrgency%20Level:%20Low%20/%20Medium%20/%20High%0D%0A%0D%0AGuest%20Name:%0D%0ARoom/Booking%20Reference:%0D%0A%0D%0AThank%20you." id="feedbackBtn">
+<a class="contact-option" href="mailto:cascadereservations@gmail.com" id="feedbackBtn">
 <span class="option-icon">
        💡
       </span>
@@ -1896,7 +1973,7 @@
       </a>
 <a class="emergency-link" href="#info" id="conciergeToInfo">
 <span>
-        📖
+        ⏰
        </span>
        All Info &amp;
        <br/>
@@ -1944,7 +2021,7 @@
 </div>
 <div id="localClockWrapper">
 <span>
-       🕐
+       🕰️
       </span>
 <span class="mr-1">
        GenSan Time:
@@ -1998,7 +2075,7 @@
 <li role="presentation">
 <a aria-selected="false" class="nav-link flex items-center px-4 py-3 rounded-xl nav-inactive" data-target="check-in" href="#check-in" role="tab">
 <span class="mr-2 md:mr-3 text-lg md:text-xl">
-        🔑
+        🗝️
        </span>
 <span class="text-sm font-medium tracking-wide whitespace-nowrap">
         Arrival
@@ -2018,7 +2095,7 @@
 <li role="presentation">
 <a aria-selected="false" class="nav-link flex items-center px-4 py-3 rounded-xl nav-inactive" data-target="explore" href="#explore" role="tab">
 <span class="mr-2 md:mr-3 text-lg md:text-xl">
-        🌆
+        🗺️
        </span>
 <span class="text-sm font-medium tracking-wide whitespace-nowrap">
         Explore
@@ -2038,7 +2115,7 @@
 <li role="presentation">
 <a aria-selected="false" class="nav-link flex items-center px-4 py-3 rounded-xl nav-inactive" data-target="info" href="#info" role="tab">
 <span class="mr-2 md:mr-3 text-lg md:text-xl">
-        📖
+        ⏰
        </span>
 <span class="text-sm font-medium tracking-wide whitespace-nowrap">
         Guidelines &amp; Info
@@ -2067,13 +2144,13 @@
 </nav>
 <main class="flex-1 p-4 sm:p-6 md:p-10 lg:p-12" id="content">
 <section class="content-section active" id="welcome" role="tabpanel">
-<div class="content-card">
+<div class="content-card welcome-parchment">
 <div class="text-center mb-8">
 <p class="text-4xl md:text-5xl mb-5 floating-icon">
         🌿
        </p>
 <!-- Updated for personalization -->
-<h2 class="mb-4 text-3xl md:text-5xl md:text-4xl sm:text-4xl serif-font text-gradient-bronze" style="color: var(--dark-bronze); font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;">
+<h2 class="mb-4 text-3xl md:text-5xl md:text-4xl sm:text-4xl serif-display" style="color: var(--dark-bronze); letter-spacing: 0.005em; line-height: 1.15;">
 <span id="dynamic-greeting-text">
          Welcome
         </span>
@@ -2081,29 +2158,29 @@
 </span>
         to Cascade Hideaway
        </h2>
-<p class="text-base md:text-lg tracking-wider" style="color: var(--bronze); font-weight: 500; font-family: 'Cormorant Garamond', serif; font-style: italic; letter-spacing: 0.12em;">
+<p class="text-base md:text-lg serif-caption" style="color: var(--bronze); letter-spacing: 0.1em; font-size: 1.1em;">
         Hotel Comfort, Home Warmth
        </p>
 </div>
 <div class="luxury-divider">
 </div>
 <div class="space-y-6 text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">
-<p class="text-2xl sm:text-3xl serif-font" style="color: var(--dark-bronze); font-weight: 500; letter-spacing: 0.02em; line-height: 1.4;">
+<p class="text-2xl sm:text-3xl serif-display" style="color: var(--dark-bronze); line-height: 1.4;">
         Welcome home. ✨
        </p>
-<p class="text-base md:text-lg leading-loose">
+<p class="text-base md:text-lg leading-loose welcome-body-text">
         At Cascade Hideaway, we believe true comfort lies in the balance of hotel-level ease and the heart of a Filipino home. Here, every detail is thoughtfully prepared — soft light, calm spaces, and touches of warmth that invite you to slow down and breathe.
        </p>
-<p class="text-base md:text-lg leading-loose">
+<p class="text-base md:text-lg leading-loose welcome-body-text">
         May your time here bring the stillness you need — whether for work, rest, or a well-deserved pause. This home is yours to enjoy.
        </p>
 </div>
 <div class="mt-12 pt-8 border-t border-bronze/20">
 <div class="text-center">
-<p class="text-xs md:text-sm tracking-widest uppercase mb-4" style="color: var(--bronze); font-weight: 600; letter-spacing: 0.15em;">
+<p class="serif-caption uppercase mb-4" style="color: var(--bronze); font-weight: 600; letter-spacing: 0.14em; font-size: 0.78rem;">
          With Warm Regards
         </p>
-<p class="text-2xl md:text-3xl serif-font" style="color: var(--dark-bronze); font-weight: 500; letter-spacing: 0.02em;">
+<p class="script-signature" style="color: var(--dark-bronze);">
          Marifel &amp; The Cascade Team
         </p>
 <p class="text-4xl mt-5 mb-4 floating-icon">
@@ -2263,7 +2340,7 @@
 <p class="text-xs text-gray-700 mb-4">
               Submit your guest IDs and security deposit confirmation directly to our reservations team.
              </p>
-<a class="btn-primary px-5 py-2.5 rounded-lg text-sm font-medium inline-flex items-center" href="mailto:cascadereservations@gmail.com?subject=Cascade%20Hideaway%20–%20Guest%20Issue%20Report&body=Hello%20Cascade%20Team,%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20issue:%0D%0A%0D%0AIssue%20Description:%0D%0A(Location,%20Wi-Fi,%20AC,%20Plumbing,%20etc.)%0D%0A%0D%0AWhen%20did%20this%20occur?:%0D%0A%0D%0AUrgency%20Level:%20Low%20/%20Medium%20/%20High%0D%0A%0D%0AGuest%20Name:%0D%0ARoom/Booking%20Reference:%0D%0A%0D%0AThank%20you.">
+<a class="btn-primary px-5 py-2.5 rounded-lg text-sm font-medium inline-flex items-center" href="mailto:cascadereservations@gmail.com">
 <span class="mr-2">
                ✉️
               </span>
@@ -2344,7 +2421,7 @@
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
 <div class="checkinout-card">
-<div class="checkinout-icon">🔑</div>
+<div class="checkinout-icon">🗝️</div>
 <p class="checkinout-label">
          <span>✨</span> Check-In Time
         </p>
@@ -2690,7 +2767,7 @@
 <div class="text-4xl md:text-5xl mb-4 floating-icon">
         ☕
        </div>
-<h3 class="text-xl md:text-2xl serif-font mb-3" style="color: var(--dark-bronze);">
+<h3 class="text-xl md:text-2xl serif-heading mb-3" style="color: var(--dark-bronze);">
         Welcome Amenities
        </h3>
 <p class="text-sm md:text-base text-gray-700 leading-relaxed max-w-2xl mx-auto">
@@ -2715,7 +2792,7 @@
          ✈️
         </span>
 <div>
-<h3 class="text-2xl md:text-3xl serif-font" style="color: var(--dark-bronze);">
+<h3 class="text-2xl md:text-3xl serif-heading" style="color: var(--dark-bronze);">
           Seamless Arrival
          </h3>
 <p class="text-sm text-gray-600">
@@ -2796,7 +2873,7 @@
 <span class="text-3xl mr-3">
          📱
         </span>
-<h3 class="text-xl md:text-2xl serif-font" style="color: var(--dark-bronze);">
+<h3 class="text-xl md:text-2xl serif-heading" style="color: var(--dark-bronze);">
          Your Digital Concierge
         </h3>
 </div>
@@ -2897,7 +2974,7 @@
 <span class="text-3xl mr-3">
          🏛️
         </span>
-<h3 class="text-xl md:text-2xl serif-font" style="color: var(--dark-bronze);">
+<h3 class="text-xl md:text-2xl serif-heading" style="color: var(--dark-bronze);">
          Unmissable City Experiences
         </h3>
 </div>
@@ -2924,7 +3001,7 @@
            ⏰ Best Time: 5:00-9:00 AM
           </p>
 <p class="text-xs text-gray-700 mb-2">
-           👖 Dress Code: Long pants and closed-toe shoes required
+           👔 Dress Code: Long pants and closed-toe shoes required
           </p>
 <p class="text-xs text-gray-600 italic">
            Arrive early for the full experience
@@ -3035,7 +3112,7 @@
 <span class="text-3xl mr-3">
          🌿
         </span>
-<h3 class="text-xl md:text-2xl serif-font" style="color: var(--dark-bronze);">
+<h3 class="text-xl md:text-2xl serif-heading" style="color: var(--dark-bronze);">
          Natural Escapes &amp; Hidden Gems
         </h3>
 </div>
@@ -3112,7 +3189,7 @@
 <div class="feature-card p-5 rounded-xl bg-gradient-to-br from-pink-50/40 to-rose-50/30">
 <div class="flex items-start mb-3">
 <span class="text-3xl mr-3">
-            🎢
+            ☕
            </span>
 <div>
 <h4 class="font-bold text-base mb-1" style="color: var(--dark-bronze);">
@@ -3147,7 +3224,7 @@
 </li>
 <li class="flex items-start">
 <span class="mr-2">
-             🕳️
+             💦
             </span>
 <span>
 <a class="hover:underline" href="https://www.google.com/maps?q=Olarte+Cave+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
@@ -3189,7 +3266,7 @@
 <span class="text-4xl mr-3">
            🛍️
           </span>
-<h3 class="text-xl md:text-2xl serif-font" style="color: var(--dark-bronze);">
+<h3 class="text-xl md:text-2xl serif-heading" style="color: var(--dark-bronze);">
            Retail &amp; Dining Destinations
           </h3>
 </div>
@@ -3314,7 +3391,7 @@
 <span class="text-3xl mr-3">
           🚗
          </span>
-<h3 class="text-xl md:text-2xl serif-font" style="color: var(--dark-bronze);">
+<h3 class="text-xl md:text-2xl serif-heading" style="color: var(--dark-bronze);">
           Essential Day Trips
          </h3>
 </div>
@@ -3368,7 +3445,7 @@
 </div>
 <div class="luxury-divider">
 </div>
-<div aria-label="Quick tip: Tricycles right outside Bria’s gate" class="feature-card p-4 md:p-5 rounded-xl border border-bronze/15 bg-white/60 mt-4" id="tip-tricycles-bria" role="note"><div class="flex items-start mb-2"><span class="text-xl md:text-2xl mr-3">🛺</span><h3 class="font-semibold text-base md:text-lg serif-font" style="color: var(--dark-bronze);">Tricycles right outside Bria’s gate</h3></div><p class="text-xs md:text-sm text-gray-700 leading-relaxed mb-3">For short hops around the neighborhood or to Robinsons Mall—the closest mall—tricycles wait just outside the Bria gate. Agree on the fare before hopping in; cash only.</p><ul class="list-disc pl-5 text-xs md:text-sm text-gray-700 space-y-1 mb-3"><li>Say “Robinsons” or show the map to the driver.</li><li>It helps to carry small bills—drivers may not always have change.</li><li>For longer trips or airport runs, Grab is usually better value.</li></ul><p class="text-xs uppercase tracking-wide mb-2 font-semibold" style="color: var(--bronze);">Nearest picks</p><div aria-label="Nearest places to Bria" class="flex flex-wrap gap-2" id="nearest-picks-row"></div><div aria-label="Action buttons" class="flex flex-wrap gap-2" id="tip-actions"><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Robinsons+Mall+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Open Robinsons Mall on Maps</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=coffee+near+Cascade+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Coffee near Cascade (Maps)</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=attractions+near+Cascade+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Attractions near Cascade (Maps)</a><a class="bg-bronze/10 border border-bronze/20 font-semibold inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="grab://open" style="color: var(--bronze); background: rgba(191, 149, 63, 0.10);">Open Grab App</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://m.grab.com/booking" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Open Grab Web</a></div><script id="nearest-picks-config" type="application/json">[{"name": "Robinsons Mall", "icon": "🛍️", "distance": "≈1–2 km", "url": "https://www.google.com/maps/search/?api=1&query=Robinsons+Mall+General+Santos"}, {"name": "Nearby Coffee", "icon": "☕", "distance": "≈1 km", "url": "https://www.google.com/maps/search/?api=1&query=coffee+near+Bria+Homes+General+Santos"}, {"name": "Tiongson Arcade", "icon": "🍢", "distance": "≈4 km", "url": "https://www.google.com/maps/search/?api=1&query=Tiongson+Arcade+General+Santos"}, {"name": "Plaza Heneral Santos", "icon": "🏛️", "distance": "≈6 km", "url": "https://www.google.com/maps/search/?api=1&query=Plaza+Heneral+Santos"}]</script><script>
+<div aria-label="Quick tip: Tricycles right outside Bria’s gate" class="feature-card p-4 md:p-5 rounded-xl border border-bronze/15 bg-white/60 mt-4" id="tip-tricycles-bria" role="note"><div class="flex items-start mb-2"><span class="text-xl md:text-2xl mr-3">🛺</span><h3 class="font-semibold text-base md:text-lg serif-heading" style="color: var(--dark-bronze);">Tricycles right outside Bria’s gate</h3></div><p class="text-xs md:text-sm text-gray-700 leading-relaxed mb-3">For short hops around the neighborhood or to Robinsons Mall—the closest mall—tricycles wait just outside the Bria gate. Agree on the fare before hopping in; cash only.</p><ul class="list-disc pl-5 text-xs md:text-sm text-gray-700 space-y-1 mb-3"><li>Say “Robinsons” or show the map to the driver.</li><li>It helps to carry small bills—drivers may not always have change.</li><li>For longer trips or airport runs, Grab is usually better value.</li></ul><p class="text-xs uppercase tracking-wide mb-2 font-semibold" style="color: var(--bronze);">Nearest picks</p><div aria-label="Nearest places to Bria" class="flex flex-wrap gap-2" id="nearest-picks-row"></div><div aria-label="Action buttons" class="flex flex-wrap gap-2" id="tip-actions"><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Robinsons+Mall+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Open Robinsons Mall on Maps</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=coffee+near+Cascade+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Coffee near Cascade (Maps)</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://www.google.com/maps/search/?api=1&amp;query=attractions+near+Cascade+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Attractions near Cascade (Maps)</a><a class="bg-bronze/10 border border-bronze/20 font-semibold inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="grab://open" style="color: var(--bronze); background: rgba(191, 149, 63, 0.10);">Open Grab App</a><a class="border border-bronze/20 font-semibold hover:underline inline-flex items-center md:text-sm px-3 py-2 rounded-lg text-xs tip-btn" href="https://m.grab.com/booking" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Open Grab Web</a></div><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script id="nearest-picks-config" type="application/json">[{"name": "Robinsons Mall", "icon": "🛍️", "distance": "≈1–2 km", "url": "https://www.google.com/maps/search/?api=1&query=Robinsons+Mall+General+Santos"}, {"name": "Nearby Coffee", "icon": "☕", "distance": "≈1 km", "url": "https://www.google.com/maps/search/?api=1&query=coffee+near+Bria+Homes+General+Santos"}, {"name": "Tiongson Arcade", "icon": "🏬", "distance": "≈4 km", "url": "https://www.google.com/maps/search/?api=1&query=Tiongson+Arcade+General+Santos"}, {"name": "Plaza Heneral Santos", "icon": "🏛️", "distance": "≈6 km", "url": "https://www.google.com/maps/search/?api=1&query=Plaza+Heneral+Santos"}]</script><script>
 (function () {
   try {
     var cfgEl = document.getElementById('nearest-picks-config');
@@ -3400,7 +3477,7 @@
 <div class="text-4xl mb-4 text-center centered-block-icon">
          🗺️
         </div>
-<h3 class="text-xl md:text-2xl serif-font mb-4 text-center" style="color: var(--dark-bronze);">
+<h3 class="text-xl md:text-2xl serif-heading mb-4 text-center" style="color: var(--dark-bronze);">
          Planning Your GenSan Experience
         </h3>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
@@ -3469,7 +3546,7 @@
 <span class="text-4xl mr-3 floating-icon">
          ☕
         </span>
-<h3 class="text-2xl md:text-3xl serif-font" style="color: var(--dark-bronze);">
+<h3 class="text-2xl md:text-3xl serif-heading" style="color: var(--dark-bronze);">
          Hottest Cafés &amp; Coffee Shops
         </h3>
 </div>
@@ -3503,7 +3580,7 @@
 <div class="feature-card p-6 rounded-2xl hover:shadow-xl transition-all bg-gradient-to-br from-pink-50/30 to-rose-50/20" data-time-tag="morning-activity afternoon-activity">
 <div class="flex items-start mb-4">
 <span class="text-4xl mr-3">
-           🌸
+           ☕
           </span>
 <div>
 <h4 class="font-bold text-xl mb-2" style="color: var(--dark-bronze);">
@@ -3552,7 +3629,7 @@
 <div class="feature-card p-4 rounded-xl" data-time-tag="afternoon-activity">
 <div class="flex items-start mb-2">
 <span class="text-2xl mr-2">
-           🧈
+           🧁
           </span>
 <div>
 <h4 class="font-semibold text-sm mb-1" style="color: var(--dark-bronze);">
@@ -3573,7 +3650,7 @@
 <div class="feature-card p-4 rounded-xl">
 <div class="flex items-start mb-2">
 <span class="text-2xl mr-2">
-           🏚️
+           🏡
           </span>
 <div>
 <h4 class="font-semibold text-sm mb-1" style="color: var(--dark-bronze);">
@@ -3663,7 +3740,7 @@
 <span class="text-4xl mr-3 floating-icon">
          🥂
         </span>
-<h3 class="text-2xl md:text-3xl serif-font" style="color: var(--dark-bronze);">
+<h3 class="text-2xl md:text-3xl serif-heading" style="color: var(--dark-bronze);">
          Special Occasion &amp; Fine Dining
         </h3>
 </div>
@@ -3886,7 +3963,7 @@
 <span class="text-4xl mr-3 floating-icon">
          🍖
         </span>
-<h3 class="text-2xl md:text-3xl serif-font" style="color: var(--dark-bronze);">
+<h3 class="text-2xl md:text-3xl serif-heading" style="color: var(--dark-bronze);">
          Casual Eateries &amp; Local Legends
         </h3>
 </div>
@@ -3963,7 +4040,7 @@
 <div class="feature-card p-5 rounded-xl">
 <div class="flex items-start mb-3">
 <span class="text-3xl mr-3">
-            🍢
+            🏬
            </span>
 <div>
 <h4 class="font-bold text-base mb-1" style="color: var(--dark-bronze);">
@@ -3991,7 +4068,7 @@
 <div class="accent-box p-6 md:p-8 rounded-2xl mt-8">
 <div class="max-w-3xl mx-auto">
 <div class="text-5xl md:text-6xl mb-5 text-center centered-block-icon">🛵</div>
-<h3 class="text-2xl md:text-3xl serif-font mb-4 text-center font-semibold" style="color: var(--dark-bronze);">Everything Delivered to You</h3>
+<h3 class="text-2xl md:text-3xl serif-heading mb-4 text-center font-semibold" style="color: var(--dark-bronze);">Everything Delivered to You</h3>
 <p class="text-base md:text-lg text-gray-700 text-center mb-6 leading-relaxed">Craving your favorite meal? Need groceries? <strong style="color: var(--bronze);">Stay in your sanctuary</strong>—we've made it effortless to have everything brought right to your door with just a few taps.</p>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 <a class="feature-card p-5 rounded-xl hover:shadow-xl transition-all text-center" href="https://food.grab.com/ph/en/" rel="noopener noreferrer" target="_blank">
@@ -4012,7 +4089,7 @@
 <div class="text-4xl mb-3 floating-icon">
           🌿
          </div>
-<h3 class="text-xl md:text-2xl serif-font mb-3" style="color: var(--dark-bronze);">
+<h3 class="text-xl md:text-2xl serif-heading mb-3" style="color: var(--dark-bronze);">
           Neighborhood Gems
          </h3>
 <p class="text-sm text-gray-600 italic mb-6">
@@ -4311,7 +4388,59 @@
             <strong class="font-bold">🩺 For Medical Emergencies:</strong> Call 911 immediately or contact our team 24/7 for assistance coordinating emergency medical care.
           </p>
         </div>
-      </div><div class="emergency-card p-5 md:p-6 rounded-xl protected">
+      </div><div class="rounded-2xl mb-8 overflow-hidden" style="background: linear-gradient(135deg, rgba(255, 200, 30, 0.07) 0%, rgba(255, 150, 0, 0.05) 100%); border: 2px solid rgba(245, 180, 0, 0.25); box-shadow: 0 8px 32px rgba(245, 180, 0, 0.08);">
+  <div class="p-5 md:p-7">
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-6">
+      <span class="text-4xl floating-icon">⚡</span>
+      <div>
+        <h3 class="font-bold text-xl md:text-2xl serif-heading" style="color: var(--dark-bronze);">Power Outage? We've Got You Covered</h3>
+        <p class="text-sm text-gray-600 mt-1">Essential comforts remain uninterrupted — here's what we've prepared.</p>
+      </div>
+    </div>
+    <!-- Three amenity cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+      <!-- Water -->
+      <div class="feature-card p-4 md:p-5 rounded-xl text-center">
+        <div class="text-3xl mb-3 floating-icon">💧</div>
+        <h4 class="font-semibold text-base md:text-lg mb-2" style="color: var(--dark-bronze);">Water Still Available</h4>
+        <p class="text-xs md:text-sm text-gray-700 leading-relaxed">Water supply remains unaffected during a power interruption. Stay hydrated and comfortable throughout.</p>
+      </div>
+      <!-- Emergency Light -->
+      <div class="feature-card p-4 md:p-5 rounded-xl text-center">
+        <div class="text-3xl mb-3 floating-icon">🔦</div>
+        <h4 class="font-semibold text-base md:text-lg mb-2" style="color: var(--dark-bronze);">Emergency Light Ready</h4>
+        <p class="text-xs md:text-sm text-gray-700 leading-relaxed">A fully charged emergency light is on standby — so darkness is never a concern.</p>
+      </div>
+      <!-- Internet - HIGHLIGHTED (consistent with sibling cards + gold accent) -->
+      <div class="feature-card p-4 md:p-5 rounded-xl text-center" style="background: linear-gradient(135deg, rgba(192, 160, 98, 0.14) 0%, rgba(255, 255, 255, 0.85) 100%); border: 2px solid rgba(192, 160, 98, 0.45); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--accent-gold), var(--bronze), transparent);"></div>
+        <div class="text-3xl mb-3 floating-icon">📶</div>
+        <h4 class="font-bold text-base md:text-lg mb-2" style="color: var(--dark-bronze);">Internet Stays On</h4>
+        <p class="text-xs md:text-sm text-gray-800 leading-relaxed font-medium">Your Wi-Fi connection <strong style="color: var(--bronze);">will continue to work</strong> even during a blackout — the router has dedicated backup power.</p>
+        <div class="mt-3">
+          <span class="inline-block text-xs font-bold px-3 py-1 rounded-full" style="background: rgba(192, 160, 98, 0.2); color: var(--dark-bronze); border: 1px solid rgba(192, 160, 98, 0.4);">✓ Always Connected</span>
+        </div>
+      </div>
+    </div>
+    <!-- Assurance note -->
+    <div class="p-4 md:p-5 rounded-xl" style="background: rgba(255,255,255,0.6); border: 1px solid rgba(192, 160, 98, 0.2);">
+      <div class="flex items-start gap-3">
+        <span class="text-2xl flex-shrink-0 mt-0.5">🤝</span>
+        <div>
+          <p class="text-sm md:text-base text-gray-700 leading-relaxed">
+            <strong style="color: var(--dark-bronze);">We're always here for you.</strong> Should any concern arise, don't hesitate to reach us at any time —
+            through <a href="https://airbnb.com/h/cascadesgsc" onclick="return openAirbnbListing(event);" class="font-semibold hover:underline" style="color: var(--bronze);">Airbnb messaging</a>
+            or directly through our on-the-ground partners. Your comfort and peace of mind are our priority, around the clock.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /CASCADE-BLACKOUT-SECTION:v1 -->
+
+<div class="emergency-card p-5 md:p-6 rounded-xl protected">
 <h3 class="text-xl md:text-2xl font-semibold mb-4 text-red-800 flex items-center">
 <span class="text-xl md:text-2xl mr-2">
          🚨
@@ -4376,7 +4505,7 @@ Connect with Us
 <div class="feature-card p-5 md:p-6 rounded-xl mt-8">
 <h3 class="font-semibold text-lg md:text-xl mb-4 flex items-center" style="color: var(--dark-bronze);">
 <span class="text-2xl mr-3">
-         🗣️
+         💬
         </span>
         Helpful Local Phrases
        </h3>
@@ -4519,7 +4648,7 @@ Connect with Us
          Check-Out Time
         </h3>
 <div class="text-center mb-3">
-<p class="text-4xl serif-font font-semibold text-red-700 mb-1">
+<p class="text-4xl serif-caption font-semibold text-red-700 mb-1">
           12:00 NN
          </p>
 <p class="text-sm text-gray-700">
@@ -4540,7 +4669,7 @@ Connect with Us
 <div class="text-5xl mb-5 floating-icon">
          🙏
         </div>
-<h3 class="text-3xl md:text-4xl serif-font mb-4" style="color: var(--dark-bronze);">
+<h3 class="text-3xl md:text-4xl serif-heading mb-4" style="color: var(--dark-bronze);">
          Thank You for Staying With Us
         </h3>
 <p class="text-base md:text-lg text-gray-700 leading-relaxed">
@@ -4554,7 +4683,7 @@ Connect with Us
 <div class="text-5xl mb-4 centered-block-icon">
           ⭐
          </div>
-<p class="text-2xl md:text-3xl serif-font mb-4" style="color: var(--dark-bronze);">
+<p class="text-2xl md:text-3xl serif-caption mb-4" style="color: var(--dark-bronze);">
           Share Your Experience
          </p>
 <p class="text-sm md:text-base text-gray-700 mb-6 leading-relaxed">
@@ -4570,14 +4699,14 @@ Connect with Us
 </a>
 </div>
 <div class="border-t-2 border-bronze/30 pt-6">
-<p class="text-lg md:text-xl serif-font mb-3 font-medium" style="color: var(--dark-bronze);">
+<p class="text-lg md:text-xl serif-caption mb-3 font-medium" style="color: var(--dark-bronze);">
           Got Suggestions?
          </p>
 <p class="text-sm md:text-base text-gray-700 mb-5 leading-relaxed">
           We're always looking to improve. Have ideas or additional comments? We'd genuinely love to hear from you.
          </p>
 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm md:text-base">
-<a class="flex items-center gap-2 hover:opacity-80 transition-opacity font-medium copyable" href="mailto:cascadereservations@gmail.com?subject=Cascade%20Hideaway%20–%20Guest%20Issue%20Report&body=Hello%20Cascade%20Team,%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20issue:%0D%0A%0D%0AIssue%20Description:%0D%0A(Location,%20Wi-Fi,%20AC,%20Plumbing,%20etc.)%0D%0A%0D%0AWhen%20did%20this%20occur?:%0D%0A%0D%0AUrgency%20Level:%20Low%20/%20Medium%20/%20High%0D%0A%0D%0AGuest%20Name:%0D%0ARoom/Booking%20Reference:%0D%0A%0D%0AThank%20you.">
+<a class="flex items-center gap-2 hover:opacity-80 transition-opacity font-medium copyable" href="mailto:cascadereservations@gmail.com">
 <span class="text-xl">
             📧
            </span>
@@ -4602,7 +4731,7 @@ Connect with Us
 <div class="luxury-divider">
 </div>
 <div class="max-w-3xl mx-auto">
-<p class="text-2xl md:text-3xl serif-font mb-4" style="color: var(--dark-bronze);">
+<p class="text-2xl md:text-3xl serif-caption mb-4" style="color: var(--dark-bronze);">
          Until We Meet Again
         </p>
 <p class="text-base md:text-lg text-gray-700 leading-relaxed mb-5">
@@ -4636,7 +4765,7 @@ Connect with Us
     Unauthorized reproduction, distribution, or commercial use is strictly prohibited.
    </p>
 </footer>
-<script defer="">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script defer="">
    // --- Injected Luxury Features (Swipe, FAB visibility) ---
 function setupLuxuryFeatures() {
     const contentArea = document.getElementById('content');
@@ -5482,7 +5611,7 @@ if ((val && typeof val === 'string' && val.toLowerCase() === ADMIN_NAME) && loca
 <div class="text-5xl mb-4 centered-block-icon">
       🌦️
      </div>
-<h3 class="text-2xl serif-font font-light mb-3" id="weatherModalTitle" style="color: var(--dark-bronze);">
+<h3 class="text-2xl serif-heading font-light mb-3" id="weatherModalTitle" style="color: var(--dark-bronze);">
       Weather Forecast
      </h3>
 <p class="text-sm text-gray-600">
@@ -5620,7 +5749,7 @@ if ((val && typeof val === 'string' && val.toLowerCase() === ADMIN_NAME) && loca
 <div class="text-5xl mb-4 centered-block-icon">
       📞
      </div>
-<h3 class="text-2xl serif-font font-light mb-3" id="contactUsTitle" style="color: var(--dark-bronze);">
+<h3 class="text-2xl serif-heading font-light mb-3" id="contactUsTitle" style="color: var(--dark-bronze);">
       Contact Us
      </h3>
 <p class="text-sm text-gray-600">
@@ -5635,7 +5764,7 @@ if ((val && typeof val === 'string' && val.toLowerCase() === ADMIN_NAME) && loca
 <p>Opens Cascade listing on Airbnb</p>
 </div>
 </a><a aria-label="Message us on Messenger" class="contact-option" data-cc-messenger="1" href="https://m.me/61578158229299" id="contactMessengerBtn" rel="noopener" target="_blank"><span class="option-icon">💬</span><div><strong>Message us on Messenger</strong><p>Opens chat; template copied for you</p></div></a><a aria-label="Visit our Facebook Page" class="contact-option" data-cc-fb="1" href="https://www.facebook.com/profile.php?id=61578158229299" rel="noopener" target="_blank"><span class="option-icon">📘</span><div><strong>Visit our Facebook Page</strong><p>See updates and send a message</p></div></a>
-<a class="contact-option" href="mailto:cascadereservations@gmail.com?subject=Cascade%20Hideaway%20–%20Guest%20Issue%20Report&body=Hello%20Cascade%20Team,%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20issue:%0D%0A%0D%0AIssue%20Description:%0D%0A(Location,%20Wi-Fi,%20AC,%20Plumbing,%20etc.)%0D%0A%0D%0AWhen%20did%20this%20occur?:%0D%0A%0D%0AUrgency%20Level:%20Low%20/%20Medium%20/%20High%0D%0A%0D%0AGuest%20Name:%0D%0ARoom/Booking%20Reference:%0D%0A%0D%0AThank%20you.">
+<a class="contact-option" href="mailto:cascadereservations@gmail.com">
 <span class="option-icon">
        📧
       </span>
@@ -5653,7 +5782,7 @@ if ((val && typeof val === 'string' && val.toLowerCase() === ADMIN_NAME) && loca
 </div>
 <!-- /CASCADE-CONTACT-MODAL:v24 -->
 <!-- CASCADE-CONTACT-JS:v24 -->
-<script id="cascade-contact-js-v24">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script id="cascade-contact-js-v24">
    (function() {
   if (window.__CASCADE_CONTACT_JS_V24__) return;
   window.__CASCADE_CONTACT_JS_V24__ = true;
@@ -6329,58 +6458,30 @@ if ((val && typeof val === 'string' && val.toLowerCase() === ADMIN_NAME) && loca
     bindClick(feedback, 'Hello Cascade Team,\n\nI’d like to share feedback about my stay:\n\n(Please write your thoughts here)\n\nThank you!');
   }
 
-  function ensureDepartureMessengerBelow() {
-    const ids = ['check-out', 'departure', 'checkout', 'check_out'];
-    let section = null;
-    for (let i=0;i<ids.length;i++) { const s = document.getElementById(ids[i]); if (s) { section = s; break; } }
-    if (!section) return;
-    // cleanup old FB variant
-    const oldFb = section.querySelector('[data-cc-departure-fb]'); if (oldFb) oldFb.remove();
-
-    // ensure our link exists
-    let link = section.querySelector('#departureMessengerLink,[data-cc-departure-msg]');
-    if (!link) {
-      link = document.createElement('a');
-      link.href = 'https://m.me/61578158229299'; link.target="_blank"; link.rel="noopener";
-      link.className = "transport-link"; link.id="departureMessengerLink"; link.setAttribute('data-cc-departure-msg','1');
-      link.innerHTML = "<span>💬</span><span>Message us on Messenger</span>";
-    }
-
-    const mail = section.querySelector("a[href^='mailto:']");
-    const tel = section.querySelector("a[href^='tel:']");
-    let container = null;
-    if (mail && tel) {
-      const path = new Set(); let el = mail;
-      while (el) { path.add(el); el = el.parentElement; }
-      el = tel; while (el && !path.has(el)) { el = el.parentElement; }
-      container = (el === section) ? (mail.parentElement || section) : el;
-    } else {
-      container = (mail && mail.parentElement) || (tel && tel.parentElement) || section;
-    }
-
-    let row = section.querySelector('.cc-departure-row');
-    if (!row) { row = document.createElement('div'); row.className = 'cc-departure-row'; container.insertAdjacentElement('afterend', row); }
-    if (!link.parentNode) row.appendChild(link); else if (link.parentNode !== row) row.appendChild(link);
+  function ensureGrabApp() {
+    var grabLinks = document.querySelectorAll('a[href*="grab://"], a[onclick*="openGrabApp"]');
+    grabLinks.forEach(function(a) {
+      if (!a.dataset.ccBound) {
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+          window.location.href = isMobile ? 'grab://open' : 'https://m.grab.com/booking';
+          setTimeout(function() { window.open('https://m.grab.com/booking', '_blank', 'noopener'); }, 600);
+        });
+        a.dataset.ccBound = '1';
+      }
+    });
   }
 
-  function feelsLikeOneLine() {
-    const patterns = ['.feels-like','[data-feels-like]','#feelsLike','.feels','.weather-feels'];
-    let nodes = [];
-    patterns.forEach(sel => nodes.push.apply(nodes, document.querySelectorAll(sel)));
-    if (!nodes.length) {
-      const scope = document.getElementById('weather') || document.querySelector("[id*='weather']") || document;
-      nodes = Array.from(scope.querySelectorAll('span,div,p,small,strong')).filter(n => /\bfeels like\b/i.test(n.textContent || ''));
-    }
-    nodes.forEach(n => n.classList.add('cc-feels-like-nowrap'));
+  function run() {
+    ensureRepairsFeedback();
+    ensureContactMessenger();
+    ensureGrabApp();
   }
 
-  function centerWeatherOnMobile() {
-    const candidates = ['#weatherSidebar','.weather-sidebar','.sidebar .weather','.drawer .weather','#weather','[data-weather]','.weather-card','.weather-panel'];
-    let el = null;
-    for (let i=0;i<candidates.length;i++) { el = document.querySelector(candidates[i]); if (el) break; }
-    if (!el) {
-      const all = Array.from(document.querySelectorAll('aside *, .sidebar *'));
-      el = all.find(n => /\bfeels like\b/i.test(n.textContent||''));
-      if (el) el = el.closest('section,div,aside,article') || el.parentElement;
-    }
-    if (e
+  if (document.readyState !== 'loading') { run(); }
+  else { document.addEventListener('DOMContentLoaded', run); }
+})();
+</script>
+</body>
+</html>
