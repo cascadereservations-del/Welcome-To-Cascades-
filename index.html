@@ -1,5 +1,15 @@
 <!DOCTYPE html>
-<!-- Welcome Guide v7.9.8 -->
+<!-- Welcome Guide v7.9.9 -->
+<!-- v7.9.9 (2026-08-17):
+     Simplified "Finding the door" from a four-step list to one instruction:
+     go to Gusteau'''s and ask a member of staff to walk you up the staircase.
+     That is what actually happens, and it suits the place better than a procedure.
+     The now-unused ordered-list and roman-numeral CSS was removed with it.
+     SPACING FIX — text in the dark venue cards was cramped. Tailwind preflight
+     zeroes p margins, and the .cx-nightlife rule set colour and size but never
+     restored them, so consecutive paragraphs sat flush with no gap at all.
+     Restored a 0.9rem paragraph margin, raised leading to 1.75, and gave the
+     venue cards, door panel and good-to-know blocks more internal padding. -->
 <!-- v7.9.8 (2026-08-17):
      Clarified the two separate relationships in the 7 Monkeys entry, which the
      previous wording blurred. Gusteau'''s Seafood Market is BESIDE Greenleaf Hotel;
@@ -2283,11 +2293,11 @@ input,textarea,select{ caret-color:var(--cx-gold); }
                 margin-top:0.5rem; background:rgba(201,150,58,0.06); }
 
 /* ── Good to know ── */
-.cx-gtk{ background:rgba(255,255,255,0.66); padding:0.8rem 0.9rem; border-radius:var(--cx-r-md);
+.cx-gtk{ background:rgba(255,255,255,0.66); padding:0.95rem 1rem; border-radius:var(--cx-r-md);
          border:1px solid rgba(201,150,58,0.16); margin-bottom:0.85rem; }
 .cx-gtk-label{ font-family:'Raleway',sans-serif; font-size:0.63rem; letter-spacing:0.12em;
                text-transform:uppercase; font-weight:700; color:var(--cx-gold-ink); margin:0 0 0.35rem; }
-.cx-gtk p{ font-size:0.79rem; color:#4E5561; margin:0 0 0.45rem; line-height:1.6; }
+.cx-gtk p{ font-size:0.8rem; color:#4E5561; margin:0 0 0.6rem; line-height:1.72; }
 .cx-gtk p:last-child{ margin-bottom:0; }
 .cx-gtk .cx-link{ margin-top:0.15rem; }
 
@@ -2312,13 +2322,14 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   font-size:clamp(1.75rem, 5.5vw, 2.3rem); line-height:1.05; letter-spacing:-0.015em;
   margin:0; color:#F7F2E8; text-wrap:balance;
 }
-.cx-nightlife-sub{ font-size:0.88rem; color:var(--cx-ink-night-dim); margin:0.55rem 0 0;
-                   line-height:1.65; max-width:52ch; }
+.cx-nightlife-sub{ font-size:0.9rem; color:var(--cx-ink-night-dim); margin:0.6rem 0 0;
+                   line-height:1.75; max-width:52ch; }
 .cx-nightlife-rule{ height:1px; margin:1.15rem 0 1.35rem;
   background:linear-gradient(to right, rgba(201,150,58,0.62), rgba(201,150,58,0.12) 62%, transparent); }
 .cx-nightlife .cx-venue{
   background:linear-gradient(180deg, rgba(255,255,255,0.062), rgba(255,255,255,0.028));
-  border:1px solid rgba(201,150,58,0.24); border-radius:var(--cx-r-md); padding:1.05rem;
+  border:1px solid rgba(201,150,58,0.24); border-radius:var(--cx-r-md);
+  padding:1.3rem 1.25rem;
 }
 .cx-nightlife .cx-venue h4{
   font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.42rem;
@@ -2328,7 +2339,10 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   font-family:'Raleway',sans-serif; font-size:0.68rem; letter-spacing:0.11em;
   text-transform:uppercase; color:var(--cx-ink-night-dim); margin:0 0 0.6rem;
 }
-.cx-nightlife .cx-venue p{ color:var(--cx-ink-night); font-size:0.86rem; line-height:1.65; }
+.cx-nightlife .cx-venue > p{ color:var(--cx-ink-night); font-size:0.87rem; line-height:1.75;
+                             margin:0 0 0.9rem; }
+.cx-nightlife .cx-venue > p:last-of-type{ margin-bottom:0; }
+.cx-nightlife .cx-venue p{ color:var(--cx-ink-night); font-size:0.87rem; line-height:1.75; }
 .cx-nightlife .cx-gtk{ background:rgba(0,0,0,0.30); border-color:rgba(201,150,58,0.20); }
 .cx-nightlife .cx-gtk p{ color:var(--cx-ink-night-dim); }
 .cx-nightlife .cx-gtk-label{ color:var(--cx-gold-lift); }
@@ -2341,8 +2355,8 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 .cx-nightlife .cx-link--nav:hover{ background:var(--cx-gold-lift); color:#1C1006; }
 .cx-nightlife .cx-link--src{ background:transparent; color:var(--cx-gold-lift); }
 .cx-nightlife .cx-map > summary{ color:var(--cx-gold-lift); }
-.cx-note{ font-family:'Raleway',sans-serif; font-size:0.72rem; line-height:1.5;
-          color:rgba(247,242,232,0.66); margin:0.65rem 0 0; }
+.cx-note{ font-family:'Raleway',sans-serif; font-size:0.73rem; line-height:1.65;
+          color:rgba(247,242,232,0.66); margin:0.8rem 0 0; }
 .cx-tags{ display:flex; flex-wrap:wrap; margin-bottom:0.35rem; }
 .cx-tag{
   display:inline-flex; align-items:center; font-family:'Raleway',sans-serif;
@@ -2355,17 +2369,17 @@ input,textarea,select{ caret-color:var(--cx-gold); }
    Roman numerals on a thin gold rail; Cormorant for the label, since the whole
    conceit is discretion rather than signage. */
 .cx-secret{
-  position:relative; margin:1rem 0;
-  padding:0.95rem 1.05rem 1rem;
+  position:relative; margin:1.2rem 0;
+  padding:1.2rem 1.2rem 1.25rem;
   background:linear-gradient(180deg, rgba(201,150,58,0.10), rgba(201,150,58,0.04));
   border:0; border-radius:2px;
   border-top:1px solid rgba(201,150,58,0.45);
   border-bottom:1px solid rgba(201,150,58,0.45);
 }
 .cx-secret-label{
-  display:flex; align-items:center; gap:0.5rem; margin:0 0 0.85rem;
+  display:flex; align-items:center; gap:0.5rem; margin:0 0 0.9rem;
   font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600;
-  font-size:1.12rem; letter-spacing:0.01em; text-transform:none;
+  font-size:1.16rem; letter-spacing:0.01em; text-transform:none;
   color:var(--cx-gold-text);
 }
 .cx-secret-label svg{
@@ -2373,28 +2387,12 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   stroke:var(--cx-gold-lift); fill:none; stroke-width:1.4;
   stroke-linecap:round; stroke-linejoin:round;
 }
-.cx-secret ol{
-  margin:0; padding:0; list-style:none; counter-reset:cxstep;
-}
-.cx-secret li{
-  counter-increment:cxstep; position:relative;
-  padding-left:2.15rem;
-  font-size:0.84rem; line-height:1.64; margin-bottom:0.78rem;
-  color:rgba(247,242,232,0.90);
-}
-.cx-secret li:last-child{ margin-bottom:0; }
-/* The numeral is the whole marker — no bullet, no rail. Cormorant italic in the
-   margin reads as a printed note rather than a numbered instruction. */
-.cx-secret li::before{
-  content:counter(cxstep, lower-roman) ".";
-  position:absolute; left:0; top:0; width:1.55rem;
-  text-align:right;
-  font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600;
-  font-size:1.02rem; line-height:1.42; letter-spacing:0.02em;
-  color:var(--cx-gold-lift); opacity:0.92;
+.cx-secret-body{
+  margin:0; font-size:0.86rem; line-height:1.78;
+  color:rgba(247,242,232,0.92);
 }
 .cx-secret-foot{
-  margin:0.9rem 0 0; padding-top:0.7rem;
+  margin:1.1rem 0 0; padding-top:0.85rem;
   border-top:1px solid rgba(201,150,58,0.18);
   font-family:'Cormorant Garamond',serif; font-style:italic;
   font-size:0.92rem; color:rgba(247,242,232,0.70);
@@ -6727,13 +6725,8 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 
       <div class="cx-secret">
         <p class="cx-secret-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9.5" r="3.1"></circle><path d="M10.6 12.4 9.4 18.5h5.2l-1.2-6.1"></path><path d="M5.2 3.5h13.6a1.7 1.7 0 0 1 1.7 1.7v13.6a1.7 1.7 0 0 1-1.7 1.7H5.2a1.7 1.7 0 0 1-1.7-1.7V5.2a1.7 1.7 0 0 1 1.7-1.7Z" opacity=".45"></path></svg> Finding the door</p>
-        <ol>
-          <li>Don't look for the bar. There's <strong>nothing on the street</strong> to find.</li>
-          <li>Make for <strong>Gusteau's Seafood Market</strong> on San Miguel Street, <strong>beside</strong> Greenleaf Hotel. You are looking for the giant crab above the door.</li>
-          <li><strong>7 Monkeys is inside Gusteau's.</strong> Walk in, past the dining room — the way through is a concealed door.</li>
-          <li>Lost? Ask a member of the Gusteau's team. They are entirely used to it.</li>
-        </ol>
-        <p class="cx-secret-foot">That's the whole trick. Enjoy it.</p>
+        <p class="cx-secret-body">No sign, and no entrance of its own. Head for <strong>Gusteau&#x27;s Seafood Market</strong> on San Miguel Street — beside Greenleaf Hotel, under the giant crab — and ask any of the staff to walk you up. They will take you to the staircase, and they are entirely used to it.</p>
+        <p class="cx-secret-foot">That&#x27;s the whole trick. Enjoy it.</p>
       </div>
 
       <div class="cx-gtk">
@@ -7624,7 +7617,7 @@ Connect with Us
 <!-- K13: rendered, not just an HTML comment — this is how "what version is live?"
      stops being a research task. Update BOTH this and the comment on line 2. -->
 <p class="text-xs" style="opacity:.72;font-variant-numeric:tabular-nums;letter-spacing:.06em;">
-    Guest Guide <span id="ch-version">v7.9.8</span>
+    Guest Guide <span id="ch-version">v7.9.9</span>
    </p>
 <p class="text-xs">
     This document is confidential and proprietary. For authorized guest use only.
