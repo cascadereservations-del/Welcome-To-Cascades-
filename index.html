@@ -1,5 +1,18 @@
 <!DOCTYPE html>
-<!-- Welcome Guide v7.9.9 -->
+<!-- Welcome Guide v7.10.0 -->
+<!-- v7.10.0 (2026-08-17):
+     DESKTOP LAYOUT — dining looked wrong on a wide screen while being fine on a
+     phone. Two causes. (1) Rich venue cards sat in three ~298px columns, which
+     turned them into 1300px towers; a shorter neighbour then stretched to match,
+     which is what read as an "empty card". (2) Ranchero carried lg:col-span-2,
+     so with four cards it spanned a whole row and left Alfonso'''s orphaned alone
+     in the last one, with uneven 416/343px columns.
+     Fixed by dropping the span and giving grids that contain a rich card a
+     two-column auto-fit at minmax(21rem). 21rem is the largest minimum that still
+     fits two columns in the ~783px content container — 24rem collapsed it to one.
+     Dining now runs two equal 379px columns with every row matched.
+     COPY — 11 descriptions across Dining and Explore cut to their essentials,
+     tone unchanged. Card heights fell from 1334px to about 1140px. -->
 <!-- v7.9.9 (2026-08-17):
      Simplified "Finding the door" from a four-step list to one instruction:
      go to Gusteau'''s and ask a member of staff to walk you up the staircase.
@@ -2181,6 +2194,19 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 .cx-grid{
   display:grid; gap:1.15rem; align-items:stretch;
   grid-template-columns:repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+}
+
+/* Rich venue cards carry a gallery, a good-to-know block, actions and a map, so
+   three narrow columns turned them into 1300px towers on a wide screen — and a
+   short neighbour then stretched to match, which is the "empty card" effect.
+   Give any grid holding one of these cards fewer, wider columns. */
+@media (min-width: 64rem){
+  /* 21rem (336px) is the largest minimum that still fits two columns inside the
+     ~783px content container. 24rem collapsed it to a single column. */
+  .content-section .grid:has(> .feature-card .cx-links),
+  .content-section .grid:has(> .feature-card .cx-mg){
+    grid-template-columns:repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  }
 }
 /* Cards carrying actions become columns so the actions bottom-align — that is
    what keeps neighbouring cards balanced when their copy runs to unequal length. */
@@ -5689,7 +5715,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
     <button type="button" class="cx-mg-thumb" aria-current="false" aria-label="Photo 2 of 2: Terrace over the valley" data-src="img/euphoria-terrace.webp" data-alt="Covered terrace dining at Euphoria with mountain views" data-cap="Terrace over the valley"><img src="img/thumb/euphoria-terrace.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
   </div>
 </div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">Flower fields and viewing decks laid along the ridge, with the whole valley falling away beneath them. Arrive in the late afternoon and stay — the hour before sunset turns the fields gold and the far ranges blue, and it is worth building the day around. Camping is available if you would rather not hand the view back at dusk.</p>
+<p class="text-sm text-gray-700 mb-3 leading-relaxed">Flower fields and viewing decks along the ridge, the whole valley falling away beneath. Arrive late afternoon and stay — the hour before sunset turns the fields gold and the far ranges blue. Camping is available if you would rather not hand the view back.</p>
 <div class="cx-gtk">
 <p class="cx-gtk-label">Good to Know</p>
 <p>Entrance, rides and camping are each priced separately and change with the season and with promos. Check their official site for today's rates before you set off.</p>
@@ -5859,7 +5885,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <div class="cx-gallery cx-gallery--1">
   <figure class="cx-figure"><img src="img/brigada-range.webp" alt="Brigada Golf Range at night, floodlit fairway and covered driving bays" loading="lazy" decoding="async" width="800" height="450"><figcaption>The range plays late under floodlights</figcaption></figure>
 </div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">Thirty covered bays looking out over a floodlit fairway, with pickleball courts and a children's playground on the same grounds. Clubs are available, so nothing needs to have travelled with you, and instructors are on hand if you would rather take a lesson than simply empty a bucket. Play it in the evening: the lights come up, the heat lifts, and the whole range turns green against the dark.</p>
+<p class="text-sm text-gray-700 mb-3 leading-relaxed">Thirty covered bays over a floodlit fairway, with pickleball courts alongside. Clubs are available, so nothing needs to have travelled with you. Play it in the evening — the lights come up, the heat lifts, and the range turns green against the dark.</p>
 <div class="cx-gtk">
 <p class="cx-gtk-label">Good to Know</p>
 <p>Bays are booked by the hour and can be reserved online. Rates and opening hours are on their own site — worth a look before you go, since they run promos.</p>
@@ -5896,7 +5922,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
     <button type="button" class="cx-mg-thumb" aria-current="false" aria-label="Photo 2 of 2: Functional studio" data-src="img/shaperz-studio.webp" data-alt="Shaperz Fitness Club functional training studio" data-cap="Functional studio"><img src="img/thumb/shaperz-studio.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
   </div>
 </div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">The largest club in the city, and a serious one — a full floor of racks, free weights, plate-loaded machines and cardio, air-conditioned throughout, with a separate studio for functional work. The straightforward answer if you would rather your training week survived the holiday intact.</p>
+<p class="text-sm text-gray-700 mb-3 leading-relaxed">The largest club in the city, and a serious one — racks, free weights, machines and cardio across an air-conditioned floor, with a separate studio for functional work. The straightforward answer if your training week should survive the holiday.</p>
 <div class="cx-gtk">
 <p class="cx-gtk-label">Good to Know</p>
 <p>Walk-in and day-pass rates aren't published online and do change. Their Facebook page carries current pricing, opening hours and class schedules.</p>
@@ -6255,7 +6281,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
 <!-- CASCADE-RANCHERO-SOLUNA:v1 — hero of Special Occasion & Fine Dining -->
-<div class="lg:col-span-2 feature-card p-6 md:p-7 rounded-2xl bg-gradient-to-br from-amber-50/55 to-orange-50/30" data-time-tag="evening-activity">
+<div class="feature-card p-6 md:p-7 rounded-2xl bg-gradient-to-br from-amber-50/55 to-orange-50/30" data-time-tag="evening-activity">
 <div class="cx-mg" data-mg>
   <div class="cx-mg-stage">
     <img src="img/ranchero-main.webp" alt="The Ranchero frontage on National Highway at dusk, timber canopy and terracotta wall" loading="lazy" decoding="async" width="1280" height="851">
@@ -6281,7 +6307,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 </div>
 </div>
-<p class="text-sm text-gray-700 mb-4 leading-relaxed">One address on the National Highway, two quite different evenings. <strong>Ranchero</strong> holds the ground floor — a long-standing GenSan name, timber and glass, trailing greenery overhead, and a room reliably full for good reason. Take the stairs and you arrive at <strong>Soluna</strong>, the rooftop: an open-air bar under a low roof, long tables laid on patterned tile, and the sky doing the rest. Their own line for it is <em>born from sunlight, alive in moonlight</em>, which is about right.</p>
+<p class="text-sm text-gray-700 mb-4 leading-relaxed">One address, two evenings. <strong>Ranchero</strong> holds the ground floor — timber, glass and trailing greenery, reliably full for good reason. Up the stairs is <strong>Soluna</strong>, the rooftop: an open-air bar, long tables on patterned tile, and the sky doing the rest. <em>Born from sunlight, alive in moonlight</em>, as they put it.</p>
 <div class="cx-gtk">
 <p class="cx-gtk-label">Good to Know</p>
 <p>Dinner downstairs, then drinks above — <strong>Soluna opens at 5:00 PM and runs to 2:00 AM</strong>, and you walk up through Ranchero to reach it. No separate entrance to find.</p>
@@ -6315,7 +6341,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 </div>
 </div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">A GenSan institution, and impossible to walk past — an enormous sculpted crab hangs over the door. Inside, seafood is chosen the way it should be: by weight, from the counter, then cooked to order. The crab is what people come for; the prawns and squid off the grill are the quiet argument for staying longer.</p>
+<p class="text-sm text-gray-700 mb-3 leading-relaxed">Impossible to walk past — an enormous sculpted crab hangs over the door. Seafood is chosen the way it should be: by weight, from the counter, then cooked to order. Crab is what people come for; the grilled prawns are the argument for staying.</p>
 <div class="cx-gtk">
 <p class="cx-gtk-label">Good to Know</p>
 <p>Open 11:00 AM–10:00 PM daily. Seafood is priced by weight, so ask as you choose. It also hides the door to <strong>7 Monkeys</strong> — see After Dark below.</p>
@@ -6500,7 +6526,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-500 mb-2">Café · Brunch &amp; Matcha</p>
 </div>
 </div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">The frontage gives nothing away; inside is all white arches, marble tabletops, olive trees and low gold light. Matcha is what they are known for, served alongside a short menu of savoury plates priced far more gently than the room would lead you to expect. One of the more graceful spaces in the city for a slow breakfast — or for losing an afternoon to a single long coffee.</p>
+<p class="text-sm text-gray-700 mb-3 leading-relaxed">The frontage gives nothing away; inside is white arches, marble, olive trees and low gold light. Matcha is what they are known for, priced far more gently than the room suggests. One of the more graceful spaces in the city to lose an afternoon to a single coffee.</p>
 <div class="cx-gtk">
 <p class="cx-gtk-label">Good to Know</p>
 <p>Menu and current prices are posted on their Facebook page, and they're on foodpanda if you'd rather stay in.</p>
@@ -6533,7 +6559,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-500 mb-2">1970s Retro Diner · Mabuhay Road</p>
 </div>
 </div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">A genuine piece of theatre, and one of the newest rooms in the city — a ceiling papered entirely in vinyl, a mirror ball turning slowly over red booths and a chequerboard floor, every wall crowded with jukeboxes, enamel signs and immaculate 1970s clutter. From the team behind The Haws of Lechon ni Mang Thomas. You would go for the room alone; happily, the kitchen holds its own. Children are entranced by it.</p>
+<p class="text-sm text-gray-700 mb-3 leading-relaxed">A genuine piece of theatre — a ceiling papered in vinyl, a mirror ball over red booths and a chequerboard floor, every wall crowded with jukeboxes and immaculate 1970s clutter. From the team behind The Haws of Lechon ni Mang Thomas. You would go for the room alone; happily the kitchen holds its own.</p>
 <div class="cx-gtk">
 <p class="cx-gtk-label">Good to Know</p>
 <p>Open until 10:00 PM, Monday to Saturday. Menu and any changes to hours go up on their Instagram.</p>
@@ -6661,7 +6687,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
       <h4>Valley High</h4>
       <p class="cx-kicker">Al-Fresco Restaurants</p>
       <div class="cx-tags"><span class="cx-tag">Open Air</span><span class="cx-tag">Groups</span><span class="cx-tag">Late Dinner</span></div>
-      <p>An unhurried row of restaurants set back from the road, where tables spill onto the lawn and the trees draw the last heat out of the evening. Steaks, grills, patisserie and coffee stand shoulder to shoulder — so a party that never agrees on one kitchen no longer has to. Come as the light goes.</p>
+      <p>An unhurried row of restaurants set back from the road, tables spilling onto the lawn. Steaks, grills, patisserie and coffee shoulder to shoulder — so a party that never agrees on one kitchen no longer has to. Come as the light goes.</p>
       <div class="cx-gtk">
         <p class="cx-gtk-label">Good to Know</p>
         <p>Each restaurant here keeps its own hours, menu and prices. This live listing shows which are open right now.</p>
@@ -6685,7 +6711,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
       <h4>Gensan High Street</h4>
       <p class="cx-kicker">Nightlife Strip · Dadiangas</p>
       <div class="cx-tags"><span class="cx-tag">Karaoke</span><span class="cx-tag">Bars</span><span class="cx-tag">Street Food</span></div>
-      <p>One covered lane beneath a canopy of lights, lined end to end with karaoke rooms, bars and food stalls. Nobody books ahead. You walk its length, follow whichever doorway sounds like the better evening, and let the night decide.</p>
+      <p>One covered lane beneath a canopy of lights, lined with karaoke rooms, bars and food stalls. Nobody books ahead — you walk its length and follow whichever doorway sounds like the better evening.</p>
       <div class="cx-gtk">
         <p class="cx-gtk-label">How it works</p>
         <p>Rooms are charged by the hour and rates vary by size — ask at the door before you settle in. Busiest Friday and Saturday.</p>
@@ -6720,8 +6746,8 @@ input,textarea,select{ caret-color:var(--cx-gold); }
       <h4>7 Monkeys</h4>
       <p class="cx-kicker">Speakeasy · Craft Cocktails</p>
       <div class="cx-tags"><span class="cx-tag">If You Know</span><span class="cx-tag">Date Night</span><span class="cx-tag">Our Pick</span></div>
-      <p>No street frontage. No sign you will ever see from outside. Most of GenSan walks past the door without ever knowing it is there — which is precisely the point, and you are now on the other side of it.</p>
-      <p>Within: low light, a cocktail list built with real intent, and bartenders who treat the craft as craft. Intimate rather than loud — a room for a nightcap or a slow evening for two, rather than a party of ten. Our pick for the last drink of the night.</p>
+      <p>No street frontage, and no sign you will ever see from outside. Most of GenSan walks past the door without knowing it is there — which is precisely the point.</p>
+      <p>Within: low light, a cocktail list built with real intent, and bartenders who treat the craft as craft. A room for a nightcap or a slow evening for two, rather than a party of ten.</p>
 
       <div class="cx-secret">
         <p class="cx-secret-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9.5" r="3.1"></circle><path d="M10.6 12.4 9.4 18.5h5.2l-1.2-6.1"></path><path d="M5.2 3.5h13.6a1.7 1.7 0 0 1 1.7 1.7v13.6a1.7 1.7 0 0 1-1.7 1.7H5.2a1.7 1.7 0 0 1-1.7-1.7V5.2a1.7 1.7 0 0 1 1.7-1.7Z" opacity=".45"></path></svg> Finding the door</p>
@@ -7617,7 +7643,7 @@ Connect with Us
 <!-- K13: rendered, not just an HTML comment — this is how "what version is live?"
      stops being a research task. Update BOTH this and the comment on line 2. -->
 <p class="text-xs" style="opacity:.72;font-variant-numeric:tabular-nums;letter-spacing:.06em;">
-    Guest Guide <span id="ch-version">v7.9.9</span>
+    Guest Guide <span id="ch-version">v7.10.0</span>
    </p>
 <p class="text-xs">
     This document is confidential and proprietary. For authorized guest use only.
