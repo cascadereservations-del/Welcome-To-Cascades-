@@ -1,5 +1,22 @@
 <!DOCTYPE html>
-<!-- Welcome Guide v7.9.4 -->
+<!-- Welcome Guide v7.9.5 -->
+<!-- v7.9.5 (2026-08-17):
+     K14 CLOSED — the admin code is no longer in this file. It is verified
+     server-side by the verify_admin_pin RPC against the bcrypt hash in
+     app_settings.admin_pin_hash, throttled to 8 failures per 15 min per hashed
+     client. Previously View Source handed anyone full admin. The stored hash did
+     not match the code the guide used (it was a bcrypt of some earlier, unknown
+     PIN at cost 6), so it was re-hashed at cost 12 against the code staff already
+     type — nothing to re-teach. Rotate it with one UPDATE in Supabase; no code
+     change or push needed.
+     K9 EASED, not closed — by Lloyd's decision. The property hands out short-term
+     24h Wi-Fi access, so the password is convenience rather than a secret. It now
+     lives in app_settings (edit in one place instead of four) and is deliberately
+     anon-readable with no verification. The values stay baked into this file on
+     purpose: a guest needs the password IN ORDER to get online, so a fetch-only
+     design would strand exactly the person who needs it.
+     "Finding the door" restyled — Cormorant italic label with a keyhole, and
+     hanging lower-roman numerals instead of filled circles on a dashed box. -->
 <!-- v7.9.4 (2026-08-17):
      MINI GALLERY — the side-by-side photo grids rendered each image too small on a
      phone. Multi-photo venues now show one full-width hero plus a thumbnail strip
@@ -2305,27 +2322,54 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   background:rgba(201,150,58,0.16); color:var(--cx-gold-text); border:1px solid rgba(201,150,58,0.32);
 }
 
-/* Finding the door */
-.cx-secret{ border:1px solid rgba(201,150,58,0.42); background:rgba(201,150,58,0.09);
-            border-radius:var(--cx-r-md); padding:0.9rem 1rem; margin:0.85rem 0; }
-.cx-secret-label{ font-family:'Raleway',sans-serif; font-size:0.64rem; font-weight:800;
-  letter-spacing:0.13em; text-transform:uppercase; color:var(--cx-gold-lift);
-  display:flex; align-items:center; gap:0.45rem; margin:0 0 0.55rem; }
-.cx-secret-label svg{ width:0.95em; height:0.95em; stroke:currentColor; fill:none;
-                      stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-/* Tailwind preflight sets ol{list-style:none}, so counters are drawn explicitly. */
-.cx-secret ol{ margin:0; padding:0; list-style:none; counter-reset:cxstep; }
-.cx-secret li{ counter-increment:cxstep; position:relative; padding-left:1.8rem;
-  font-size:0.83rem; color:rgba(247,242,232,0.92); line-height:1.6; margin-bottom:0.55rem; }
-.cx-secret li::before{
-  content:counter(cxstep); position:absolute; left:0; top:0.06rem;
-  width:1.22rem; height:1.22rem; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Raleway',sans-serif; font-size:0.64rem; font-weight:800;
-  font-variant-numeric:tabular-nums;
-  background:var(--cx-gold); color:#160E07;
+/* Finding the door — a note slipped across the bar, not an instruction panel.
+   Roman numerals on a thin gold rail; Cormorant for the label, since the whole
+   conceit is discretion rather than signage. */
+.cx-secret{
+  position:relative; margin:1rem 0;
+  padding:0.95rem 1.05rem 1rem;
+  background:linear-gradient(180deg, rgba(201,150,58,0.10), rgba(201,150,58,0.04));
+  border:0; border-radius:2px;
+  border-top:1px solid rgba(201,150,58,0.45);
+  border-bottom:1px solid rgba(201,150,58,0.45);
+}
+.cx-secret-label{
+  display:flex; align-items:center; gap:0.5rem; margin:0 0 0.85rem;
+  font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600;
+  font-size:1.12rem; letter-spacing:0.01em; text-transform:none;
+  color:var(--cx-gold-text);
+}
+.cx-secret-label svg{
+  width:1.05em; height:1.05em; flex:none;
+  stroke:var(--cx-gold-lift); fill:none; stroke-width:1.4;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+.cx-secret ol{
+  margin:0; padding:0; list-style:none; counter-reset:cxstep;
+}
+.cx-secret li{
+  counter-increment:cxstep; position:relative;
+  padding-left:2.15rem;
+  font-size:0.84rem; line-height:1.64; margin-bottom:0.78rem;
+  color:rgba(247,242,232,0.90);
 }
 .cx-secret li:last-child{ margin-bottom:0; }
+/* The numeral is the whole marker — no bullet, no rail. Cormorant italic in the
+   margin reads as a printed note rather than a numbered instruction. */
+.cx-secret li::before{
+  content:counter(cxstep, lower-roman) ".";
+  position:absolute; left:0; top:0; width:1.55rem;
+  text-align:right;
+  font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600;
+  font-size:1.02rem; line-height:1.42; letter-spacing:0.02em;
+  color:var(--cx-gold-lift); opacity:0.92;
+}
+.cx-secret-foot{
+  margin:0.9rem 0 0; padding-top:0.7rem;
+  border-top:1px solid rgba(201,150,58,0.18);
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:0.92rem; color:rgba(247,242,232,0.70);
+}
 
 @media (prefers-reduced-motion: reduce){
   .cx-link, .cx-map > summary svg{ transition:none; }
@@ -3784,12 +3828,12 @@ input,textarea,select{ caret-color:var(--cx-gold); }
        onerror="this.style.display='none'">
   <div class="accent-box p-4 rounded-xl mb-4 text-center">
     <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Network</p>
-    <p class="font-bold text-base mb-3" style="color:var(--dark-bronze);font-family:'Raleway',sans-serif;">WelcomeToCascade-5G</p>
+    <p class="font-bold text-base mb-3" data-ch-wifi="ssid" style="color:var(--dark-bronze);font-family:'Raleway',sans-serif;">WelcomeToCascade-5G</p>
     <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Password</p>
-    <p class="font-bold text-base mb-4" style="color:var(--dark-bronze);font-family:'Raleway',sans-serif;">EnjoyYourStay@CH</p>
+    <p class="font-bold text-base mb-4" data-ch-wifi="password" style="color:var(--dark-bronze);font-family:'Raleway',sans-serif;">EnjoyYourStay@CH</p>
     <div class="flex justify-center gap-3 flex-wrap">
-      <button class="sheet-copy-btn" data-copy="WelcomeToCascade-5G" id="copyNetworkBtn">📋 Copy Network</button>
-      <button class="sheet-copy-btn" data-copy="EnjoyYourStay@CH" id="copyPasswordBtn">📋 Copy Password</button>
+      <button class="sheet-copy-btn" data-ch-wifi-copy="ssid" data-copy="WelcomeToCascade-5G" id="copyNetworkBtn">📋 Copy Network</button>
+      <button class="sheet-copy-btn" data-ch-wifi-copy="password" data-copy="EnjoyYourStay@CH" id="copyPasswordBtn">📋 Copy Password</button>
     </div>
   </div>
   <button class="modal-btn modal-btn-primary w-full amenity-sheet-close" style="margin-top:0.5rem;">Done</button>
@@ -4914,17 +4958,17 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   <p class="text-xs mb-5" style="color:var(--charcoal);opacity:0.5;font-family:'Raleway',sans-serif;letter-spacing:0.05em;">📱 Point your camera at the QR code to connect</p>
   <!-- Click-to-copy credential rows -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-sm mx-auto">
-    <div class="wifi-cred-row" onclick="wifiCopyCredential(this,'WelcomeToCascade-5G')" role="button" aria-label="Tap to copy network name" tabindex="0">
+    <div class="wifi-cred-row" onclick="wifiCopyCredential(this, this.querySelector('.wifi-cred-value').textContent.trim())" role="button" aria-label="Tap to copy network name" tabindex="0">
       <p class="wifi-cred-label">Network Name</p>
-      <p class="wifi-cred-value">WelcomeToCascade-5G</p>
+      <p class="wifi-cred-value" data-ch-wifi="ssid">WelcomeToCascade-5G</p>
       <span class="wifi-cred-hint">
         <svg width="9" height="10" viewBox="0 0 12 14" fill="none"><rect x="3" y="3" width="8" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1 1h7a1 1 0 0 1 1 1v1H2a1 1 0 0 1-1-1V1z" fill="currentColor" opacity="0.5"/></svg>
         Tap to copy
       </span>
     </div>
-    <div class="wifi-cred-row" onclick="wifiCopyCredential(this,'EnjoyYourStay@CH')" role="button" aria-label="Tap to copy password" tabindex="0">
+    <div class="wifi-cred-row" onclick="wifiCopyCredential(this, this.querySelector('.wifi-cred-value').textContent.trim())" role="button" aria-label="Tap to copy password" tabindex="0">
       <p class="wifi-cred-label">Password</p>
-      <p class="wifi-cred-value">EnjoyYourStay@CH</p>
+      <p class="wifi-cred-value" data-ch-wifi="password">EnjoyYourStay@CH</p>
       <span class="wifi-cred-hint">
         <svg width="9" height="10" viewBox="0 0 12 14" fill="none"><rect x="3" y="3" width="8" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1 1h7a1 1 0 0 1 1 1v1H2a1 1 0 0 1-1-1V1z" fill="currentColor" opacity="0.5"/></svg>
         Tap to copy
@@ -6579,13 +6623,14 @@ input,textarea,select{ caret-color:var(--cx-gold); }
       <p>Within: low light, a cocktail list built with real intent, and bartenders who treat the craft as craft. Intimate rather than loud — a room for a nightcap or a slow evening for two, rather than a party of ten. Our pick for the last drink of the night.</p>
 
       <div class="cx-secret">
-        <p class="cx-secret-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.6"></circle><path d="m11.8 11.8 8 8M16.6 16.6l2.1-2.1"></path></svg> Finding the door</p>
+        <p class="cx-secret-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9.5" r="3.1"></circle><path d="M10.6 12.4 9.4 18.5h5.2l-1.2-6.1"></path><path d="M5.2 3.5h13.6a1.7 1.7 0 0 1 1.7 1.7v13.6a1.7 1.7 0 0 1-1.7 1.7H5.2a1.7 1.7 0 0 1-1.7-1.7V5.2a1.7 1.7 0 0 1 1.7-1.7Z" opacity=".45"></path></svg> Finding the door</p>
         <ol>
           <li>Don't look for the bar. There's <strong>nothing on the street</strong> to find.</li>
           <li>Go to <strong>Gusteau's Crab Hauz</strong>, inside Greenleaf Hotel on San Miguel Street.</li>
           <li>Walk into the restaurant — the way through is a <strong>concealed passage</strong> inside it.</li>
           <li>Still stuck? Ask any of the Gusteau's staff. They're used to it.</li>
         </ol>
+        <p class="cx-secret-foot">That's the whole trick. Enjoy it.</p>
       </div>
 
       <div class="cx-gtk">
@@ -7476,7 +7521,7 @@ Connect with Us
 <!-- K13: rendered, not just an HTML comment — this is how "what version is live?"
      stops being a research task. Update BOTH this and the comment on line 2. -->
 <p class="text-xs" style="opacity:.72;font-variant-numeric:tabular-nums;letter-spacing:.06em;">
-    Guest Guide <span id="ch-version">v7.9.4</span>
+    Guest Guide <span id="ch-version">v7.9.5</span>
    </p>
 <p class="text-xs">
     This document is confidential and proprietary. For authorized guest use only.
@@ -8303,9 +8348,13 @@ function openAirbnbListing(event) {
   window.__CH_SECURITY_READY__ = true;
 
   const DAY_MS          = 86400000;
-  const ADMIN_CODE      = 'chadminko';       // case-insensitive
-  const CURRENT_CLEANER = 'Honey';           // update when cleaner changes
-  const ADMIN_IDS       = ['Lloyd', 'Marifel', CURRENT_CLEANER];
+  // The admin code is NOT stored here. It is compared server-side against the
+  // bcrypt hash in app_settings.admin_pin_hash via the verify_admin_pin RPC,
+  // which is throttled to 8 failures per 15 min. Previously this file held the
+  // code in plaintext, so View Source handed anyone full admin (K14).
+  // To rotate the code, update that hash in Supabase — no change here.
+  const CURRENT_CLEANER = 'Honey';           // fallback only; real list comes from app_settings.users
+  let   ADMIN_IDS       = ['Lloyd', 'Marifel', CURRENT_CLEANER];
   const SUPABASE_URL    = 'https://qkgfhsdppslwunarczeq.supabase.co';
   const ANON_KEY        = 'sb_publishable_JFuRYZ9csmQULcMRmHXDSg_Abo9UeCj';
   const SK = {
@@ -8827,19 +8876,44 @@ function openAirbnbListing(event) {
     const adminPwInput = document.querySelector('#ch-adminpw-input');
     const adminPwError = document.querySelector('#ch-adminpw-error');
     if (adminPwForm) {
-      adminPwForm.addEventListener('submit', function(e) {
+      adminPwForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        const val = (adminPwInput&&adminPwInput.value||'').trim();
-        if (val.toLowerCase() === ADMIN_CODE) {
-          if (adminPwInput) adminPwInput.value = '';
-          if (adminPwError) adminPwError.style.display = 'none';
-          step('admin');
-        } else {
-          if (adminPwError) {
-            adminPwError.textContent = 'Incorrect access code. Please try again.';
-            adminPwError.style.display = '';
+        const val = (adminPwInput && adminPwInput.value || '').trim();
+        const btn = adminPwForm.querySelector('button[type="submit"]');
+        const fail = function (msg) {
+          if (adminPwError) { adminPwError.textContent = msg; adminPwError.style.display = ''; }
+          if (adminPwInput) adminPwInput.select();
+        };
+        if (!val) { fail('Please enter the access code.'); return; }
+
+        if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Checking…'; }
+        try {
+          // Verified server-side. The code is never compared in the browser.
+          const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/verify_admin_pin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', apikey: ANON_KEY, Authorization: 'Bearer ' + ANON_KEY },
+            body: JSON.stringify({ p_code: val, p_client: (store.get(SK.FIRST) || 'guest') + '' })
+          });
+          if (!res.ok) throw new Error('http ' + res.status);
+          const out = await res.json();
+
+          if (out && out.ok) {
+            if (Array.isArray(out.users) && out.users.length) {
+              ADMIN_IDS = out.users.filter(function (n) { return n && n !== 'Others'; });
+            }
+            if (adminPwInput) adminPwInput.value = '';
+            if (adminPwError) adminPwError.style.display = 'none';
+            step('admin');
+          } else if (out && out.throttled) {
+            fail('Too many attempts. Please wait 15 minutes and try again.');
+          } else {
+            fail('Incorrect access code. Please try again.');
           }
-          if (adminPwInput) { adminPwInput.select(); }
+        } catch (err) {
+          // The check needs a connection; there is no offline bypass by design.
+          fail('Could not reach the server. Check your connection and try again.');
+        } finally {
+          if (btn) { btn.disabled = false; if (btn.dataset.label) btn.textContent = btn.dataset.label; }
         }
       });
     }
@@ -11924,6 +11998,64 @@ function openAirbnbListing(event) {
 })();
 </script>
 <!-- /CASCADE-EQ-DIALOG:v1 -->
+
+<!-- CASCADE-WIFI-SYNC:v1 — Wi-Fi details come from Supabase app_settings.
+     Purpose is ease of editing, not secrecy: the property hands out short-term
+     24h Wi-Fi access, so these keys are deliberately anon-readable and no
+     verification is required to display them.
+     The values stay baked into the HTML on purpose. A guest needs the Wi-Fi
+     password IN ORDER to get online, so a fetch-only design would strand exactly
+     the person who needs it. Order of trust: Supabase > last cached > baked-in. -->
+<script>
+(function () {
+  'use strict';
+  if (window.__CH_WIFI_SYNC__) return;
+  window.__CH_WIFI_SYNC__ = true;
+
+  var URL_  = 'https://qkgfhsdppslwunarczeq.supabase.co';
+  var KEY_  = 'sb_publishable_JFuRYZ9csmQULcMRmHXDSg_Abo9UeCj';
+  var CACHE = 'ch_wifi_v1';
+
+  function apply(vals) {
+    if (!vals) return;
+    ['ssid', 'password'].forEach(function (k) {
+      var v = vals[k];
+      if (!v) return;
+      Array.prototype.forEach.call(document.querySelectorAll('[data-ch-wifi="' + k + '"]'), function (el) {
+        if (el.textContent.trim() !== v) el.textContent = v;
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-ch-wifi-copy="' + k + '"]'), function (el) {
+        el.setAttribute('data-copy', v);
+      });
+    });
+  }
+
+  // 1. Last known values first, so an offline guest sees the newest we ever saw.
+  try {
+    var cached = JSON.parse(localStorage.getItem(CACHE) || 'null');
+    if (cached) apply(cached);
+  } catch (e) {}
+
+  // 2. Then refresh from Supabase whenever there is a connection.
+  fetch(URL_ + '/rest/v1/app_settings?select=key,value&key=in.(wifi_ssid,wifi_password)', {
+    headers: { apikey: KEY_, Authorization: 'Bearer ' + KEY_ }
+  })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (rows) {
+      if (!Array.isArray(rows) || !rows.length) return;
+      var vals = {};
+      rows.forEach(function (row) {
+        var v = typeof row.value === 'string' ? row.value : String(row.value);
+        if (row.key === 'wifi_ssid') vals.ssid = v;
+        if (row.key === 'wifi_password') vals.password = v;
+      });
+      apply(vals);
+      try { localStorage.setItem(CACHE, JSON.stringify(vals)); } catch (e) {}
+    })
+    .catch(function () { /* offline: cached or baked-in values stand */ });
+})();
+</script>
+<!-- /CASCADE-WIFI-SYNC:v1 -->
 
 <!-- CASCADE-MINI-GALLERY:v1 — thumbnail strip swaps the hero photo.
      Delegated, so it costs one listener regardless of how many galleries exist.
