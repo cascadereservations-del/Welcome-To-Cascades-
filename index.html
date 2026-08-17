@@ -1,5 +1,19 @@
 <!DOCTYPE html>
-<!-- Welcome Guide v7.9.3 -->
+<!-- Welcome Guide v7.9.4 -->
+<!-- v7.9.4 (2026-08-17):
+     MINI GALLERY — the side-by-side photo grids rendered each image too small on a
+     phone. Multi-photo venues now show one full-width hero plus a thumbnail strip
+     that swaps it (Euphoria, Shaperz, Mimi's, 7 Monkeys). Thumbnails are separate
+     168px crops totalling 53 KB, so the strip does not pull full images. Delegated
+     listener, arrow-key navigation, aria-current on the active thumb; without JS
+     the hero still renders and only the strip goes inert.
+     K13 — the version is now RENDERED in the footer, not just an HTML comment.
+     That comment-only version is exactly why FACTS carried it as UNKNOWN with two
+     wrong candidates for months. Update BOTH places when bumping.
+     ECOFLOW — corrected to RIVER 3 throughout. RIVER 2's USB-C maxes at 60W while
+     RIVER 3's is 100W, and the product image in the guide is labelled USB-C 100W.
+     That matches the HTML comments and the original FACTS entry; the visible
+     "RIVER 2" text was the outlier. Worth Lloyd confirming against the unit. -->
 <!-- v7.9.3 (2026-08-17):
      CORRECTION — the gate pod lock is NOT fitted by default. It is supplied indoors
      with the key card and the remotes, for the guest to fit if they want it. Corrected
@@ -2142,6 +2156,48 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   pointer-events:none;
 }
 @media (max-width:26rem){ .cx-gallery--hero2 img{ aspect-ratio:1/1; } }
+
+/* ---- Mini gallery: one large photo + a thumbnail strip ----
+   Replaces the side-by-side grids, which rendered each photo too small on a
+   phone. One hero at full card width; the rest reachable from the strip. */
+.cx-mg{ margin:0 0 1rem; }
+.cx-mg-stage{ position:relative; border-radius:var(--cx-r-md); overflow:hidden;
+              background:rgba(201,150,58,0.06); }
+.cx-mg-stage img{ width:100%; display:block; aspect-ratio:16/10; object-fit:cover; }
+.cx-mg-cap{
+  position:absolute; inset:auto 0 0 0; margin:0;
+  font-family:'Raleway',sans-serif; font-size:0.66rem; letter-spacing:0.03em; color:#fff;
+  padding:1.6rem 0.7rem 0.5rem;
+  background:linear-gradient(to top, rgba(14,9,4,0.80), rgba(14,9,4,0.34) 46%, transparent);
+  pointer-events:none;
+}
+.cx-mg-count{
+  position:absolute; top:0.5rem; right:0.5rem;
+  font-family:'Raleway',sans-serif; font-size:0.62rem; font-weight:700;
+  letter-spacing:0.04em; color:#F7F2E8;
+  background:rgba(14,9,4,0.55); border:1px solid rgba(247,242,232,0.22);
+  padding:0.16rem 0.45rem; border-radius:999px;
+  font-variant-numeric:tabular-nums; pointer-events:none;
+}
+.cx-mg-thumbs{
+  display:flex; gap:6px; margin-top:6px;
+  overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+}
+.cx-mg-thumbs::-webkit-scrollbar{ display:none; }
+.cx-mg-thumb{
+  flex:0 0 auto; width:3.9rem; padding:0; border:0; background:none; cursor:pointer;
+  border-radius:9px; overflow:hidden; line-height:0;
+  box-shadow:0 0 0 1px rgba(201,150,58,0.28);
+  transition:box-shadow .16s ease, opacity .16s ease;
+  opacity:0.62;
+}
+.cx-mg-thumb img{ width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
+.cx-mg-thumb:hover{ opacity:0.92; }
+.cx-mg-thumb[aria-current="true"]{ opacity:1; box-shadow:0 0 0 2px var(--cx-gold); }
+.cx-mg-thumb:focus-visible{ outline:2px solid var(--cx-gold); outline-offset:2px; }
+.cx-nightlife .cx-mg-thumb{ box-shadow:0 0 0 1px rgba(201,150,58,0.34); }
+.cx-nightlife .cx-mg-thumb[aria-current="true"]{ box-shadow:0 0 0 2px var(--cx-gold-lift); }
+@media (prefers-reduced-motion: reduce){ .cx-mg-thumb{ transition:none; } }
 
 /* ── Links: authored icons at one stroke weight ── */
 .cx-links{ display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.85rem; }
@@ -5026,10 +5082,10 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <span class="text-2xl md:text-3xl mr-3 md:mr-4">🔋</span>
 <div>
 <h3 class="font-semibold text-base md:text-lg mb-2" style="color: var(--dark-bronze);">
-  EcoFlow RIVER 2 — Portable Power Station
+  EcoFlow RIVER 3 — Portable Power Station
 </h3>
 <p class="text-sm md:text-base text-gray-700 leading-relaxed">
-  An EcoFlow RIVER 2 portable power station is available for your use during outages. It can keep your phones, laptops, and small appliances running — far beyond a standard power bank. Located in the property; ask your host if you'd like it set up.
+  An EcoFlow RIVER 3 portable power station is available for your use during outages. It can keep your phones, laptops, and small appliances running — far beyond a standard power bank. Located in the property; ask your host if you'd like it set up.
 </p>
 <p class="text-xs text-gray-500 italic mt-2">💡 Please return fully charged and in good condition.</p>
 </div>
@@ -5551,9 +5607,16 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 </div>
 </div>
-<div class="cx-gallery cx-gallery--2">
-  <figure class="cx-figure"><img src="img/euphoria-sunset.webp" alt="Euphoria Flower Farm sign at sunset, guests on the lawn overlooking the valley" loading="lazy" decoding="async" width="800" height="600"><figcaption>Golden hour at the ridge</figcaption></figure>
-  <figure class="cx-figure"><img src="img/euphoria-terrace.webp" alt="Covered terrace dining at Euphoria with pink blooms and mountain views" loading="lazy" decoding="async" width="800" height="600"><figcaption>Terrace over the valley</figcaption></figure>
+<div class="cx-mg" data-mg>
+  <div class="cx-mg-stage">
+    <img src="img/euphoria-sunset.webp" alt="Euphoria Flower Farm sign at sunset, guests on the lawn overlooking the valley" loading="lazy" decoding="async" width="1280" height="800">
+    <p class="cx-mg-cap">Golden hour at the ridge</p>
+    <span class="cx-mg-count">1 / 2</span>
+  </div>
+  <div class="cx-mg-thumbs" role="group" aria-label="More photos">
+    <button type="button" class="cx-mg-thumb" aria-current="true" aria-label="Photo 1 of 2: Golden hour at the ridge" data-src="img/euphoria-sunset.webp" data-alt="Euphoria Flower Farm sign at sunset, guests on the lawn overlooking the valley" data-cap="Golden hour at the ridge"><img src="img/thumb/euphoria-sunset.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
+    <button type="button" class="cx-mg-thumb" aria-current="false" aria-label="Photo 2 of 2: Terrace over the valley" data-src="img/euphoria-terrace.webp" data-alt="Covered terrace dining at Euphoria with mountain views" data-cap="Terrace over the valley"><img src="img/thumb/euphoria-terrace.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
+  </div>
 </div>
 <p class="text-sm text-gray-700 mb-3 leading-relaxed">Flower fields and viewing decks laid along the ridge, with the whole valley falling away beneath them. Arrive in the late afternoon and stay — the hour before sunset turns the fields gold and the far ranges blue, and it is worth building the day around. Camping is available if you would rather not hand the view back at dusk.</p>
 <div class="cx-gtk">
@@ -5751,9 +5814,16 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 </div>
 </div>
-<div class="cx-gallery cx-gallery--sq">
-  <figure class="cx-figure"><img src="img/shaperz-floor.webp" alt="Shaperz Fitness Club main floor with free weights, racks and cardio equipment" loading="lazy" decoding="async" width="600" height="600"><figcaption>The weights floor</figcaption></figure>
-  <figure class="cx-figure"><img src="img/shaperz-studio.webp" alt="Shaperz Fitness Club functional training studio" loading="lazy" decoding="async" width="600" height="600"><figcaption>Functional studio</figcaption></figure>
+<div class="cx-mg" data-mg>
+  <div class="cx-mg-stage">
+    <img src="img/shaperz-floor.webp" alt="Shaperz Fitness Club main floor with free weights, racks and cardio equipment" loading="lazy" decoding="async" width="1280" height="800">
+    <p class="cx-mg-cap">The weights floor</p>
+    <span class="cx-mg-count">1 / 2</span>
+  </div>
+  <div class="cx-mg-thumbs" role="group" aria-label="More photos">
+    <button type="button" class="cx-mg-thumb" aria-current="true" aria-label="Photo 1 of 2: The weights floor" data-src="img/shaperz-floor.webp" data-alt="Shaperz Fitness Club main floor with free weights, racks and cardio equipment" data-cap="The weights floor"><img src="img/thumb/shaperz-floor.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
+    <button type="button" class="cx-mg-thumb" aria-current="false" aria-label="Photo 2 of 2: Functional studio" data-src="img/shaperz-studio.webp" data-alt="Shaperz Fitness Club functional training studio" data-cap="Functional studio"><img src="img/thumb/shaperz-studio.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
+  </div>
 </div>
 <p class="text-sm text-gray-700 mb-3 leading-relaxed">The largest club in the city, and a serious one — a full floor of racks, free weights, plate-loaded machines and cardio, air-conditioned throughout, with a separate studio for functional work. The straightforward answer if you would rather your training week survived the holiday intact.</p>
 <div class="cx-gtk">
@@ -6300,9 +6370,16 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <!-- /CASCADE-EDSAI-CARD:v1 -->
 <!-- CASCADE-MIMIS-CARD:v1 -->
 <div class="feature-card p-5 rounded-xl bg-gradient-to-br from-orange-50/40 to-red-50/25">
-<div class="cx-gallery cx-gallery--2">
-  <figure class="cx-figure"><img src="img/mimis-ceiling.webp" alt="Mimi's Diner interior with vinyl records covering the ceiling, disco ball, red booths and checkerboard floor" loading="lazy" decoding="async" width="600" height="800"><figcaption>Vinyl ceiling, disco ball</figcaption></figure>
-  <figure class="cx-figure"><img src="img/mimis-floor.webp" alt="Mimi's Diner dining room with jukebox, vintage signage and tyre tables" loading="lazy" decoding="async" width="600" height="800"><figcaption>Jukebox and tyre tables</figcaption></figure>
+<div class="cx-mg" data-mg>
+  <div class="cx-mg-stage">
+    <img src="img/mimis-ceiling.webp" alt="Mimi’s Diner with vinyl records covering the ceiling, mirror ball, red booths and chequerboard floor" loading="lazy" decoding="async" width="1280" height="800">
+    <p class="cx-mg-cap">Vinyl ceiling, mirror ball</p>
+    <span class="cx-mg-count">1 / 2</span>
+  </div>
+  <div class="cx-mg-thumbs" role="group" aria-label="More photos">
+    <button type="button" class="cx-mg-thumb" aria-current="true" aria-label="Photo 1 of 2: Vinyl ceiling, mirror ball" data-src="img/mimis-ceiling.webp" data-alt="Mimi’s Diner with vinyl records covering the ceiling, mirror ball, red booths and chequerboard floor" data-cap="Vinyl ceiling, mirror ball"><img src="img/thumb/mimis-ceiling.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
+    <button type="button" class="cx-mg-thumb" aria-current="false" aria-label="Photo 2 of 2: Jukebox and memorabilia" data-src="img/mimis-floor.webp" data-alt="Mimi’s Diner dining room with jukebox and vintage signage" data-cap="Jukebox and memorabilia"><img src="img/thumb/mimis-floor.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
+  </div>
 </div>
 <div class="flex items-start mb-3">
 <span class="text-3xl mr-3" aria-hidden="true">🕺</span>
@@ -6483,11 +6560,18 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 
     <!-- ── 7 Monkeys ── -->
     <div class="cx-venue">
-      <div class="cx-gallery cx-gallery--hero2">
-        <figure class="cx-figure"><img src="img/sevenmonkeys-bar.webp" alt="The backlit cane-fronted spirits wall behind the bar at 7 Monkeys" loading="lazy" decoding="async" width="800" height="450"><figcaption>The back bar</figcaption></figure>
-        <figure class="cx-figure"><img src="img/sevenmonkeys-sign.webp" alt="The 7 Monkeys sign, lit by a single strip light on a bare wall in the dark" loading="lazy" decoding="async" width="600" height="800"><figcaption>The only sign there is</figcaption></figure>
-        <figure class="cx-figure"><img src="img/sevenmonkeys-drink.webp" alt="A sour cocktail garnished with dehydrated orange under warm lamplight" loading="lazy" decoding="async" width="600" height="800"><figcaption>Low light, proper glassware</figcaption></figure>
-      </div>
+      <div class="cx-mg" data-mg>
+  <div class="cx-mg-stage">
+    <img src="img/sevenmonkeys-bar.webp" alt="The backlit cane-fronted spirits wall behind the bar at 7 Monkeys" loading="lazy" decoding="async" width="1280" height="800">
+    <p class="cx-mg-cap">The back bar</p>
+    <span class="cx-mg-count">1 / 3</span>
+  </div>
+  <div class="cx-mg-thumbs" role="group" aria-label="More photos">
+    <button type="button" class="cx-mg-thumb" aria-current="true" aria-label="Photo 1 of 3: The back bar" data-src="img/sevenmonkeys-bar.webp" data-alt="The backlit cane-fronted spirits wall behind the bar at 7 Monkeys" data-cap="The back bar"><img src="img/thumb/sevenmonkeys-bar.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
+    <button type="button" class="cx-mg-thumb" aria-current="false" aria-label="Photo 2 of 3: The only sign there is" data-src="img/sevenmonkeys-sign.webp" data-alt="The 7 Monkeys sign lit by a single strip light on a bare wall" data-cap="The only sign there is"><img src="img/thumb/sevenmonkeys-sign.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
+    <button type="button" class="cx-mg-thumb" aria-current="false" aria-label="Photo 3 of 3: Low light, proper glassware" data-src="img/sevenmonkeys-drink.webp" data-alt="A sour cocktail garnished with dehydrated orange under warm lamplight" data-cap="Low light, proper glassware"><img src="img/thumb/sevenmonkeys-drink.webp" alt="" loading="lazy" decoding="async" width="168" height="168"></button>
+  </div>
+</div>
       <h4>7 Monkeys</h4>
       <p class="cx-kicker">Speakeasy · Craft Cocktails</p>
       <div class="cx-tags"><span class="cx-tag">If You Know</span><span class="cx-tag">Date Night</span><span class="cx-tag">Our Pick</span></div>
@@ -6935,7 +7019,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
             <div class="mb-3">
               <div class="text-center mb-2" style="font-size:2.5rem; line-height:1;">🔋</div>
               <div class="flex items-center gap-2 mb-2 flex-wrap justify-center text-center">
-              <h4 class="font-bold text-base md:text-lg w-full text-center" style="color: var(--dark-bronze);">EcoFlow RIVER 2 — Backup Power Station</h4>
+              <h4 class="font-bold text-base md:text-lg w-full text-center" style="color: var(--dark-bronze);">EcoFlow RIVER 3 — Backup Power Station</h4>
               <span class="text-xs font-bold px-2 py-0.5 rounded-full mx-auto" style="background: rgba(201,150,58,0.18); color: var(--dark-bronze); border: 1px solid rgba(201,150,58,0.35);">288Wh · Provided by Cascade</span>
               </div>
             </div>
@@ -6994,10 +7078,10 @@ input,textarea,select{ caret-color:var(--cx-gold); }
             </div>
           </div>
 
-          <!-- Right: Actual photo of EcoFlow RIVER 2 unit -->
+          <!-- Right: Actual photo of EcoFlow RIVER 3 unit -->
           <div class="flex-shrink-0 mx-auto md:mx-0" style="width: 200px;">
             <img src="https://drive.google.com/thumbnail?id=11m1VKSSX_bN--zXpGhDNv511G0w8LmwJ&sz=w400"
-                 alt="EcoFlow RIVER 2 portable power station"
+                 alt="EcoFlow RIVER 3 portable power station"
                  loading="lazy" decoding="async"
                  width="200"
                  style="width:200px; height:auto; display:block; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.15);"
@@ -7388,6 +7472,11 @@ Connect with Us
 <footer class="copyright-footer protected">
 <p class="text-xs md:text-sm">
     © 2025–2026 Cascade Hideaway. All Rights Reserved.
+   </p>
+<!-- K13: rendered, not just an HTML comment — this is how "what version is live?"
+     stops being a research task. Update BOTH this and the comment on line 2. -->
+<p class="text-xs" style="opacity:.72;font-variant-numeric:tabular-nums;letter-spacing:.06em;">
+    Guest Guide <span id="ch-version">v7.9.4</span>
    </p>
 <p class="text-xs">
     This document is confidential and proprietary. For authorized guest use only.
@@ -11835,5 +11924,62 @@ function openAirbnbListing(event) {
 })();
 </script>
 <!-- /CASCADE-EQ-DIALOG:v1 -->
+
+<!-- CASCADE-MINI-GALLERY:v1 — thumbnail strip swaps the hero photo.
+     Delegated, so it costs one listener regardless of how many galleries exist.
+     Without JS the hero still renders; only the strip goes inert. -->
+<script>
+(function () {
+  'use strict';
+  if (window.__CH_MINI_GALLERY__) return;
+  window.__CH_MINI_GALLERY__ = true;
+
+  function show(gallery, thumb) {
+    var stage = gallery.querySelector('.cx-mg-stage');
+    if (!stage || !thumb) return;
+    var img   = stage.querySelector('img');
+    var cap   = stage.querySelector('.cx-mg-cap');
+    var count = stage.querySelector('.cx-mg-count');
+    var thumbs = gallery.querySelectorAll('.cx-mg-thumb');
+
+    var src = thumb.getAttribute('data-src');
+    if (img && src && img.getAttribute('src') !== src) {
+      img.setAttribute('src', src);
+      img.setAttribute('alt', thumb.getAttribute('data-alt') || '');
+    }
+    if (cap) cap.textContent = thumb.getAttribute('data-cap') || '';
+
+    var i = Array.prototype.indexOf.call(thumbs, thumb);
+    if (count) count.textContent = (i + 1) + ' / ' + thumbs.length;
+    Array.prototype.forEach.call(thumbs, function (t) {
+      t.setAttribute('aria-current', t === thumb ? 'true' : 'false');
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var thumb = e.target.closest && e.target.closest('.cx-mg-thumb');
+    if (!thumb) return;
+    var gallery = thumb.closest('[data-mg]');
+    if (gallery) show(gallery, thumb);
+  });
+
+  // Left/right arrows move between photos once a thumbnail has focus.
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    var thumb = document.activeElement;
+    if (!thumb || !thumb.classList || !thumb.classList.contains('cx-mg-thumb')) return;
+    var gallery = thumb.closest('[data-mg]');
+    if (!gallery) return;
+    var list = Array.prototype.slice.call(gallery.querySelectorAll('.cx-mg-thumb'));
+    var i = list.indexOf(thumb);
+    var next = list[e.key === 'ArrowRight' ? i + 1 : i - 1];
+    if (!next) return;
+    e.preventDefault();
+    next.focus();
+    show(gallery, next);
+  });
+})();
+</script>
+<!-- /CASCADE-MINI-GALLERY:v1 -->
 </body>
 </html>
