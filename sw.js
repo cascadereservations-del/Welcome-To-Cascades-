@@ -21,8 +21,8 @@
  *   + Cached API responses tagged with x-sw-cached-at header for debugging
  * ============================================================ */
 
-const SHELL_CACHE   = 'cascade-shell-v2';
-const RUNTIME_CACHE = 'cascade-runtime-v2';
+const SHELL_CACHE   = 'cascade-shell-v3';
+const RUNTIME_CACHE = 'cascade-runtime-v3';
 
 // Bump SHELL_CACHE name (above) whenever index.html changes — old cache auto-purges on activate.
 

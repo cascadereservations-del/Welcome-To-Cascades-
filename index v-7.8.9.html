@@ -1,54 +1,5 @@
 <!DOCTYPE html>
-<!-- Welcome Guide v7.9.3 -->
-<!-- v7.9.3 (2026-08-17):
-     CORRECTION — the gate pod lock is NOT fitted by default. It is supplied indoors
-     with the key card and the remotes, for the guest to fit if they want it. Corrected
-     in all three places it appeared (amenity card, arrival parking card, and the hidden
-     pre-arrival duplicate). The amenity intro no longer claims both were "made".
-     Levelled the 7 Monkeys back-bar photo: auto-deskew measured the shelf lines at
-     +1.95deg off horizontal, rotated and re-cropped to the largest inscribed rect
-     (93% of frame retained), residual tilt now +0.05deg. Levelled master kept as
-     "7 monkeys 3 (levelled).jpg".
-     Venue descriptions rewritten with more warmth and cadence — the previous pass was
-     accurate but flat. -->
-<!-- v7.9.2 (2026-08-17): Design pass on the dining section.
-     "KTV & Bars" renamed "After Dark" and rebuilt. Palette fix: v1 mixed a violet
-     radial (~270deg) into a champagne-gold world (~38deg) — neither complementary
-     nor analogous, which is exactly why it read muddy. v2 commits to one warm hue
-     at three depths (#211509 / #160E07 / #0E0904) and lets the gold carry the
-     accent alone, with a 1px gold hairline in place of the glow.
-     Layout auto-adapts: .cx-grid uses auto-fit/minmax so the row reflows for any
-     venue count, and cards carrying actions are flex columns whose link rows
-     bottom-align (via :has), keeping neighbours balanced at unequal copy lengths.
-     Functional controls moved from emoji to authored inline SVG at one 1.6 stroke;
-     venue-character emoji stay, since they are the guide's established voice.
-     Added browser-surface theming the page never had: ::selection, caret-color,
-     gold focus rings, tabular-nums on the step counters.
-     NEW: Valley High (al-fresco restaurants). 7 Monkeys photo set swapped to
-     back bar + signage + cocktail, copy rewritten to iykyk. -->
-<!-- v7.9.1 (2026-08-17): Venue Kit. Every new venue now carries TWO map links — a shortened
-     maps.app.goo.gl "View on Maps" and a true turn-by-turn "Start Navigation"
-     (/maps/dir/?api=1&destination=LAT,LNG&travelmode=driving&dir_action=navigate), plus an
-     optional lazy keyless embedded map (output=embed — no API key, so it cannot fail the way
-     the Nearby-POIS map has). "Contact us for rates" replaced throughout with links to each
-     venue's own site/FB/IG. Photo galleries added for Euphoria (2), Brigada (1), Shaperz (2),
-     7 Monkeys (3), Gensan High Street (1), Edsai (1) and Mimi's (2), served same-origin from
-     the repo rather than Drive/raw hotlinks. KTV & Bars promoted to a full section between
-     Casual Eateries and Neighborhood Gems with a celebratory dark treatment, and 7 Monkeys now
-     documents its unsigned entrance via Gusteau's Crab Hauz (Greenleaf Hotel, San Miguel St) —
-     its Navigate button targets Gusteau's, not the bar.
-     FIX: the SM City General Santos card's map link resolved to "Anytime Fitness SM Gensan"
-     (the gym inside it), not the mall. -->
-<!-- v7.9.0 (2026-08-17): Security amenity card (outdoor-only CCTV + gate pod lock, explicit
-     no-indoor-recording assurance); parking security copy updated to match. Explore: Euphoria
-     added to excursions; new Sport & Fitness group. Dining: Café Paprika and Caffe Summit
-     hidden (still closed post-June-2026 earthquake); Edsai Café and Mimi's Diner added. -->
-<!-- v7.9.0 (2026-08-17): Security amenity card (outdoor-only CCTV + gate pod lock, explicit no-indoor-recording assurance);
-     parking security copy updated to match. Explore: Euphoria Flower Farm & Adventure Park added to excursions;
-     new Sport & Fitness group (Brigada Golf Range, Shaperz Fitness Club). S&R teaser left AS IS pending Sept 2026 opening.
-     Dining: Café Paprika and Caffe Summit commented out (still closed post-June-2026 earthquake) and the Evening
-     itinerary line that recommended Paprika repointed to 7 Monkeys; Edsai Café and Mimi's Diner added;
-     new KTV & Bars section (Gensan High Street strip, 7 Monkeys speakeasy). -->
+<!-- Welcome Guide v7.8.9 -->
 <!-- v7.8.6: weather-modal close hardening (delegated overlay handler + type=button). File already carried all v7.8.5 work (preconnects trimmed, widget AbortController, modal-body scroll); console/comment were still labelled v7.8.4. -->
 <!-- v7.8.7: fixed fetchDetailedWeather "Weather modal elements missing" on reopen. #weatherModalLoader is a child of #weatherModalBody and was destroyed by renderWeather innerHTML, so it was absent on the 2nd+ open. Now rebuilt fresh each open; guard only requires modalBody. -->
 <!-- v7.8.8: concierge modal scroll-body so tall content scrolls internally and the close X stays reachable (was overflowing the viewport on short screens). Removed sandbox attr from same-origin first-party map iframes (Nearby-POIS, dining) to clear the allow-scripts+allow-same-origin escape warning; no functional change. -->
@@ -2076,212 +2027,6 @@ if ('serviceWorker' in navigator) {
             font-weight: 600;
         }
         </style>
-
-<!-- ══ CASCADE-VENUE-KIT:v2 (v7.9.2) ═════════════════════════════════════
-     Venue components: auto-fitting balanced grid, adaptive galleries, dual map
-     links (view + turn-by-turn), official-source links, the After Dark
-     treatment, and browser-surface theming (selection, caret, focus, scrollbar).
-     Palette note: the v1 panel mixed a violet radial (~270deg) into a
-     champagne-gold world (~38deg) — neither complementary nor analogous, which
-     is why it read muddy. v2 commits to a single warm hue at three depths and
-     lets the gold carry the accent alone.
-     Images are same-origin repo files, never Drive/raw hotlinks.
-     ══════════════════════════════════════════════════════════════════════ -->
-<style id="cascade-venue-kit">
-:root{
-  --cx-night-0:#0E0904;
-  --cx-night-1:#160E07;
-  --cx-night-2:#211509;
-  --cx-gold:#C9963A;
-  --cx-gold-lift:#E8C77E;
-  --cx-gold-text:#F4DFA8;
-  --cx-gold-ink:#8A6520;
-  --cx-ink-night:rgba(247,242,232,0.88);
-  --cx-ink-night-dim:rgba(247,242,232,0.74);
-  --cx-hair:rgba(201,150,58,0.30);
-  --cx-r-lg:18px; --cx-r-md:13px; --cx-r-sm:10px;
-}
-
-/* ── Browser surfaces: theme what we did not draw ── */
-::selection{ background:rgba(201,150,58,0.28); color:#1C1006; }
-.cx-nightlife ::selection{ background:rgba(232,199,126,0.30); color:#0E0904; }
-input,textarea,select{ caret-color:var(--cx-gold); }
-
-/* ── Auto-fitting, balanced grid ── */
-.cx-grid{
-  display:grid; gap:1.15rem; align-items:stretch;
-  grid-template-columns:repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
-}
-/* Cards carrying actions become columns so the actions bottom-align — that is
-   what keeps neighbouring cards balanced when their copy runs to unequal length. */
-.cx-venue,
-.feature-card:has(.cx-links){ display:flex; flex-direction:column; }
-.cx-venue > .cx-links,
-.feature-card:has(.cx-links) > .cx-links{ margin-top:auto; }
-
-/* ── Galleries: adapt to how many photos exist ── */
-.cx-gallery{ display:grid; gap:5px; margin:0 0 1rem; border-radius:var(--cx-r-md); overflow:hidden; }
-.cx-gallery img{ width:100%; height:100%; display:block; object-fit:cover; background:rgba(201,150,58,0.06); }
-.cx-gallery--1 img{ aspect-ratio:16/9; }
-.cx-gallery--2{ grid-template-columns:1fr 1fr; }
-.cx-gallery--2 img{ aspect-ratio:4/3; }
-.cx-gallery--sq{ grid-template-columns:1fr 1fr; }
-.cx-gallery--sq img{ aspect-ratio:1/1; }
-.cx-gallery--hero2{ grid-template-columns:1fr 1fr; }
-.cx-gallery--hero2 > :first-child{ grid-column:1 / -1; }
-.cx-gallery--hero2 > :first-child img{ aspect-ratio:16/9; }
-.cx-gallery--hero2 img{ aspect-ratio:3/4; }
-.cx-gallery--tall{ max-width:22rem; margin-inline:auto; }
-.cx-gallery--tall img{ aspect-ratio:3/4; }
-.cx-figure{ position:relative; margin:0; overflow:hidden; }
-.cx-figure figcaption{
-  position:absolute; inset:auto 0 0 0;
-  font-family:'Raleway',sans-serif; font-size:0.63rem; letter-spacing:0.03em; color:#fff;
-  padding:1.5rem 0.65rem 0.45rem;
-  background:linear-gradient(to top, rgba(14,9,4,0.80), rgba(14,9,4,0.36) 45%, transparent);
-  pointer-events:none;
-}
-@media (max-width:26rem){ .cx-gallery--hero2 img{ aspect-ratio:1/1; } }
-
-/* ── Links: authored icons at one stroke weight ── */
-.cx-links{ display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.85rem; }
-.cx-link{
-  display:inline-flex; align-items:center; gap:0.45rem;
-  font-family:'Raleway',sans-serif; font-size:0.78rem; font-weight:600; line-height:1;
-  padding:0.58rem 0.9rem; border-radius:var(--cx-r-sm); text-decoration:none;
-  border:1px solid var(--cx-hair); color:var(--dark-bronze);
-  background:rgba(255,255,255,0.72);
-  transition:background .18s ease, border-color .18s ease, transform .12s ease;
-}
-.cx-link svg{ width:1em; height:1em; flex:none; stroke:currentColor; fill:none;
-              stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
-.cx-link:hover{ background:rgba(201,150,58,0.13); border-color:var(--cx-gold); }
-.cx-link:active{ transform:translateY(1px); }
-.cx-link:focus-visible{ outline:2px solid var(--cx-gold); outline-offset:2px; }
-.cx-link--nav{ background:var(--dark-bronze); color:#F7F2E8; border-color:var(--dark-bronze);
-               box-shadow:0 1px 2px rgba(28,16,6,0.14), 0 6px 16px -10px rgba(28,16,6,0.50); }
-.cx-link--nav:hover{ background:#2C1B0C; border-color:#2C1B0C; }
-.cx-link--src{ border-style:dashed; font-weight:500; font-size:0.75rem;
-               background:transparent; color:var(--cx-gold-ink); }
-
-/* ── Collapsible keyless embed ── */
-.cx-map{ margin-top:0.65rem; }
-.cx-map > summary{
-  cursor:pointer; list-style:none; display:inline-flex; align-items:center; gap:0.4rem;
-  font-family:'Raleway',sans-serif; font-size:0.75rem; font-weight:600; color:var(--cx-gold-ink);
-  padding:0.32rem 0; user-select:none; border-radius:6px;
-}
-.cx-map > summary::-webkit-details-marker{ display:none; }
-.cx-map > summary:focus-visible{ outline:2px solid var(--cx-gold); outline-offset:3px; }
-.cx-map > summary svg{ width:0.85em; height:0.85em; stroke:currentColor; fill:none;
-                       stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;
-                       transition:transform .2s ease; }
-.cx-map[open] > summary svg{ transform:rotate(180deg); }
-.cx-map iframe{ width:100%; height:13rem; border:0; border-radius:var(--cx-r-md);
-                margin-top:0.5rem; background:rgba(201,150,58,0.06); }
-
-/* ── Good to know ── */
-.cx-gtk{ background:rgba(255,255,255,0.66); padding:0.8rem 0.9rem; border-radius:var(--cx-r-md);
-         border:1px solid rgba(201,150,58,0.16); margin-bottom:0.85rem; }
-.cx-gtk-label{ font-family:'Raleway',sans-serif; font-size:0.63rem; letter-spacing:0.12em;
-               text-transform:uppercase; font-weight:700; color:var(--cx-gold-ink); margin:0 0 0.35rem; }
-.cx-gtk p{ font-size:0.79rem; color:#4E5561; margin:0 0 0.45rem; line-height:1.6; }
-.cx-gtk p:last-child{ margin-bottom:0; }
-.cx-gtk .cx-link{ margin-top:0.15rem; }
-
-/* ── After Dark ── */
-.cx-nightlife{
-  position:relative; border-radius:var(--cx-r-lg); overflow:hidden;
-  padding:1.9rem 1.25rem 1.6rem;
-  background:
-    radial-gradient(105% 62% at 15% -4%, rgba(201,150,58,0.22), transparent 62%),
-    radial-gradient(78% 52% at 92% 4%, rgba(201,150,58,0.10), transparent 66%),
-    linear-gradient(168deg, var(--cx-night-2) 0%, var(--cx-night-1) 46%, var(--cx-night-0) 100%);
-  color:var(--cx-ink-night);
-  box-shadow:0 2px 4px rgba(28,16,6,0.10), 0 26px 56px -34px rgba(28,16,6,0.78);
-}
-.cx-nightlife::after{
-  content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
-  border:1px solid rgba(201,150,58,0.20);
-}
-.cx-nightlife > *{ position:relative; z-index:1; }
-.cx-nightlife h3{
-  font-family:'Cormorant Garamond',serif; font-weight:600;
-  font-size:clamp(1.75rem, 5.5vw, 2.3rem); line-height:1.05; letter-spacing:-0.015em;
-  margin:0; color:#F7F2E8; text-wrap:balance;
-}
-.cx-nightlife-sub{ font-size:0.88rem; color:var(--cx-ink-night-dim); margin:0.55rem 0 0;
-                   line-height:1.65; max-width:52ch; }
-.cx-nightlife-rule{ height:1px; margin:1.15rem 0 1.35rem;
-  background:linear-gradient(to right, rgba(201,150,58,0.62), rgba(201,150,58,0.12) 62%, transparent); }
-.cx-nightlife .cx-venue{
-  background:linear-gradient(180deg, rgba(255,255,255,0.062), rgba(255,255,255,0.028));
-  border:1px solid rgba(201,150,58,0.24); border-radius:var(--cx-r-md); padding:1.05rem;
-}
-.cx-nightlife .cx-venue h4{
-  font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.42rem;
-  color:var(--cx-gold-text); margin:0 0 0.1rem; line-height:1.12; letter-spacing:-0.005em;
-}
-.cx-nightlife .cx-venue .cx-kicker{
-  font-family:'Raleway',sans-serif; font-size:0.68rem; letter-spacing:0.11em;
-  text-transform:uppercase; color:var(--cx-ink-night-dim); margin:0 0 0.6rem;
-}
-.cx-nightlife .cx-venue p{ color:var(--cx-ink-night); font-size:0.86rem; line-height:1.65; }
-.cx-nightlife .cx-gtk{ background:rgba(0,0,0,0.30); border-color:rgba(201,150,58,0.20); }
-.cx-nightlife .cx-gtk p{ color:var(--cx-ink-night-dim); }
-.cx-nightlife .cx-gtk-label{ color:var(--cx-gold-lift); }
-.cx-nightlife .cx-link{ background:rgba(255,255,255,0.075); color:var(--cx-gold-text);
-                        border-color:rgba(201,150,58,0.38); }
-.cx-nightlife .cx-link:hover{ background:rgba(201,150,58,0.20); border-color:var(--cx-gold-lift); color:#fff; }
-.cx-nightlife .cx-link:focus-visible{ outline-color:var(--cx-gold-lift); }
-.cx-nightlife .cx-link--nav{ background:var(--cx-gold); color:#1C1006; border-color:var(--cx-gold);
-                             box-shadow:0 1px 2px rgba(0,0,0,0.28), 0 8px 20px -12px rgba(201,150,58,0.70); }
-.cx-nightlife .cx-link--nav:hover{ background:var(--cx-gold-lift); color:#1C1006; }
-.cx-nightlife .cx-link--src{ background:transparent; color:var(--cx-gold-lift); }
-.cx-nightlife .cx-map > summary{ color:var(--cx-gold-lift); }
-.cx-note{ font-family:'Raleway',sans-serif; font-size:0.72rem; line-height:1.5;
-          color:rgba(247,242,232,0.66); margin:0.65rem 0 0; }
-.cx-tags{ display:flex; flex-wrap:wrap; margin-bottom:0.35rem; }
-.cx-tag{
-  display:inline-flex; align-items:center; font-family:'Raleway',sans-serif;
-  font-size:0.63rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase;
-  padding:0.26rem 0.6rem; border-radius:999px; margin:0 0.3rem 0.45rem 0;
-  background:rgba(201,150,58,0.16); color:var(--cx-gold-text); border:1px solid rgba(201,150,58,0.32);
-}
-
-/* Finding the door */
-.cx-secret{ border:1px solid rgba(201,150,58,0.42); background:rgba(201,150,58,0.09);
-            border-radius:var(--cx-r-md); padding:0.9rem 1rem; margin:0.85rem 0; }
-.cx-secret-label{ font-family:'Raleway',sans-serif; font-size:0.64rem; font-weight:800;
-  letter-spacing:0.13em; text-transform:uppercase; color:var(--cx-gold-lift);
-  display:flex; align-items:center; gap:0.45rem; margin:0 0 0.55rem; }
-.cx-secret-label svg{ width:0.95em; height:0.95em; stroke:currentColor; fill:none;
-                      stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-/* Tailwind preflight sets ol{list-style:none}, so counters are drawn explicitly. */
-.cx-secret ol{ margin:0; padding:0; list-style:none; counter-reset:cxstep; }
-.cx-secret li{ counter-increment:cxstep; position:relative; padding-left:1.8rem;
-  font-size:0.83rem; color:rgba(247,242,232,0.92); line-height:1.6; margin-bottom:0.55rem; }
-.cx-secret li::before{
-  content:counter(cxstep); position:absolute; left:0; top:0.06rem;
-  width:1.22rem; height:1.22rem; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Raleway',sans-serif; font-size:0.64rem; font-weight:800;
-  font-variant-numeric:tabular-nums;
-  background:var(--cx-gold); color:#160E07;
-}
-.cx-secret li:last-child{ margin-bottom:0; }
-
-@media (prefers-reduced-motion: reduce){
-  .cx-link, .cx-map > summary svg{ transition:none; }
-  .cx-link:active{ transform:none; }
-}
-@media (prefers-contrast: more){
-  .cx-nightlife .cx-venue{ border-color:rgba(201,150,58,0.55); }
-  .cx-link{ border-color:var(--cx-gold); }
-  .cx-nightlife-sub, .cx-note{ color:rgba(247,242,232,0.94); }
-}
-</style>
-<!-- ══ /CASCADE-VENUE-KIT:v2 ═════════════════════════════════════════════ -->
 <!-- CASCADE-SWIPE-CSS:v16 -->
 <style id="cascade-swipe-css">
    html, body, #app { touch-action: pan-y; }
@@ -4419,7 +4164,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div>
 <p class="text-sm font-semibold mb-1" style="color: var(--bronze);">Security</p>
-<p class="text-sm md:text-base text-gray-700">Outdoor CCTV covers the parking area 24/7 — outside only, never inside the unit. A gate pod lock is provided indoors if you'd like it. Subdivision security team on-site at all times.</p>
+<p class="text-sm md:text-base text-gray-700">24/7 CCTV monitoring. Subdivision security team on-site at all times.</p>
 </div>
 <div>
 <p class="text-sm font-semibold mb-1" style="color: var(--bronze);">Capacity</p>
@@ -4734,7 +4479,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="p-3 rounded-lg" style="background:rgba(255,255,255,0.6);border:1px solid rgba(201,150,58,0.12);">
   <p class="text-sm font-semibold mb-1.5" style="color:var(--bronze);">🔒 Security &amp; Monitoring</p>
-  <p class="text-sm text-gray-700 leading-relaxed">Rest assured — an <strong>outdoor CCTV camera covers the parking area</strong> around the clock, watching over your vehicle, and the subdivision maintains an active security team at all entry points. A <strong>pod lock for the gate</strong> is also provided indoors, with the key card and remotes, if you'd like an extra layer overnight. The camera is <strong>outside only</strong> — there is no recording of any kind inside the unit.</p>
+  <p class="text-sm text-gray-700 leading-relaxed">Rest assured — the premises are under <strong>24/7 CCTV monitoring</strong> and the subdivision maintains an active security team at all entry points.</p>
 </div>
 <div class="p-3 rounded-lg" style="background:rgba(255,235,185,0.35);border:1px solid rgba(201,150,58,0.25);">
   <p class="text-sm font-semibold mb-1.5" style="color:var(--dark-bronze);">⏰ Arriving Late?</p>
@@ -4915,37 +4660,6 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 </div>
 <!-- /CASCADE-AIR-PURIFIER-CARD:v2 -->
-<!-- CASCADE-SECURITY-CARD:v1 — outside-only CCTV + gate pod lock -->
-<div class="feature-card p-5 md:p-6 rounded-xl">
-<div class="flex items-start">
-<span class="text-2xl md:text-3xl mr-3 md:mr-4" aria-hidden="true">
-          🛡️
-         </span>
-<div class="flex-1">
-<h3 class="font-semibold text-base md:text-lg mb-2" style="color: var(--dark-bronze);">
-           Security &amp; Peace of Mind
-          </h3>
-<p class="text-sm md:text-base text-gray-700 leading-relaxed mb-4">
-           A few quiet provisions, so that you can rest — and park — without giving either a second thought.
-          </p>
-<div class="space-y-3">
-  <div class="p-3 rounded-lg" style="background:rgba(201,150,58,0.07);border:1px solid rgba(201,150,58,0.18);">
-    <p class="text-sm font-semibold mb-1.5 flex items-center gap-2" style="color:var(--bronze);"><span aria-hidden="true">📹</span> Outdoor CCTV</p>
-    <p class="text-sm text-gray-700 leading-relaxed">An exterior camera covers the parking area and the approach to the unit, so your vehicle is watched over through the night and your arrivals and departures are secure.</p>
-  </div>
-  <div class="p-3 rounded-lg" style="background:rgba(201,150,58,0.07);border:1px solid rgba(201,150,58,0.18);">
-    <p class="text-sm font-semibold mb-1.5 flex items-center gap-2" style="color:var(--bronze);"><span aria-hidden="true">🔐</span> Gate Pod Lock</p>
-    <p class="text-sm text-gray-700 leading-relaxed">Should you want a second layer between the street and your door, a pod lock for the gate is provided for you to fit. You'll find it indoors alongside the key card and the remotes — use it or leave it, entirely as you prefer.</p>
-  </div>
-  <div class="p-3 rounded-lg" style="background:rgba(255,255,255,0.6);border:1px solid rgba(201,150,58,0.12);">
-    <p class="text-sm font-semibold mb-1.5 flex items-center gap-2" style="color:var(--dark-bronze);"><span aria-hidden="true">🏠</span> Your privacy indoors is absolute</p>
-    <p class="text-sm text-gray-700 leading-relaxed"><strong>The camera is outside only.</strong> There are no cameras, microphones, or recording devices of any kind inside the unit. What happens within these walls is entirely yours.</p>
-  </div>
-</div>
-</div>
-</div>
-</div>
-<!-- /CASCADE-SECURITY-CARD:v1 -->
 <div class="feature-card p-5 md:p-6 rounded-xl">
 <div class="flex items-start">
 <span class="text-2xl md:text-3xl mr-3 md:mr-4">
@@ -5538,40 +5252,6 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <a class="text-sm hover:underline flex items-center gap-2" href="https://www.google.com/maps?q=SG+Farm+Strawberry+Guyabano+Tupi+South+Cotabato" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">📍 Navigate to SG Farm →</a>
 </div>
-<!-- CASCADE-EUPHORIA-CARD:v1 -->
-<div class="feature-card p-5 md:p-6 rounded-2xl bg-gradient-to-br from-fuchsia-50/40 to-rose-50/20" data-time-tag="morning-activity">
-<div class="flex items-start mb-3">
-<span class="text-3xl mr-3" aria-hidden="true">🌸</span>
-<div>
-<h4 class="font-bold text-lg mb-1" style="color: var(--dark-bronze);">Euphoria Flower Farm &amp; Adventure Park</h4>
-<p class="text-xs text-gray-500 mb-2">Flower Fields &amp; Rides · Tupi, South Cotabato</p>
-<div class="flex gap-2 flex-wrap">
-<span class="text-xs px-2 py-1 rounded-full bg-fuchsia-100 text-fuchsia-900 font-medium">Golden Hour</span>
-<span class="text-xs px-2 py-1 rounded-full bg-rose-100 text-rose-900">Family Friendly</span>
-</div>
-</div>
-</div>
-<div class="cx-gallery cx-gallery--2">
-  <figure class="cx-figure"><img src="img/euphoria-sunset.webp" alt="Euphoria Flower Farm sign at sunset, guests on the lawn overlooking the valley" loading="lazy" decoding="async" width="800" height="600"><figcaption>Golden hour at the ridge</figcaption></figure>
-  <figure class="cx-figure"><img src="img/euphoria-terrace.webp" alt="Covered terrace dining at Euphoria with pink blooms and mountain views" loading="lazy" decoding="async" width="800" height="600"><figcaption>Terrace over the valley</figcaption></figure>
-</div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">Flower fields and viewing decks laid along the ridge, with the whole valley falling away beneath them. Arrive in the late afternoon and stay — the hour before sunset turns the fields gold and the far ranges blue, and it is worth building the day around. Camping is available if you would rather not hand the view back at dusk.</p>
-<div class="cx-gtk">
-<p class="cx-gtk-label">Good to Know</p>
-<p>Entrance, rides and camping are each priced separately and change with the season and with promos. Check their official site for today's rates before you set off.</p>
-<p><strong>Before you go:</strong> the final access road is steep and bumpy — genuinely slippery after rain. A high-clearance vehicle is the comfortable choice.</p>
-<a class="cx-link cx-link--src" href="https://euphoriaflowerfarm.com/" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.8 2.5 15.2 0 18M12 3c-2.5 2.8-2.5 15.2 0 18"></path></svg> Rates &amp; hours — euphoriaflowerfarm.com</a>
-</div>
-<p class="text-xs text-gray-500 mb-1">🚕 Approx. 1 hr from property, in Tupi</p>
-<div class="cx-links">
-  <a class="cx-link" href="https://maps.app.goo.gl/7LyTP75j1vutz3vR9" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg> View on Maps</a>
-  <a class="cx-link cx-link--nav" href="https://www.google.com/maps/dir/?api=1&amp;destination=6.3412325,125.0272396&amp;travelmode=driving&amp;dir_action=navigate" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 21 3l-8.2 18-2.3-7.5L3 11.2Z"></path></svg> Start Navigation</a>
-</div>
-<details class="cx-map"><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg> Show map</summary>
-<iframe loading="lazy" title="Map showing Euphoria Flower Farm &amp; Adventure Park" src="https://maps.google.com/maps?q=6.3412325,125.0272396&amp;z=14&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</details>
-</div>
-<!-- /CASCADE-EUPHORIA-CARD:v1 -->
 </div>
 </div>
 <div class="luxury-divider">
@@ -5592,7 +5272,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
          </p>
 <div class="space-y-4">
 <!-- CASCADE-MALL-CARDS:v1 -->
-<div class="bg-gradient-to-br from-amber-50/60 to-orange-50/40 rounded-2xl border border-amber-600/30 overflow-hidden">
+<div class="bg-gradient-to-br from-amber-50/60 to-orange-50/40 rounded-2xl border-l-4 border-amber-600 overflow-hidden">
 <div style="width:100%;height:140px;overflow:hidden;position:relative;">
   <img src="https://raw.githubusercontent.com/cascadereservations-del/WelcomeToCascade/503f24f0877f6b62fe3c8b759702abd9e72053a9/QwRY54Li1HMwD7oNfpBJkL2YMDt4CMbUAldnPGQhAf.webp"
        alt="SM City General Santos" loading="lazy" decoding="async"
@@ -5618,12 +5298,9 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-600">🎬 Cinema</p>
 <p class="text-xs text-gray-600">💪 Anytime Fitness</p>
 </div>
-<!-- v7.9.0 FIX: this link previously resolved to "Anytime Fitness SM Gensan" (the gym inside
-     the mall), not to SM City itself, so guests tapping the mall card were sent to the wrong pin. -->
-<div class="cx-links">
-  <a class="cx-link" href="https://www.google.com/maps/search/?api=1&amp;query=SM+City+General+Santos" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg> View on Maps</a>
-  <a class="cx-link cx-link--nav" href="https://www.google.com/maps/dir/?api=1&amp;destination=6.1159462,125.1791381&amp;travelmode=driving&amp;dir_action=navigate" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 21 3l-8.2 18-2.3-7.5L3 11.2Z"></path></svg> Start Navigation</a>
-</div>
+<a class="inline-flex items-center gap-1 text-sm font-medium hover:underline" href="https://maps.app.goo.gl/RWZtnfU33k1A3Mzn7" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<span>📍</span><span>View on Google Maps</span>
+</a>
 </div>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -5691,89 +5368,12 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <!-- /CASCADE-MALL-CARDS:v1 -->
 <div class="mt-4 p-4 rounded-xl border border-bronze/15 bg-white/40">
-<!-- S&R ACTIVATION NOTE (added v7.9.0): opening expected September 2026. Leave this teaser AS IS until then.
-     When activating, promote to a full mall card and use the confirmed pin:
-     https://maps.app.goo.gl/Tm6FoyewQv4o3Dnj6  ("S&R Membership Shopping - GenSan", 6.1199805, 125.1851099)
-     NOTE: verify the "across from Gaisano Mall / National Highway Lagao" wording against that pin before publishing. -->
-<p class="text-xs text-gray-600 leading-relaxed"><span class="font-semibold" style="color: var(--bronze);">Watch this space —</span> GenSan's first <strong>S&amp;R Membership Shopping</strong> warehouse is expected to open along the National Highway in Lagao, directly across from Gaisano Mall. It will offer imported goods, health supplements, and bulk household items. Membership required. <a class="hover:underline" href="https://www.snrshopping.com/" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Opening news and membership details →</a> <a class="hover:underline" href="https://www.google.com/maps/search/?api=1&amp;query=National+Highway+Lagao+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">📍 Area map →</a></p>
+<p class="text-xs text-gray-600 leading-relaxed"><span class="font-semibold" style="color: var(--bronze);">Watch this space —</span> GenSan's first <strong>S&amp;R Membership Shopping</strong> warehouse is expected to open along the National Highway in Lagao, directly across from Gaisano Mall. It will offer imported goods, health supplements, and bulk household items. Membership required. Check with us for the latest opening updates. <a class="hover:underline" href="https://www.google.com/maps/search/?api=1&query=National+Highway+Lagao+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">📍 Area map →</a></p>
 </div>
 </div>
 </div>
 </div>
         </div>
-<div class="luxury-divider"></div>
-<!-- CASCADE-SPORT-FITNESS:v1 -->
-<div class="mb-8">
-<div class="flex items-center mb-6">
-<span class="text-4xl mr-3 floating-icon" aria-hidden="true">🏌️</span>
-<h3 class="text-xl md:text-2xl serif-heading" style="color: var(--dark-bronze);">Sport &amp; Fitness</h3>
-</div>
-<p class="text-sm text-gray-600 mb-5 leading-relaxed">Keeping your routine while you travel, or just fancy hitting something — both are within a short ride.</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-<div class="feature-card p-5 md:p-6 rounded-2xl bg-gradient-to-br from-emerald-50/40 to-green-50/20">
-<div class="flex items-start mb-3">
-<span class="text-3xl mr-3" aria-hidden="true">⛳</span>
-<div>
-<h4 class="font-bold text-lg mb-1" style="color: var(--dark-bronze);">Brigada Golf Range</h4>
-<p class="text-xs text-gray-500 mb-2">Driving Range · Diversion Road</p>
-<div class="flex gap-2 flex-wrap">
-<span class="text-xs px-2 py-1 rounded-full bg-emerald-100 text-emerald-900 font-medium">30 Bays</span>
-<span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-900">Pickleball</span>
-</div>
-</div>
-</div>
-<div class="cx-gallery cx-gallery--1">
-  <figure class="cx-figure"><img src="img/brigada-range.webp" alt="Brigada Golf Range at night, floodlit fairway and covered driving bays" loading="lazy" decoding="async" width="800" height="450"><figcaption>The range plays late under floodlights</figcaption></figure>
-</div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">Thirty covered bays looking out over a floodlit fairway, with pickleball courts and a children's playground on the same grounds. Clubs are available, so nothing needs to have travelled with you, and instructors are on hand if you would rather take a lesson than simply empty a bucket. Play it in the evening: the lights come up, the heat lifts, and the whole range turns green against the dark.</p>
-<div class="cx-gtk">
-<p class="cx-gtk-label">Good to Know</p>
-<p>Bays are booked by the hour and can be reserved online. Rates and opening hours are on their own site — worth a look before you go, since they run promos.</p>
-<a class="cx-link cx-link--src" href="https://brigadagolf.ph/" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.8 2.5 15.2 0 18M12 3c-2.5 2.8-2.5 15.2 0 18"></path></svg> Booking &amp; rates — brigadagolf.ph</a>
-</div>
-<p class="text-xs text-gray-500 mb-1">🚕 Grab · approx. 15 min from property · Diversion Road</p>
-<div class="cx-links">
-  <a class="cx-link" href="https://maps.app.goo.gl/48M9gyZVsrgYqqKN9" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg> View on Maps</a>
-  <a class="cx-link cx-link--nav" href="https://www.google.com/maps/dir/?api=1&amp;destination=6.1522797,125.1485668&amp;travelmode=driving&amp;dir_action=navigate" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 21 3l-8.2 18-2.3-7.5L3 11.2Z"></path></svg> Start Navigation</a>
-</div>
-<details class="cx-map"><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg> Show map</summary>
-<iframe loading="lazy" title="Map showing Brigada Golf Range" src="https://maps.google.com/maps?q=6.1522797,125.1485668&amp;z=16&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</details>
-</div>
-<div class="feature-card p-5 md:p-6 rounded-2xl bg-gradient-to-br from-slate-50/50 to-zinc-50/30">
-<div class="flex items-start mb-3">
-<span class="text-3xl mr-3" aria-hidden="true">💪</span>
-<div>
-<h4 class="font-bold text-lg mb-1" style="color: var(--dark-bronze);">Shaperz Fitness Club</h4>
-<p class="text-xs text-gray-500 mb-2">Gym · Santiago Boulevard</p>
-<div class="flex gap-2 flex-wrap">
-<span class="text-xs px-2 py-1 rounded-full bg-slate-200 text-slate-900 font-medium">Largest in GenSan</span>
-</div>
-</div>
-</div>
-<div class="cx-gallery cx-gallery--sq">
-  <figure class="cx-figure"><img src="img/shaperz-floor.webp" alt="Shaperz Fitness Club main floor with free weights, racks and cardio equipment" loading="lazy" decoding="async" width="600" height="600"><figcaption>The weights floor</figcaption></figure>
-  <figure class="cx-figure"><img src="img/shaperz-studio.webp" alt="Shaperz Fitness Club functional training studio" loading="lazy" decoding="async" width="600" height="600"><figcaption>Functional studio</figcaption></figure>
-</div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">The largest club in the city, and a serious one — a full floor of racks, free weights, plate-loaded machines and cardio, air-conditioned throughout, with a separate studio for functional work. The straightforward answer if you would rather your training week survived the holiday intact.</p>
-<div class="cx-gtk">
-<p class="cx-gtk-label">Good to Know</p>
-<p>Walk-in and day-pass rates aren't published online and do change. Their Facebook page carries current pricing, opening hours and class schedules.</p>
-<a class="cx-link cx-link--src" href="https://www.facebook.com/ShaperzFitnessClub/" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.8 2.5 15.2 0 18M12 3c-2.5 2.8-2.5 15.2 0 18"></path></svg> Rates &amp; hours — Shaperz on Facebook</a>
-</div>
-<p class="text-xs text-gray-500 mb-1">🚕 Grab · approx. 10 min from property · Santiago Boulevard</p>
-<div class="cx-links">
-  <a class="cx-link" href="https://maps.app.goo.gl/JEz2kzHXpSdsEXTHA" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg> View on Maps</a>
-  <a class="cx-link cx-link--nav" href="https://www.google.com/maps/dir/?api=1&amp;destination=6.1166657,125.179207&amp;travelmode=driving&amp;dir_action=navigate" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 21 3l-8.2 18-2.3-7.5L3 11.2Z"></path></svg> Start Navigation</a>
-</div>
-<details class="cx-map"><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg> Show map</summary>
-<iframe loading="lazy" title="Map showing Shaperz Fitness Club" src="https://maps.google.com/maps?q=6.1166657,125.179207&amp;z=16&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</details>
-<p class="text-xs text-gray-500 mt-3">Prefer a mall gym? There's an <strong>Anytime Fitness</strong> inside SM City General Santos, listed under Retail &amp; Dining above.</p>
-</div>
-</div>
-</div>
-<!-- /CASCADE-SPORT-FITNESS:v1 -->
 <div class="luxury-divider"></div>
 <div class="accent-box p-6 md:p-8 rounded-2xl mt-8">
 <div class="max-w-3xl mx-auto">
@@ -5814,7 +5414,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
            Evening
           </p>
 <p class="text-gray-700 text-xs leading-relaxed">
-           Dinner at Alfonso's for a special occasion, Max's at Robinsons for a classic Filipino feast, or dive into the local food scene at Tiongson Arcade. Cap the night with a craft cocktail at 7 Monkeys.
+           Dinner at Alfonso's for a special occasion, Max's at Robinsons for a classic Filipino feast, or dive into the local food scene at Tiongson Arcade. Cap the night with a rooftop drink at Café Paprika.
           </p>
 </div>
 </div>
@@ -5884,7 +5484,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         </h3>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-<div class="feature-card p-6 rounded-2xl hover:shadow-xl transition-all bg-gradient-to-br from-amber-50/40 to-orange-50/25" data-time-tag="evening-activity night-activity">
+<div class="feature-card p-6 rounded-2xl hover:shadow-xl transition-all bg-gradient-to-br from-purple-50/30 to-indigo-50/20" data-time-tag="evening-activity night-activity">
 <div class="card-photo-wrap">
 <img src="https://drive.google.com/thumbnail?id=1gvSonmj7UjsUTCx87oYnTEEEJZ8-42HW&sz=w400" alt="Interior of Oona Café" class="card-photo" loading="lazy" decoding="async" width="400" height="160" onerror="this.parentElement.style.display='none'">
 </div>
@@ -6113,7 +5713,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         </h3>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-<div class="lg:col-span-2 feature-card p-7 md:p-8 rounded-2xl bg-gradient-to-br from-amber-50/45 to-rose-50/25" data-time-tag="evening-activity">
+<div class="lg:col-span-2 feature-card p-7 md:p-8 rounded-2xl bg-gradient-to-br from-purple-50/40 to-pink-50/30" data-time-tag="evening-activity">
 <div class="card-photo-wrap" style="height:270px;">
 <img src="https://drive.google.com/thumbnail?id=1QF4Ai_CtSlriyvoYSMSTwKoRuTjbpVPA&sz=w800"
      alt="Sarangani Highlands dining General Santos" class="card-photo" loading="lazy" decoding="async"
@@ -6210,11 +5810,6 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 
 
 
-<!-- CASCADE-QUAKE-CLOSED:v7.9.0 - Cafe Paprika and Caffe Summit hidden 2026-08-17.
-     Both remain closed following the June 2026 earthquake. Markup preserved, not deleted.
-     TO RESTORE: remove the wrapper div below (and its closing tag at /CASCADE-QUAKE-CLOSED).
-     Confirm the venue has actually reopened first. -->
-<div style="display:none!important;" aria-hidden="true" data-cascade-hidden="quake-closed-2026-06">
 <div class="feature-card p-5 rounded-xl bg-gradient-to-br from-rose-50/40 to-pink-50/30" data-time-tag="evening-activity">
 <div class="card-photo-wrap">
 <img src="https://drive.google.com/thumbnail?id=1-SXvA1NNA1ve9qgjWovac3kdeBCB74To&sz=w400"
@@ -6271,59 +5866,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           📍 Navigate →
          </a>
 </div>
-</div>
-<!-- /CASCADE-QUAKE-CLOSED:v7.9.0 -->
-<!-- CASCADE-EDSAI-CARD:v1 -->
-<div class="feature-card p-5 rounded-xl bg-gradient-to-br from-emerald-50/40 to-teal-50/30">
-<div class="cx-gallery cx-gallery--1">
-  <figure class="cx-figure"><img src="img/edsai-room.webp" alt="Edsai Café interior with white arches, marble tables and gold chandeliers" loading="lazy" decoding="async" width="800" height="450"><figcaption>Arches, marble and gold</figcaption></figure>
-</div>
-<div class="flex items-start mb-3">
-<span class="text-3xl mr-3" aria-hidden="true">🍵</span>
-<div>
-<h4 class="font-bold text-base mb-1" style="color: var(--dark-bronze);">Edsai Café</h4>
-<p class="text-xs text-gray-500 mb-2">Café · Brunch &amp; Matcha</p>
-</div>
-</div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">The frontage gives nothing away; inside is all white arches, marble tabletops, olive trees and low gold light. Matcha is what they are known for, served alongside a short menu of savoury plates priced far more gently than the room would lead you to expect. One of the more graceful spaces in the city for a slow breakfast — or for losing an afternoon to a single long coffee.</p>
-<div class="cx-gtk">
-<p class="cx-gtk-label">Good to Know</p>
-<p>Menu and current prices are posted on their Facebook page, and they're on foodpanda if you'd rather stay in.</p>
-<a class="cx-link cx-link--src" href="https://www.facebook.com/EdsaiCafe/" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.8 2.5 15.2 0 18M12 3c-2.5 2.8-2.5 15.2 0 18"></path></svg> Menu &amp; hours — Edsai on Facebook</a>
-</div>
-<p class="text-xs text-gray-500 mb-1">🚕 Grab · approx. 15 min from property</p>
-<div class="cx-links">
-  <a class="cx-link" href="https://maps.app.goo.gl/EmfJKY8Qo9aXfyc37" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg> View on Maps</a>
-  <a class="cx-link cx-link--nav" href="https://www.google.com/maps/dir/?api=1&amp;destination=6.1298508,125.1913247&amp;travelmode=driving&amp;dir_action=navigate" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 21 3l-8.2 18-2.3-7.5L3 11.2Z"></path></svg> Start Navigation</a>
-</div>
-</div>
-<!-- /CASCADE-EDSAI-CARD:v1 -->
-<!-- CASCADE-MIMIS-CARD:v1 -->
-<div class="feature-card p-5 rounded-xl bg-gradient-to-br from-orange-50/40 to-red-50/25">
-<div class="cx-gallery cx-gallery--2">
-  <figure class="cx-figure"><img src="img/mimis-ceiling.webp" alt="Mimi's Diner interior with vinyl records covering the ceiling, disco ball, red booths and checkerboard floor" loading="lazy" decoding="async" width="600" height="800"><figcaption>Vinyl ceiling, disco ball</figcaption></figure>
-  <figure class="cx-figure"><img src="img/mimis-floor.webp" alt="Mimi's Diner dining room with jukebox, vintage signage and tyre tables" loading="lazy" decoding="async" width="600" height="800"><figcaption>Jukebox and tyre tables</figcaption></figure>
-</div>
-<div class="flex items-start mb-3">
-<span class="text-3xl mr-3" aria-hidden="true">🕺</span>
-<div>
-<h4 class="font-bold text-base mb-1" style="color: var(--dark-bronze);">Mimi's Diner</h4>
-<p class="text-xs text-gray-500 mb-2">1970s Retro Diner · Mabuhay Road</p>
-</div>
-</div>
-<p class="text-sm text-gray-700 mb-3 leading-relaxed">A genuine piece of theatre, and one of the newest rooms in the city — a ceiling papered entirely in vinyl, a mirror ball turning slowly over red booths and a chequerboard floor, every wall crowded with jukeboxes, enamel signs and immaculate 1970s clutter. From the team behind The Haws of Lechon ni Mang Thomas. You would go for the room alone; happily, the kitchen holds its own. Children are entranced by it.</p>
-<div class="cx-gtk">
-<p class="cx-gtk-label">Good to Know</p>
-<p>Open until 10:00 PM, Monday to Saturday. Menu and any changes to hours go up on their Instagram.</p>
-<a class="cx-link cx-link--src" href="https://www.instagram.com/mimisdiner1970/" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.8 2.5 15.2 0 18M12 3c-2.5 2.8-2.5 15.2 0 18"></path></svg> Menu &amp; hours — @mimisdiner1970</a>
-</div>
-<p class="text-xs text-gray-500 mb-1">🚕 Grab · approx. 15 min from property</p>
-<div class="cx-links">
-  <a class="cx-link" href="https://maps.app.goo.gl/m9LBDcXSL7UoKDdb6" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg> View on Maps</a>
-  <a class="cx-link cx-link--nav" href="https://www.google.com/maps/dir/?api=1&amp;destination=6.1309283,125.1606411&amp;travelmode=driving&amp;dir_action=navigate" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 21 3l-8.2 18-2.3-7.5L3 11.2Z"></path></svg> Start Navigation</a>
-</div>
-</div>
-<!-- /CASCADE-MIMIS-CARD:v1 -->
+
 </div>
 </div>
 <div class="luxury-divider">
@@ -6420,115 +5963,6 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 </div>
 </div>
-<div class="luxury-divider"></div>
-<!-- CASCADE-KTV-BAR:v3 — "After Dark". Sits between Casual Eateries and Neighborhood Gems. -->
-<div class="mb-8">
-<div class="cx-nightlife">
-
-  <h3>After Dark</h3>
-  <p class="cx-nightlife-sub">Where GenSan goes once dinner is over — an open-air row of grills, a lane full of karaoke rooms, and one very good bar that doesn't want to be found.</p>
-  <div class="cx-nightlife-rule"></div>
-
-  <div class="cx-grid">
-
-    <!-- ── Valley High ── -->
-    <div class="cx-venue">
-      <div class="cx-gallery cx-gallery--1">
-        <figure class="cx-figure"><img src="img/valleyhigh-alfresco.webp" alt="Valley High at dusk: a row of restaurants under an awning with tables set out on the lawn" loading="lazy" decoding="async" width="1200" height="800"><figcaption>Tables on the lawn at dusk</figcaption></figure>
-      </div>
-      <h4>Valley High</h4>
-      <p class="cx-kicker">Al-Fresco Restaurants</p>
-      <div class="cx-tags"><span class="cx-tag">Open Air</span><span class="cx-tag">Groups</span><span class="cx-tag">Late Dinner</span></div>
-      <p>An unhurried row of restaurants set back from the road, where the tables spill onto the lawn and the trees take the last of the heat out of the evening. Steaks, grills, patisserie and coffee stand shoulder to shoulder, so a table that can never agree on one kitchen doesn't have to. Come as the light goes.</p>
-      <div class="cx-gtk">
-        <p class="cx-gtk-label">Good to Know</p>
-        <p>Each restaurant here keeps its own hours, menu and prices. This live listing shows which are open right now.</p>
-        <a class="cx-link cx-link--src" href="https://www.google.com/maps/search/?api=1&amp;query=restaurants+at+Valley+High+General+Santos+City" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg> See what's open there now</a>
-      </div>
-      <p class="text-xs" style="color:rgba(247,242,232,0.62);margin-bottom:0.35rem;">Grab · approx. 12 min from property</p>
-      <div class="cx-links">
-        <a class="cx-link" href="https://maps.app.goo.gl/sEbZEkLCGgS1afnF9" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg> View on Maps</a>
-        <a class="cx-link cx-link--nav" href="https://www.google.com/maps/dir/?api=1&amp;destination=6.1194778,125.1799078&amp;travelmode=driving&amp;dir_action=navigate" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 21 3l-8.2 18-2.3-7.5L3 11.2Z"></path></svg> Start Navigation</a>
-      </div>
-      <details class="cx-map"><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg> Show map</summary>
-      <iframe loading="lazy" title="Map showing Valley High, General Santos City" src="https://maps.google.com/maps?q=6.1194778,125.1799078&amp;z=17&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </details>
-    </div>
-
-    <!-- ── Gensan High Street ── -->
-    <div class="cx-venue">
-      <div class="cx-gallery cx-gallery--tall">
-        <figure class="cx-figure"><img src="img/highstreet-arcade.webp" alt="Gensan High Street arcade at night under canopies of festoon lights" loading="lazy" decoding="async" width="600" height="800"><figcaption>Festoon lights over the arcade</figcaption></figure>
-      </div>
-      <h4>Gensan High Street</h4>
-      <p class="cx-kicker">Nightlife Strip · Dadiangas</p>
-      <div class="cx-tags"><span class="cx-tag">Karaoke</span><span class="cx-tag">Bars</span><span class="cx-tag">Street Food</span></div>
-      <p>A single covered lane hung with a canopy of lights, lined end to end with karaoke rooms, bars and food stalls. Nobody books ahead here. You walk its length, follow whichever doorway sounds like the better evening, and decide from there.</p>
-      <div class="cx-gtk">
-        <p class="cx-gtk-label">How it works</p>
-        <p>Rooms are charged by the hour and rates vary by size — ask at the door before you settle in. Busiest Friday and Saturday.</p>
-        <p>The strip has no single operator, so there's no one page to check. This live listing shows what's trading there tonight.</p>
-        <a class="cx-link cx-link--src" href="https://www.google.com/maps/search/?api=1&amp;query=bars+and+KTV+at+Gensan+High+Street+General+Santos+City" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg> See what's open there now</a>
-      </div>
-      <p class="text-xs" style="color:rgba(247,242,232,0.62);margin-bottom:0.35rem;">Grab · approx. 12 min from property</p>
-      <div class="cx-links">
-        <a class="cx-link" href="https://maps.app.goo.gl/N4JcifZwVcJvz4Ev9" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg> View on Maps</a>
-        <a class="cx-link cx-link--nav" href="https://www.google.com/maps/dir/?api=1&amp;destination=6.1192144,125.1725659&amp;travelmode=driving&amp;dir_action=navigate" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 21 3l-8.2 18-2.3-7.5L3 11.2Z"></path></svg> Start Navigation</a>
-      </div>
-      <details class="cx-map"><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg> Show map</summary>
-      <iframe loading="lazy" title="Map showing Gensan High Street" src="https://maps.google.com/maps?q=6.1192144,125.1725659&amp;z=17&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </details>
-      <p class="cx-note">This pin is the strip itself, not a single venue.</p>
-    </div>
-
-    <!-- ── 7 Monkeys ── -->
-    <div class="cx-venue">
-      <div class="cx-gallery cx-gallery--hero2">
-        <figure class="cx-figure"><img src="img/sevenmonkeys-bar.webp" alt="The backlit cane-fronted spirits wall behind the bar at 7 Monkeys" loading="lazy" decoding="async" width="800" height="450"><figcaption>The back bar</figcaption></figure>
-        <figure class="cx-figure"><img src="img/sevenmonkeys-sign.webp" alt="The 7 Monkeys sign, lit by a single strip light on a bare wall in the dark" loading="lazy" decoding="async" width="600" height="800"><figcaption>The only sign there is</figcaption></figure>
-        <figure class="cx-figure"><img src="img/sevenmonkeys-drink.webp" alt="A sour cocktail garnished with dehydrated orange under warm lamplight" loading="lazy" decoding="async" width="600" height="800"><figcaption>Low light, proper glassware</figcaption></figure>
-      </div>
-      <h4>7 Monkeys</h4>
-      <p class="cx-kicker">Speakeasy · Craft Cocktails</p>
-      <div class="cx-tags"><span class="cx-tag">If You Know</span><span class="cx-tag">Date Night</span><span class="cx-tag">Our Pick</span></div>
-      <p>No street frontage. No sign you will ever see from outside. Most of GenSan walks past the door without ever knowing it is there — which is precisely the point, and you are now on the other side of it.</p>
-      <p>Within: low light, a cocktail list built with real intent, and bartenders who treat the craft as craft. Intimate rather than loud — a room for a nightcap or a slow evening for two, rather than a party of ten. Our pick for the last drink of the night.</p>
-
-      <div class="cx-secret">
-        <p class="cx-secret-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.6"></circle><path d="m11.8 11.8 8 8M16.6 16.6l2.1-2.1"></path></svg> Finding the door</p>
-        <ol>
-          <li>Don't look for the bar. There's <strong>nothing on the street</strong> to find.</li>
-          <li>Go to <strong>Gusteau's Crab Hauz</strong>, inside Greenleaf Hotel on San Miguel Street.</li>
-          <li>Walk into the restaurant — the way through is a <strong>concealed passage</strong> inside it.</li>
-          <li>Still stuck? Ask any of the Gusteau's staff. They're used to it.</li>
-        </ol>
-      </div>
-
-      <div class="cx-gtk">
-        <p class="cx-gtk-label">Good to Know</p>
-        <p>Tuesday to Saturday, 7:00 PM–2:00 AM. Worth reserving for groups. Hours and the current list live on their Instagram.</p>
-        <a class="cx-link cx-link--src" href="https://www.instagram.com/thesevenmonkeys/" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.8 2.5 15.2 0 18M12 3c-2.5 2.8-2.5 15.2 0 18"></path></svg> Hours &amp; list — @thesevenmonkeys</a>
-      </div>
-      <p class="text-xs" style="color:rgba(247,242,232,0.62);margin-bottom:0.35rem;">Grab · approx. 12 min from property</p>
-      <div class="cx-links">
-        <a class="cx-link" href="https://maps.app.goo.gl/fNLM7WpeaHRKtrk5A" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg> View 7 Monkeys</a>
-        <a class="cx-link cx-link--nav" href="https://www.google.com/maps/dir/?api=1&amp;destination=Gusteau%27s+Crab+Hauz+San+Miguel+Street+General+Santos+City&amp;travelmode=driving&amp;dir_action=navigate" rel="noopener noreferrer" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 21 3l-8.2 18-2.3-7.5L3 11.2Z"></path></svg> Navigate to the door</a>
-      </div>
-      <details class="cx-map"><summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg> Show map</summary>
-      <iframe loading="lazy" title="Map showing Gusteau's Crab Hauz, the entrance to 7 Monkeys" src="https://maps.google.com/maps?q=6.1149811,125.1828522&amp;z=17&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </details>
-      <p class="cx-note">Navigation points to Gusteau's — the way in — not to the bar itself.</p>
-    </div>
-
-  </div>
-
-  <div class="cx-gtk" style="margin-top:1.25rem;margin-bottom:0;">
-    <p><span style="font-weight:700;color:var(--cx-gold-lift);">A gentle note —</span> please book a Grab for the ride home rather than driving, and do keep our quiet hours from 10:00 PM in mind once you're back. Our neighbours will thank you.</p>
-  </div>
-
-</div>
-</div>
-<!-- /CASCADE-KTV-BAR:v3 -->
 <div class="accent-box p-6 md:p-8 rounded-2xl mt-8">
 <div class="max-w-3xl mx-auto">
 <div class="text-center mb-6">
@@ -6543,7 +5977,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
          </p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<div class="bg-white/70 p-5 rounded-xl" style="border:1px solid rgba(201,150,58,0.28);">
+<div class="bg-white/70 p-5 rounded-xl border-l-4 border-green-500">
 <div class="flex items-start mb-3">
 <span class="text-3xl mr-3">
             🛒
@@ -6564,7 +5998,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
            ⏱️ Open most hours · Perfect for quick needs
           </p>
 </div>
-<div class="bg-white/70 p-5 rounded-xl" style="border:1px solid rgba(201,150,58,0.28);" data-time-tag="evening-activity">
+<div class="bg-white/70 p-5 rounded-xl border-l-4 border-orange-500" data-time-tag="evening-activity">
 <div class="flex items-start mb-3">
 <span class="text-3xl mr-3">
             🔥
@@ -6585,7 +6019,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
            ⏱️ Late afternoon onwards · Authentic Filipino flavors
           </p>
 </div>
-<div class="bg-white/70 p-5 rounded-xl" style="border:1px solid rgba(201,150,58,0.28);">
+<div class="bg-white/70 p-5 rounded-xl border-l-4 border-indigo-500">
 <div class="flex items-start mb-3">
 <span class="text-3xl mr-3">
             🏪
