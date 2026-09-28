@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<!-- Welcome Guide v7.10.2 -->
+<!-- Welcome Guide v7.10.3 -->
+<!-- v7.10.3 (2026-09-28, session 59): "Staying with us now?" priority card after the emergency guide (#info). Shown only
+     to a guest verified on this device whose stay is on today (Manila); name and number of the on-ground partner come from
+     app_settings onground_name / onground_phone (the dashboard's Settings > Guest contact) with the anon key, Honey
+     0991 853 8269 built in as the fallback. "Message the host first" opens Messenger with ref priority:<check-in>:<initial>,
+     which the concierge verifies with the same verify_booking check and turns into an urgent host card. -->
 <!-- v7.10.2 (2026-09-12): audited against the booking site (D-077). Premium Bedding now
      names the single pull-out beneath the queen - the site sells up to 3 adults and the guide
      had never mentioned a third bed. Non-Smoking Policy card became 'Smoking': the porch is
@@ -7056,6 +7061,45 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 </div>
 <!-- /CASCADE-EMERGENCY-GUIDE:v1 -->
+<!-- CASCADE-PRIORITY-CARD:v1 (session 59) -->
+<div id="ch-priority" class="p-5 md:p-6 rounded-xl mb-6" hidden style="background:#FFFDF8;border:1px solid rgba(201,150,58,0.45);box-shadow:0 4px 24px rgba(28,16,6,0.08);">
+<h3 class="serif-heading text-xl md:text-2xl" style="color:#1C1006;font-weight:600;margin:0 0 .35rem;">Staying with us now?</h3>
+<p style="color:#5b4630;font-size:.9rem;line-height:1.55;margin:0 0 1rem;">Reach us first. Your message goes to the host ahead of everything else, and our on-ground partner can come to the unit if you need someone there.</p>
+<div style="display:flex;flex-direction:column;gap:.6rem;">
+<a id="ch-priority-msg" href="https://m.me/61578158229299?ref=priority" target="_blank" rel="noopener" class="btn-primary px-5 py-3 rounded-lg text-sm font-medium inline-flex items-center justify-center" style="gap:.5rem;"><i class="fas fa-comment" aria-hidden="true"></i> Message the host first</a>
+<a id="ch-priority-call" href="tel:+639918538269" class="px-5 py-3 rounded-lg text-sm font-medium inline-flex items-center justify-center" style="gap:.5rem;border:1px solid rgba(201,150,58,0.6);color:#1C1006;"><i class="fas fa-phone" aria-hidden="true"></i> <span>Call Honey, 0991 853 8269</span></a>
+</div>
+</div>
+<script>
+(function () {
+  // Session 59: shown only while a verified stay is on today; the contact follows the dashboard (app_settings).
+  function get(k) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+  var card = document.getElementById('ch-priority'), info = document.getElementById('info'); if (!card) return;
+  var fetched = false;
+  function show() {
+    var ci = get('ch_v2_checkinDate'), co = get('ch_v2_checkoutDate'), name = get('ch_v2_guestName') || '';
+    var today = new Date(Date.now() + 8 * 3600000).toISOString().slice(0, 10);
+    var on = !!get('ch_v2_isAdmin') || !!(get('ch_v2_verified') && ci && co && String(ci).slice(0, 10) <= today && today <= String(co).slice(0, 10));
+    card.hidden = !on; if (!on) return;
+    var initial = (String(name).match(/\p{L}/u) || [''])[0];
+    if (ci && initial) document.getElementById('ch-priority-msg').href = 'https://m.me/61578158229299?ref=' + encodeURIComponent('priority:' + String(ci).slice(0, 10) + ':' + initial.toUpperCase());
+    if (!fetched) { fetched = true; contact(); }
+  }
+  // The guest may verify after this runs: check again whenever the Info tab is opened.
+  if (info && window.MutationObserver) new MutationObserver(show).observe(info, { attributes: true, attributeFilter: ['class'] });
+  show();
+  function contact() { fetch('https://qkgfhsdppslwunarczeq.supabase.co/rest/v1/app_settings?select=key,value&key=in.(onground_name,onground_phone)', { headers: { apikey: 'sb_publishable_JFuRYZ9csmQULcMRmHXDSg_Abo9UeCj' } })
+    .then(function (r) { return r.ok ? r.json() : []; })
+    .then(function (rows) {
+      var m = {}; (rows || []).forEach(function (r) { if (typeof r.value === 'string' && r.value.trim()) m[r.key] = r.value.trim(); });
+      var who = m.onground_name || 'Honey', phone = m.onground_phone || '0991 853 8269';
+      var digits = phone.replace(/[^0-9]/g, '').replace(/^0/, '63');
+      var call = document.getElementById('ch-priority-call');
+      call.href = 'tel:+' + digits; call.querySelector('span').textContent = 'Call ' + who + ', ' + phone;
+    }).catch(function () {}); }
+})();
+</script>
+<!-- /CASCADE-PRIORITY-CARD:v1 -->
 <div class="emergency-card p-5 md:p-6 rounded-xl protected">
 <h3 class="text-xl md:text-2xl font-semibold mb-4 text-red-800 flex items-center">
 <span class="text-xl md:text-2xl mr-2">
@@ -7402,7 +7446,7 @@ Connect with Us
 <!-- K13: rendered, not just an HTML comment — this is how "what version is live?"
      stops being a research task. Update BOTH this and the comment on line 2. -->
 <p class="text-xs" style="opacity:.72;font-variant-numeric:tabular-nums;letter-spacing:.06em;">
-    Guest Guide <span id="ch-version">v7.10.2</span>
+    Guest Guide <span id="ch-version">v7.10.3</span>
    </p>
 <p class="text-xs">
     This document is confidential and proprietary. For authorized guest use only.
