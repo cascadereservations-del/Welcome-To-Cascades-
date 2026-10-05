@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- Welcome Guide v7.10.6 -->
+<!-- Welcome Guide v7.10.7 -->
+<!-- v7.10.7 (2026-10-05, SPEC-41 / D-296.3): check-out step "leave the key card with the remotes on the wooden tray" in the Departure checklist and Securing the Property; on-ground and police numbers shown as +63 9XX XXX XXXX with tel:+63 links. -->
 <!-- v7.10.6 (2026-10-01): the remotes and key card are on the wooden tray on the TV cabinet, below the TV, beside the vase (was "kept with the key card"). -->
 <!-- v7.10.5 (2026-09-29, D-282): the EcoFlow card says it is already set up (was "ask your host" / "return fully charged"); the mid-stay clean starts at 5 nights (was one week), as the booking site says. -->
 <!-- v7.10.4 (2026-09-29, D-282): the door code is shared at least a day before arrival (was "the morning of check-in"); the
@@ -7,7 +8,7 @@
 <!-- v7.10.3 (2026-09-28, session 59): "Staying with us now?" priority card after the emergency guide (#info). Shown only
      to a guest verified on this device whose stay is on today (Manila); name and number of the on-ground partner come from
      app_settings onground_name / onground_phone (the dashboard's Settings > Guest contact) with the anon key, Honey
-     0991 853 8269 built in as the fallback. "Message the host first" opens Messenger with ref priority:<check-in>:<initial>,
+     +63 991 853 8269 built in as the fallback. "Message the host first" opens Messenger with ref priority:<check-in>:<initial>,
      which the concierge verifies with the same verify_booking check and turns into an urgent host card. -->
 <!-- v7.10.2 (2026-09-12): audited against the booking site (D-077). Premium Bedding now
      names the single pull-out beneath the queen - the site sells up to 3 adults and the guide
@@ -4064,7 +4065,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
        <br/>
        911
       </a>
-<a class="emergency-link" href="tel:09985987207">
+<a class="emergency-link" href="tel:+639985987207">
 <span>
         🚓
        </span>
@@ -4623,7 +4624,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
             Securing the Property
            </h4>
 <p class="text-sm md:text-base text-gray-700">
-            Upon departure, simply close the door firmly. The smart lock will engage automatically and confirm secure closure.
+            Upon departure, leave the key card with the remotes on the wooden tray, then close the door firmly. The smart lock will engage automatically and confirm secure closure.
            </p>
 </div>
 <div class="bg-white/50 p-4 rounded-lg">
@@ -7071,7 +7072,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p style="color:#5b4630;font-size:.9rem;line-height:1.55;margin:0 0 1rem;">Reach us first. Your message goes to the host ahead of everything else, and our on-ground partner can come to the unit if you need someone there.</p>
 <div style="display:flex;flex-direction:column;gap:.6rem;">
 <a id="ch-priority-msg" href="https://m.me/61578158229299?ref=priority" target="_blank" rel="noopener" class="btn-primary px-5 py-3 rounded-lg text-sm font-medium inline-flex items-center justify-center" style="gap:.5rem;"><i class="fas fa-comment" aria-hidden="true"></i> Message the host first</a>
-<a id="ch-priority-call" href="tel:+639918538269" class="px-5 py-3 rounded-lg text-sm font-medium inline-flex items-center justify-center" style="gap:.5rem;border:1px solid rgba(201,150,58,0.6);color:#1C1006;"><i class="fas fa-phone" aria-hidden="true"></i> <span>Call Honey, 0991 853 8269</span></a>
+<a id="ch-priority-call" href="tel:+639918538269" class="px-5 py-3 rounded-lg text-sm font-medium inline-flex items-center justify-center" style="gap:.5rem;border:1px solid rgba(201,150,58,0.6);color:#1C1006;"><i class="fas fa-phone" aria-hidden="true"></i> <span>Call Honey, +63 991 853 8269</span></a>
 </div>
 </div>
 <script>
@@ -7096,8 +7097,9 @@ input,textarea,select{ caret-color:var(--cx-gold); }
     .then(function (r) { return r.ok ? r.json() : []; })
     .then(function (rows) {
       var m = {}; (rows || []).forEach(function (r) { if (typeof r.value === 'string' && r.value.trim()) m[r.key] = r.value.trim(); });
-      var who = m.onground_name || 'Honey', phone = m.onground_phone || '0991 853 8269';
+      var who = m.onground_name || 'Honey', phone = m.onground_phone || '+63 991 853 8269';
       var digits = phone.replace(/[^0-9]/g, '').replace(/^0/, '63');
+      if (/^639\d{9}$/.test(digits)) phone = '+63 ' + digits.slice(2, 5) + ' ' + digits.slice(5, 8) + ' ' + digits.slice(8);
       var call = document.getElementById('ch-priority-call');
       call.href = 'tel:+' + digits; call.querySelector('span').textContent = 'Call ' + who + ', ' + phone;
     }).catch(function () {}); }
@@ -7127,8 +7129,8 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-600 mb-1">
           Police Emergency
          </p>
-<a class="text-lg md:text-xl font-semibold text-red-700 hover:underline block mb-2 copyable" href="tel:09985987207">
-          0998-598-7207
+<a class="text-lg md:text-xl font-semibold text-red-700 hover:underline block mb-2 copyable" href="tel:+639985987207">
+          +63 998 598 7207
          </a>
 <p class="text-xs text-gray-600 italic">
           GenSan Police Hotline
@@ -7271,7 +7273,7 @@ Connect with Us
 </div>
 </div>
 <p class="progress-text" id="checklistProgressText">
-          0 of 4 completed
+          0 of 5 completed
          </p>
 </div>
 <div class="checklist-items" id="checklistItems">
@@ -7308,6 +7310,15 @@ Connect with Us
 </label>
 <label class="checklist-item" for="check-4">
 <input data-index="3" id="check-4" type="checkbox"/>
+<span class="checkmark">
+           ✓
+          </span>
+<span class="label-text">
+           Leave the key card with the remotes on the wooden tray
+          </span>
+</label>
+<label class="checklist-item" for="check-5">
+<input data-index="4" id="check-5" type="checkbox"/>
 <span class="checkmark">
            ✓
           </span>
@@ -7450,7 +7461,7 @@ Connect with Us
 <!-- K13: rendered, not just an HTML comment — this is how "what version is live?"
      stops being a research task. Update BOTH this and the comment on line 2. -->
 <p class="text-xs" style="opacity:.72;font-variant-numeric:tabular-nums;letter-spacing:.06em;">
-    Guest Guide <span id="ch-version">v7.10.6</span>
+    Guest Guide <span id="ch-version">v7.10.7</span>
    </p>
 <p class="text-xs">
     This document is confidential and proprietary. For authorized guest use only.
