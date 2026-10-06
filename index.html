@@ -211,6 +211,7 @@ if ('serviceWorker' in navigator) {
     --charcoal: #3D2B1F;     /* Brand v2.1 body text — warm chocolate-brown, WCAG AA on linen (was #1a1a1a) */
     --warm-white: #FFFFFF;
     --accent-gold: #D7B377;   /* A brighter, more elegant gold for highlights */
+    --accent-text: #6E4F22; --bronze-display: #A47A45; --fg-2: #5C4D3F; /* D-312.6: AA text tokens (7.5:1 / 3.9:1 / 8:1 on cream) */
 }
 
         
@@ -380,7 +381,7 @@ if ('serviceWorker' in navigator) {
         }
         
         .nav-active {
-            background: linear-gradient(135deg, var(--bronze) 0%, var(--dark-bronze) 100%);
+            background: linear-gradient(135deg, #7A5A2B 0%, var(--dark-bronze) 100%);
             color: var(--warm-white);
             box-shadow: 0 4px 12px rgba(166, 124, 82, 0.3);
         }
@@ -480,7 +481,7 @@ if ('serviceWorker' in navigator) {
         }
         
         .step-number {
-            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--bronze) 100%);
+            background: linear-gradient(135deg, #8F6B30 0%, #7A5A2B 100%);
             color: white;
             box-shadow: 0 4px 12px rgba(166, 124, 82, 0.3);
         }
@@ -536,7 +537,7 @@ if ('serviceWorker' in navigator) {
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--bronze) 0%, var(--dark-bronze) 100%);
+            background: linear-gradient(135deg, #7A5A2B 0%, var(--dark-bronze) 100%);
             color: white;
             box-shadow: 0 4px 12px rgba(166, 124, 82, 0.3);
             transition: all 0.2s ease;
@@ -637,7 +638,7 @@ if ('serviceWorker' in navigator) {
         }
         
         .modal-btn-primary {
-            background: linear-gradient(135deg, var(--bronze) 0%, var(--dark-bronze) 100%);
+            background: linear-gradient(135deg, #7A5A2B 0%, var(--dark-bronze) 100%);
             color: white;
             box-shadow: 0 4px 12px rgba(166, 124, 82, 0.3);
         }
@@ -788,7 +789,7 @@ if ('serviceWorker' in navigator) {
                 top: 0;
                 left: 0;
                 right: 0;
-                background: var(--bronze);
+                background: #7A5A2B;
                 color: white;
                 text-align: center;
                 padding: 2rem;
@@ -815,7 +816,7 @@ if ('serviceWorker' in navigator) {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--bronze);
+            color: var(--accent-text);
             font-weight: 600;
             font-size: 0.875rem;
             padding: 0.5rem 1rem;
@@ -852,7 +853,7 @@ if ('serviceWorker' in navigator) {
         }
 
         #localClockWrapper {
-            color: var(--bronze);
+            color: var(--accent-text);
             font-weight: 500;
             font-size: 0.8rem;
             letter-spacing: 0.025em;
@@ -900,7 +901,7 @@ if ('serviceWorker' in navigator) {
         .progress-text {
             font-size: 0.8rem;
             font-weight: 500;
-            color: var(--bronze);
+            color: var(--accent-text);
         }
         .checklist-items {
             display: grid;
@@ -954,7 +955,7 @@ if ('serviceWorker' in navigator) {
             line-height: 1.4;
         }
         .checklist-item input:checked + .checkmark {
-            background: var(--bronze);
+            background: #7A5A2B;
             border-color: var(--bronze);
             color: white;
             transform: scale(1.05);
@@ -979,12 +980,12 @@ if ('serviceWorker' in navigator) {
         }
         .checklist-complete .text-sm {
             font-size: 0.875rem;
-            color: var(--bronze);
+            color: var(--accent-text);
             margin-top: 0.25rem;
         }
         .reset-checklist {
             font-size: 0.75rem;
-            color: var(--bronze);
+            color: var(--accent-text);
             background: none;
             border: none;
             text-decoration: underline;
@@ -1009,7 +1010,7 @@ if ('serviceWorker' in navigator) {
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--bronze) 0%, var(--dark-bronze) 100%);
+            background: linear-gradient(135deg, #7A5A2B 0%, var(--dark-bronze) 100%);
             box-shadow: 0 6px 20px rgba(74, 63, 53, 0.4);
             display: flex;
             align-items: center;
@@ -1250,7 +1251,7 @@ if ('serviceWorker' in navigator) {
             line-height: 1.4;
         }
         .install-button {
-            background: var(--bronze);
+            background: #7A5A2B;
             color: white;
             border: none;
             border-radius: 0.5rem;
@@ -1372,7 +1373,7 @@ if ('serviceWorker' in navigator) {
         #ch-initial-input::placeholder { color:rgba(166,124,82,0.22); letter-spacing:0; font-size:1.5rem; }
         .ch-pill-hint {
             font-family:'Cormorant Garamond',serif; font-size:0.9rem; font-style:italic;
-            color:var(--bronze); text-align:center; opacity:0.8; line-height:1.4; margin-top:0.4rem;
+            color:var(--accent-text); text-align:center; opacity:1; line-height:1.4; margin-top:0.4rem;
         }
         .ch-continue-btn {
             display:flex; align-items:center; justify-content:center; gap:0.45rem;
@@ -1386,9 +1387,9 @@ if ('serviceWorker' in navigator) {
         .ch-continue-btn:hover { box-shadow:0 6px 24px rgba(201,150,58,0.5); opacity:0.93; }
         .ch-continue-btn:active { opacity:0.88; transform:scale(0.98); }
         .ch-field-label {
-            display:block; font-family:'Raleway',sans-serif; font-size:0.68rem;
+            display:block; font-family:'Raleway',sans-serif; font-size:0.75rem;
             font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
-            color:var(--bronze); margin-bottom:0.5rem; opacity:0.85; text-align:center;
+            color:var(--accent-text); margin-bottom:0.5rem; opacity:0.85; text-align:center;
         }
         .ch-field-group { margin-bottom:0; }
         .ch-date-wrapper, .ch-initial-wrapper {
@@ -1401,7 +1402,7 @@ if ('serviceWorker' in navigator) {
         }
         .ch-field-hint {
             font-family:'Cormorant Garamond',serif; font-size:0.88rem; font-style:italic;
-            color:var(--bronze); margin-top:0.35rem; text-align:center; opacity:0.85; line-height:1.4;
+            color:var(--accent-text); margin-top:0.35rem; text-align:center; opacity:0.85; line-height:1.4;
         }
         #ch-step-fail1 .ch-hint-card {
             background:linear-gradient(135deg,rgba(201,150,58,0.07),rgba(201,150,58,0.03));
@@ -1486,7 +1487,7 @@ if ('serviceWorker' in navigator) {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.45rem;
             font-weight: 300;
-            color: var(--bronze);
+            color: var(--accent-text);
             line-height: 0.9;
             white-space: nowrap;
             letter-spacing: -0.015em;
@@ -1504,7 +1505,7 @@ if ('serviceWorker' in navigator) {
         /* Warning strip */
         #wxWarnStrip {
             display: none;
-            font-family: 'Raleway', sans-serif; font-size: 0.6rem; font-weight: 700;
+            font-family: 'Raleway', sans-serif; font-size: 0.75rem; font-weight: 700;
             letter-spacing: 0.06em; text-transform: uppercase;
             padding: 0.2rem 0.7rem; border-radius: 999px;
             text-align: center; align-self: center;
@@ -1515,11 +1516,11 @@ if ('serviceWorker' in navigator) {
             50%       { filter: drop-shadow(0 7px 18px rgba(166,124,82,0.20)); transform: scale(1.04); }
         }
         .wx-info-item {
-            font-family: 'Raleway', sans-serif; font-size: 0.68rem; font-weight: 600;
-            color: var(--bronze); white-space: nowrap;
+            font-family: 'Raleway', sans-serif; font-size: 0.75rem; font-weight: 600;
+            color: var(--accent-text); white-space: nowrap;
         }
         .wx-info-item.wx-rain { color: #2563eb; }
-        .wx-info-item.wx-aqi  { color: var(--bronze); }
+        .wx-info-item.wx-aqi  { color: var(--accent-text); }
         .wx-info-sep { font-size: 0.5rem; color: rgba(166,124,82,0.35); line-height: 1; }
         @media (min-width: 768px) {
             .weather-widget { max-width: 300px; margin-left: auto; margin-right: auto; }
@@ -1609,7 +1610,7 @@ if ('serviceWorker' in navigator) {
         /* --- Injected: Styles for new "Copy" button --- */
         .copy-button { display: inline-flex; align-items: center; justify-content: center; padding: 0.3rem 0.5rem; margin-left: 0.5rem; font-size: 0.8rem; border: 1px solid var(--soft-taupe); background: rgba(255,255,255,0.6); color: var(--dark-bronze); border-radius: 0.375rem; cursor: pointer; transition: all 0.2s ease; vertical-align: middle; min-width: 40px; min-height: 36px; }
         .copy-button:hover { background: rgba(166, 124, 82, 0.1); border-color: var(--bronze); }
-        .copy-button.copied { background: var(--bronze); color: white; border-color: var(--bronze); }
+        .copy-button.copied { background: #7A5A2B; color: white; border-color: #7A5A2B; }
         .wifi-ios-copy-btn:hover { background: rgba(201,150,58,0.22) !important; transform: scale(1.04); }
         .wifi-ios-copy-btn:active { transform: scale(0.97); }
         
@@ -1617,7 +1618,7 @@ if ('serviceWorker' in navigator) {
         #guestName { 
             font-weight: 600 !important; /* Keep it slightly bolder */
             font-size: 1.1em; 
-            background: linear-gradient(135deg, var(--bronze) 20%, var(--dark-bronze) 80%);
+            background: linear-gradient(135deg, var(--bronze-display) 20%, var(--dark-bronze) 80%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -1629,7 +1630,7 @@ if ('serviceWorker' in navigator) {
         }
 
         /* --- Injected v11: Dynamic Greeting Styling --- */
-        #dynamic-sub-greeting-container { color: var(--bronze); min-height: 2em; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.8s 0.2s ease-out both; gap: 0.5rem; margin-bottom: 0.5rem; }
+        #dynamic-sub-greeting-container { color: var(--accent-text); min-height: 2em; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.8s 0.2s ease-out both; gap: 0.5rem; margin-bottom: 0.5rem; }
         #dynamic-greeting-icon { font-size: 1rem; line-height: 1; opacity: 0.8; } /* Smaller, simpler icon */
         #dynamic-sub-greeting { font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 0.9rem + 0.5vw, 1.15rem); font-style: italic; }
         
@@ -1782,7 +1783,7 @@ if ('serviceWorker' in navigator) {
         }
         #delivery .dc-address-box:hover { background: rgba(255,255,255,0.11); }
         #delivery .dc-address-label {
-            font-size: 0.625rem;
+            font-size: 0.75rem;
             color: #9a928c;
             font-weight: 600;
             letter-spacing: 0.18em;
@@ -1834,7 +1835,7 @@ if ('serviceWorker' in navigator) {
             background: transparent;
         }
         #delivery .dc-mode-btn.active {
-            background: linear-gradient(135deg, var(--bronze) 0%, var(--dark-bronze) 100%);
+            background: linear-gradient(135deg, #7A5A2B 0%, var(--dark-bronze) 100%);
             color: #fff;
             box-shadow: 0 2px 8px rgba(166,124,82,0.28);
         }
@@ -1843,7 +1844,7 @@ if ('serviceWorker' in navigator) {
         #delivery .dc-filter-pill {
             padding: 0.5rem 1rem;
             border-radius: 0.75rem;
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             font-weight: 600;
             letter-spacing: 0.04em;
             white-space: nowrap;
@@ -1856,7 +1857,7 @@ if ('serviceWorker' in navigator) {
         }
         #delivery .dc-filter-pill:hover { background: #f8f8f7; }
         #delivery .dc-filter-pill.active {
-            background: linear-gradient(135deg, var(--bronze) 0%, var(--dark-bronze) 100%);
+            background: linear-gradient(135deg, #7A5A2B 0%, var(--dark-bronze) 100%);
             color: #fff;
             border-color: transparent;
             box-shadow: 0 2px 8px rgba(166,124,82,0.25);
@@ -1901,7 +1902,7 @@ if ('serviceWorker' in navigator) {
             left: 0.75rem;
             top: 50%;
             transform: translateY(-50%);
-            color: #94a3b8;
+            color: var(--fg-2);
             font-size: 0.75rem;
             pointer-events: none;
         }
@@ -1944,7 +1945,7 @@ if ('serviceWorker' in navigator) {
             position: absolute;
             top: 0.625rem;
             left: 0.625rem;
-            font-size: 0.6rem;
+            font-size: 0.75rem;
             font-weight: 700;
             padding: 0.25rem 0.625rem;
             border-radius: 0.375rem;
@@ -1969,7 +1970,7 @@ if ('serviceWorker' in navigator) {
             align-items: flex-end;
         }
         #delivery .dc-tag {
-            font-size: 0.55rem;
+            font-size: 0.75rem;
             font-weight: 700;
             padding: 0.2rem 0.5rem;
             border-radius: 0.25rem;
@@ -1992,17 +1993,17 @@ if ('serviceWorker' in navigator) {
             margin-bottom: 0.2rem;
         }
         #delivery .dc-card-cats {
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: #94a3b8;
+            color: var(--fg-2);
             margin-bottom: 0.875rem;
         }
         #delivery .dc-rating-badge {
             background: #f8f7f5;
             border: 1px solid #ede8e0;
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             font-weight: 700;
             padding: 0.2rem 0.4rem;
             border-radius: 0.35rem;
@@ -2016,8 +2017,8 @@ if ('serviceWorker' in navigator) {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.72rem;
-            color: #94a3b8;
+            font-size: 0.75rem;
+            color: var(--fg-2);
             background: #f9f8f6;
             border: 1px solid #ede8e0;
             border-radius: 0.5rem;
@@ -2056,7 +2057,7 @@ if ('serviceWorker' in navigator) {
         #delivery .dc-order-btn.panda-btn:hover { background: #c00d59; }
         #delivery .dc-order-btn.closed-btn {
             background: #E2E8F0;
-            color: #94a3b8;
+            color: var(--fg-2);
             cursor: not-allowed;
             box-shadow: none;
         }
@@ -2078,7 +2079,7 @@ if ('serviceWorker' in navigator) {
             color: var(--dark-bronze);
             margin-bottom: 0.5rem;
         }
-        #delivery .dc-empty-desc { font-size: 0.8125rem; color: #94a3b8; max-width: 20rem; line-height: 1.6; }
+        #delivery .dc-empty-desc { font-size: 0.8125rem; color: var(--fg-2); max-width: 20rem; line-height: 1.6; }
 
         /* Toast */
         #cc-delivery-toast {
@@ -2173,8 +2174,8 @@ if ('serviceWorker' in navigator) {
         @keyframes dc-load-progress { from { width: 0%; } to { width: 100%; } }
         #cc-delivery-modal .dc-progress-fill.running { animation: dc-load-progress 1.5s cubic-bezier(0.4,0,0.2,1) forwards; }
         #cc-delivery-modal .dc-modal-sub {
-            font-size: 0.6rem;
-            color: #94a3b8;
+            font-size: 0.75rem;
+            color: var(--fg-2);
             text-transform: uppercase;
             letter-spacing: 0.2em;
             font-weight: 600;
@@ -2578,7 +2579,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   /* --- V23 Plumbing Note Styling (font size increased) --- */
   #info .feature-card.info-note-greyscale h3 {
       font-size: 1.15rem !important; /* "a little bigger" than 1.125rem */
-      color: var(--bronze);
+      color: var(--accent-text);
       text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5); /* "subtle highlight" */
   }
   </style>
@@ -2614,7 +2615,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 .wifi-cred-row.copied { border-color: rgba(34,197,94,0.5); background: rgba(34,197,94,0.06); }
 .wifi-cred-label {
   font-family: 'Raleway', sans-serif;
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -2633,10 +2634,10 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 }
 .wifi-cred-hint {
   font-family: 'Raleway', sans-serif;
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   letter-spacing: 0.08em;
-  color: var(--bronze);
-  opacity: 0.75;
+  color: var(--accent-text);
+  opacity: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2689,7 +2690,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   display: block !important;
   width: 100% !important;
   letter-spacing: 0.01em;
-  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--bronze) 50%, var(--dark-bronze) 100%);
+  background: linear-gradient(135deg, var(--bronze-display) 0%, var(--accent-text) 50%, var(--dark-bronze) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -2735,7 +2736,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   color: #fff; box-shadow: 0 4px 14px rgba(13,33,71,0.4), inset 0 1px 0 rgba(255,255,255,0.12);
 }
 .nav-map-btn img { width: 32px; height: 32px; object-fit: contain; border-radius: 6px; flex-shrink: 0; }
-.nav-map-btn span { font-size: 0.72rem; text-align: center; line-height: 1.2; }
+.nav-map-btn span { font-size: 0.75rem; text-align: center; line-height: 1.2; }
 /* Address tap-to-copy card */
 .addr-tap-card {
   width: 100%; display: block; background: linear-gradient(135deg,rgba(201,150,58,0.09) 0%,rgba(247,242,232,0.65) 100%);
@@ -2752,14 +2753,14 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 /* Language filter badges */
 .lang-badge {
   cursor: pointer; transition: all 200ms ease; -webkit-tap-highlight-color: transparent;
-  font-family: "Raleway", sans-serif; font-size: 0.65rem; font-weight: 700;
+  font-family: "Raleway", sans-serif; font-size: 0.75rem; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.85rem;
   border-radius: 2rem; display: inline-flex; align-items: center; gap: 0.3rem;
   min-height: 44px;
 }
 .lang-badge:active { transform: scale(0.95); }
-.lang-badge-all { background:rgba(201,150,58,0.1); color:var(--bronze); border:1px solid rgba(201,150,58,0.22); }
-.lang-badge-all.active, .lang-badge-all:hover { background:var(--bronze); color:#fff; border-color:var(--bronze); }
+.lang-badge-all { background:rgba(201,150,58,0.1); color:var(--accent-text); border:1px solid rgba(201,150,58,0.22); }
+.lang-badge-all.active, .lang-badge-all:hover { background:#7A5A2B; color:#fff; border-color:#7A5A2B; }
 .lang-badge-bisaya { background:rgba(28,16,6,0.06); color:var(--charcoal); border:1px solid rgba(74,63,53,0.18); }
 .lang-badge-bisaya.active, .lang-badge-bisaya:hover { background:var(--dark-bronze); color:#fff; border-color:var(--dark-bronze); }
 /* Collapsed tab title — hidden (title stays clean) */
@@ -2834,16 +2835,16 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   align-items: center;
   gap: 0.5rem;
   font-family: 'Raleway', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--bronze);
+  color: var(--accent-text);
 }
 .tab-map-intro-label span { font-size: 1rem; }
 .tab-map-intro-sub {
   font-family: 'Raleway', sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   color: rgba(74,63,53,0.5);
   margin-top: 0.25rem;
   letter-spacing: 0.04em;
@@ -2878,7 +2879,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 }
 .tab-map-nav-btn-maps:hover { background: rgba(201,150,58,0.18); }
 .tab-map-nav-btn-waze {
-  background: linear-gradient(135deg, var(--bronze) 0%, var(--dark-bronze) 100%);
+  background: linear-gradient(135deg, #7A5A2B 0%, var(--dark-bronze) 100%);
   color: #fff;
   box-shadow: 0 2px 8px rgba(166,124,82,0.28);
 }
@@ -2984,11 +2985,11 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   border: 1px solid rgba(192,160,98,0.25);
   border-radius: 99px;
   padding: 3px 10px;
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
   letter-spacing: 0.08em;
-  color: var(--bronze);
+  color: var(--accent-text);
   text-transform: uppercase;
   backdrop-filter: blur(4px);
 }
@@ -3037,12 +3038,12 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 }
 #welcome-swipe-nudge .nudge-label {
   font-family: 'Raleway', sans-serif;
-  font-size: 0.52rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--bronze);
-  opacity: 0.6;
+  color: var(--accent-text);
+  opacity: 1;
   writing-mode: vertical-rl;
   text-orientation: mixed;
 }
@@ -3067,9 +3068,9 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 }
 #welcome-inline-swipe .wis-label {
   font-family: 'Raleway', sans-serif;
-  font-size: 0.62rem; font-weight: 700;
+  font-size: 0.75rem; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--bronze); opacity: 0.82;
+  color: var(--accent-text); opacity:1;
 }
 #welcome-inline-swipe .wis-chevron {
   font-size: 1.15rem; line-height: 1;
@@ -3117,7 +3118,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   .amenity-card-trigger::after {
     content: '›';
     position: absolute; right: 1.25rem; top: 50%; transform: translateY(-50%);
-    font-size: 1.25rem; color: var(--bronze); opacity: 0.7;
+    font-size: 1.25rem; color: var(--accent-text); opacity:1;
     transition: opacity 150ms ease;
   }
   .amenity-card-trigger:hover::after { opacity: 1; }
@@ -3289,7 +3290,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
     font-size: 0.875rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: var(--bronze);
+    color: var(--accent-text);
     font-weight: 700;
     margin-bottom: 0.75rem;
     display: flex;
@@ -3574,8 +3575,8 @@ input,textarea,select{ caret-color:var(--cx-gold); }
     <!-- Stay Connected -->
     <div style="display:flex; align-items:center; justify-content:center; gap:0.75rem; margin:0 0 1.25rem;">
       <span style="width:38px; height:1px; background:linear-gradient(to right,transparent,rgba(201,150,58,0.6));"></span>
-      <span style="font-family:'Raleway',sans-serif; font-size:0.65rem; font-weight:700;
-                   letter-spacing:0.16em; text-transform:uppercase; color:#C9963A;">Stay Connected</span>
+      <span style="font-family:'Raleway',sans-serif; font-size:0.75rem; font-weight:700;
+                   letter-spacing:0.16em; text-transform:uppercase; color:var(--accent-text);">Stay Connected</span>
       <span style="width:38px; height:1px; background:linear-gradient(to left,transparent,rgba(201,150,58,0.6));"></span>
     </div>
 
@@ -3607,7 +3608,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
     </div>
 
     <!-- Location -->
-    <div style="text-align:center; font-family:'Raleway',sans-serif; font-size:0.8rem; color:#9a8a78; line-height:1.7;">
+    <div style="text-align:center; font-family:'Raleway',sans-serif; font-size:0.8rem; color:#74665A; line-height:1.7;">
       <span style="display:inline-flex; align-items:center; gap:0.35rem;">
         <i class="fas fa-map-marker-alt" style="font-size:0.82rem; color:#C9963A; flex-shrink:0;"></i>
         <span>Cascade Hideaway</span>
@@ -3692,7 +3693,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           <i class="fas fa-calendar-alt" style="font-size:1rem; color:var(--bronze); opacity:0.7; flex-shrink:0;"></i>
           <input id="ch-checkin-date" type="date" aria-label="Your check-in date"/>
         </div>
-        <div id="ch-date-verifying" style="display:none;text-align:center;padding:0.5rem 0;font-family:'Raleway',sans-serif;font-size:0.75rem;color:var(--bronze);animation:ch-fade-up 0.3s ease-out;">
+        <div id="ch-date-verifying" style="display:none;text-align:center;padding:0.5rem 0;font-family:'Raleway',sans-serif;font-size:0.75rem;color:var(--accent-text);animation:ch-fade-up 0.3s ease-out;">
           <span style="display:inline-block;animation:ch-spin 0.8s linear infinite;">⏳</span> Checking your reservation…
         </div>
       </div>
@@ -3733,7 +3734,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         </form>
         <button type="button" id="ch-back-to-date"
                 style="display:block;margin:0.6rem auto 0;background:none;border:none;
-                       cursor:pointer;font-size:0.7rem;color:#c0b8b0;font-family:'Raleway',sans-serif;
+                       cursor:pointer;font-size:0.7rem;color:#74665A;font-family:'Raleway',sans-serif;
                        letter-spacing:0.04em;">
           ← Change date
         </button>
@@ -3748,7 +3749,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         </svg>
         <br>
         <button id="ch-admin-link"
-          style="background:none;border:none;cursor:pointer;font-size:0.68rem;color:#c0b8b0;
+          style="background:none;border:none;cursor:pointer;font-size:0.75rem;color:#74665A;
                  font-family:'Raleway',sans-serif;letter-spacing:0.05em; padding:0.25rem 0.5rem;">
           Staff · Admin
         </button>
@@ -3758,7 +3759,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
     <!-- STEP: checking -->
     <div id="ch-step-checking" style="display:none; text-align:center; padding:2.25rem 0;">
       <span class="ch-spin" style="font-size:2rem; display:inline-block; margin-bottom:0.75rem;">⏳</span>
-      <p style="font-family:'Raleway',sans-serif; font-size:0.88rem; color:#6b7280;">
+      <p style="font-family:'Raleway',sans-serif; font-size:0.88rem; color:#5C4D3F;">
         Checking your reservation…
       </p>
     </div>
@@ -3775,7 +3776,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         <p id="ch-hint-text" style="font-family:'Raleway',sans-serif; font-size:0.85rem;
            color:var(--dark-bronze); font-weight:500; margin-bottom:0.3rem;">Let's double-check those booking details. 🗓️</p>
         <p id="ch-hint-sub" style="font-family:'Cormorant Garamond',serif; font-size:0.95rem;
-           color:#6b7280; font-style:italic; line-height:1.5;">Your confirmation email has the exact date — it happens to the best of us!</p>
+           color:#5C4D3F; font-style:italic; line-height:1.5;">Your confirmation email has the exact date — it happens to the best of us!</p>
       </div>
       <button id="ch-retry-btn-1" class="modal-btn w-full" style="
         background: rgba(255,255,255,0.18);
@@ -3802,10 +3803,10 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         </h3>
       </div>
       <div class="ch-guest-card">
-        <p style="font-family:'Raleway',sans-serif; font-size:0.83rem; color:#6b7280; line-height:1.6; margin-bottom:0.4rem;">
+        <p style="font-family:'Raleway',sans-serif; font-size:0.83rem; color:#5C4D3F; line-height:1.6; margin-bottom:0.4rem;">
           We weren't able to match your booking details. You're welcome to browse as a guest — access is available for 24 hours.
         </p>
-        <p style="font-family:'Cormorant Garamond',serif; font-size:0.88rem; color:var(--bronze); font-style:italic;">
+        <p style="font-family:'Cormorant Garamond',serif; font-size:0.88rem; color:var(--accent-text); font-style:italic;">
           If you believe this is a mistake, try again after 24 hours.
         </p>
       </div>
@@ -3817,10 +3818,10 @@ input,textarea,select{ caret-color:var(--cx-gold); }
       <div style="font-size:2.5rem; margin-bottom:0.5rem;">✨</div>
       <h3 class="serif-heading"
           style="font-size:1.6rem; color:var(--dark-bronze); font-weight:300; margin-bottom:0.25rem; line-height:1.25;">
-        Welcome, <span id="ch-success-name" style="color:var(--bronze); font-weight:600;"></span>!
+        Welcome, <span id="ch-success-name" style="color:var(--accent-text); font-weight:600;"></span>!
       </h3>
       <p id="ch-stay-info"
-         style="font-size:0.8rem; color:#6b7280; font-family:'Raleway',sans-serif;
+         style="font-size:0.8rem; color:#5C4D3F; font-family:'Raleway',sans-serif;
                 margin:0.4rem 0 0.5rem; display:none; line-height:1.5;"></p>
       <div id="ch-welback-note" style="display:none; margin-bottom:0.9rem;">
         <div style="background:linear-gradient(135deg,rgba(201,150,58,0.1),rgba(201,150,58,0.05));
@@ -3856,7 +3857,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         </button>
       </form>
       <button id="ch-adminpw-back"
-        style="background:none;border:none;cursor:pointer;font-size:0.75rem;color:#9ca3af;font-family:'Raleway',sans-serif;margin-top:0.75rem;">
+        style="background:none;border:none;cursor:pointer;font-size:0.75rem;color:#74665A;font-family:'Raleway',sans-serif;margin-top:0.75rem;">
         ← Back
       </button>
     </div>
@@ -3873,7 +3874,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         <button id="ch-admin-honey"   class="modal-btn modal-btn-secondary w-full">Honey</button>
       </div>
       <button id="ch-retry-btn-admin"
-        style="background:none;border:none;cursor:pointer;font-size:0.75rem;color:#9ca3af;font-family:'Raleway',sans-serif;margin-top:1rem;">
+        style="background:none;border:none;cursor:pointer;font-size:0.75rem;color:#74665A;font-family:'Raleway',sans-serif;margin-top:1rem;">
         ← Back
       </button>
     </div>
@@ -4121,12 +4122,12 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <h1 class="text-2xl md:text-3xl font-semibold serif-font tracking-wide" style="color: var(--dark-bronze); margin-bottom:0; line-height:1.2;">
       Cascade Hideaway<span id="quietZzzBadge" aria-hidden="true" style="display:none;opacity:0;transition:opacity 400ms ease;vertical-align:middle;margin-left:0.35em;line-height:1;"><svg width="38" height="26" viewBox="0 0 38 26" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;overflow:visible;"><defs><linearGradient id="qZMetal" x1="0" y1="0" x2="0.2" y2="1"><stop offset="0%" stop-color="#D6EFFF"/><stop offset="28%" stop-color="#72BFEE"/><stop offset="62%" stop-color="#1E80CC"/><stop offset="100%" stop-color="#0B4F8A"/></linearGradient></defs><text class="zzz-z1" x="1" y="22" font-size="18" font-weight="700" font-family="Georgia,'Cormorant Garamond',serif" fill="url(#qZMetal)" style="display:inline-block;">Z</text><text class="zzz-z2" x="14" y="16" font-size="13" font-weight="700" font-family="Georgia,'Cormorant Garamond',serif" fill="url(#qZMetal)" opacity="0.82">Z</text><text class="zzz-z3" x="25" y="11" font-size="9" font-weight="700" font-family="Georgia,'Cormorant Garamond',serif" fill="url(#qZMetal)" opacity="0.65">z</text></svg></span>
      </h1>
-<span id="collapsedTabTitle" aria-hidden="true" style="display:none;font-family:'Raleway',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--bronze);margin-left:0.5rem;opacity:0;transition:opacity 200ms ease;vertical-align:middle;"></span>
+<span id="collapsedTabTitle" aria-hidden="true" style="display:none;font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-left:0.5rem;opacity:0;transition:opacity 200ms ease;vertical-align:middle;"></span>
 <div class="header-collapsible">
 <div class="flex items-center justify-center space-x-2" style="margin-top:0.2rem;">
 <div class="h-px w-6 md:w-8 bg-gradient-to-r from-transparent to-bronze">
 </div>
-<p class="text-xs tracking-widest uppercase" style="color: var(--bronze);">
+<p class="text-xs tracking-widest uppercase" style="color: var(--accent-text);">
        Your Sanctuary
       </p>
 <div class="h-px w-6 md:w-8 bg-gradient-to-l from-transparent to-bronze">
@@ -4275,9 +4276,9 @@ input,textarea,select{ caret-color:var(--cx-gold); }
       <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-60%); font-size:1.4rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));">📍</div>
     </div>
     <div style="background:linear-gradient(135deg,rgba(247,242,232,0.98),rgba(251,247,238,0.98)); padding:0.6rem 0.75rem; border-top:1px solid rgba(201,150,58,0.15);">
-      <p style="font-family:'Raleway',sans-serif; font-size:0.65rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#C9963A; margin:0 0 0.15rem;">Cascade Hideaway</p>
-      <p style="font-family:'Raleway',sans-serif; font-size:0.6rem; color:#4A3F35; margin:0 0 0.35rem; line-height:1.4;">Block 47 Lot 39, Bria Homes, Conel Rd, GenSan</p>
-      <span style="font-family:'Raleway',sans-serif; font-size:0.6rem; font-weight:600; color:#C9963A; display:inline-flex; align-items:center; gap:0.25rem;">
+      <p style="font-family:'Raleway',sans-serif; font-size:0.75rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent-text); margin:0 0 0.15rem;">Cascade Hideaway</p>
+      <p style="font-family:'Raleway',sans-serif; font-size:0.75rem; color:#4A3F35; margin:0 0 0.35rem; line-height:1.4;">Block 47 Lot 39, Bria Homes, Conel Rd, GenSan</p>
+      <span style="font-family:'Raleway',sans-serif; font-size:0.75rem; font-weight:600; color:var(--accent-text); display:inline-flex; align-items:center; gap:0.25rem;">
         <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Get Directions →
       </span>
@@ -4304,7 +4305,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <!-- CASCADE-DYNAMIC-GREETING-HEADER:v1 -->
 <div id="dynamic-sub-greeting-container" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:1.1rem;animation:fadeIn 0.8s 0.2s ease-out both;">
   <span id="dynamic-greeting-icon" style="font-size:1.1rem;line-height:1;opacity:0.85;">☀️</span>
-  <span id="dynamic-sub-greeting" style="font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,0.9rem + 0.5vw,1.2rem);font-style:italic;color:var(--bronze);letter-spacing:0.03em;">Good morning</span>
+  <span id="dynamic-sub-greeting" style="font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,0.9rem + 0.5vw,1.2rem);font-style:italic;color:var(--accent-text);letter-spacing:0.03em;">Good morning</span>
 </div>
 <!-- /CASCADE-DYNAMIC-GREETING-HEADER:v1 -->
 <!-- Updated for personalization -->
@@ -4316,7 +4317,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </span>
         to Cascade Hideaway
        </h2>
-<p class="text-base md:text-lg serif-caption" style="color: var(--bronze); letter-spacing: 0.1em; font-size: 1.1em;">
+<p class="text-base md:text-lg serif-caption" style="color: var(--accent-text); letter-spacing: 0.1em; font-size: 1.1em;">
         Hotel Comfort, Home Warmth
        </p>
 </div>
@@ -4335,7 +4336,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="mt-12 pt-8 border-t border-bronze/20">
 <div class="text-center">
-<p class="serif-caption uppercase mb-4" style="color: var(--bronze); font-weight: 600; letter-spacing: 0.14em; font-size: 0.78rem;">
+<p class="serif-caption uppercase mb-4" style="color: var(--accent-text); font-weight: 600; letter-spacing: 0.14em; font-size: 0.78rem;">
          With Warm Regards
         </p>
 <p class="script-signature" style="color: var(--dark-bronze);">
@@ -4344,7 +4345,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-4xl mt-5 mb-4 floating-icon">
          🌿
         </p>
-<p class="text-xs md:text-sm tracking-wide" style="color: var(--bronze); font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; letter-spacing: 0.08em;">
+<p class="text-xs md:text-sm tracking-wide" style="color: var(--accent-text); font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; letter-spacing: 0.08em;">
          Hotel Comfort, Home Warmth — in every stay.
         </p>
 <!-- CASCADE-WELCOME-AMBIENT:v1 -->
@@ -4405,10 +4406,10 @@ input,textarea,select{ caret-color:var(--cx-gold); }
   <div class="flex items-start gap-3">
     <span style="font-size:1.3rem;flex-shrink:0;line-height:1.4;margin-top:0.1rem;">📍</span>
     <div class="flex-1">
-      <p style="font-family:'Raleway',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--bronze);margin:0 0 0.4rem;">Your Destination</p>
+      <p style="font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-text);margin:0 0 0.4rem;">Your Destination</p>
       <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--dark-bronze);line-height:1.3;margin:0 0 0.25rem;">Cascade Hideaway</p>
       <p style="font-family:'Cormorant Garamond',serif;font-size:1.0rem;font-weight:400;color:var(--charcoal);line-height:1.45;margin:0 0 0.5rem;">Block 47, Lot 39, Bria Homes, Conel Road, Brgy. San Isidro, General Santos City</p>
-      <span class="addr-copy-hint" style="display:inline-flex;align-items:center;gap:0.3rem;font-family:'Raleway',sans-serif;font-size:0.62rem;font-weight:600;letter-spacing:0.08em;color:var(--bronze);opacity:0.75;">
+      <span class="addr-copy-hint" style="display:inline-flex;align-items:center;gap:0.3rem;font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.08em;color:var(--accent-text);opacity:1;">
         <svg width="9" height="10" viewBox="0 0 12 14" fill="none"><rect x="3" y="3" width="8" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1 1h7a1 1 0 0 1 1 1v1H2a1 1 0 0 1-1-1V1z" fill="currentColor" opacity="0.5"/></svg>
         TAP TO COPY ADDRESS
       </span>
@@ -4421,7 +4422,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <!-- STEP 1: Navigation -->
 <div class="flex items-start">
 <div class="flex-shrink-0">
-<div class="text-4xl md:text-5xl serif-font" style="color: var(--bronze);">
+<div class="text-4xl md:text-5xl serif-font" style="color: var(--bronze-display);">
           1
          </div>
 </div>
@@ -4524,15 +4525,15 @@ input,textarea,select{ caret-color:var(--cx-gold); }
     <div style="display:flex;align-items:flex-start;gap:0.75rem;margin-bottom:0.85rem;">
       <span style="font-size:1.8rem;line-height:1;flex-shrink:0;">🚗</span>
       <div>
-        <p style="font-family:'Raleway',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--bronze);margin-bottom:0.2rem;">Transport Partner</p>
+        <p style="font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-text);margin-bottom:0.2rem;">Transport Partner</p>
         <h4 style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--dark-bronze);line-height:1.2;margin:0;">Need a car? Consider it arranged.</h4>
       </div>
     </div>
     <p style="font-family:'Raleway',sans-serif;font-size:0.8rem;color:#5a4a3a;line-height:1.6;margin-bottom:1rem;">A car with a driver, or the keys and the open road — either can be arranged. Send word and we'll make the introduction ourselves. No commission, no complication.</p>
     <!-- Feature chips -->
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;justify-content:center;">
-      <span style="font-family:'Raleway',sans-serif;font-size:0.68rem;font-weight:600;color:var(--dark-bronze);background:rgba(201,150,58,0.12);border:1px solid rgba(201,150,58,0.28);padding:0.22rem 0.65rem;border-radius:999px;">🧑‍✈️ With driver</span>
-      <span style="font-family:'Raleway',sans-serif;font-size:0.68rem;font-weight:600;color:var(--dark-bronze);background:rgba(201,150,58,0.12);border:1px solid rgba(201,150,58,0.28);padding:0.22rem 0.65rem;border-radius:999px;">🔑 Self-drive</span>
+      <span style="font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:600;color:var(--dark-bronze);background:rgba(201,150,58,0.12);border:1px solid rgba(201,150,58,0.28);padding:0.22rem 0.65rem;border-radius:999px;">🧑‍✈️ With driver</span>
+      <span style="font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:600;color:var(--dark-bronze);background:rgba(201,150,58,0.12);border:1px solid rgba(201,150,58,0.28);padding:0.22rem 0.65rem;border-radius:999px;">🔑 Self-drive</span>
     </div>
     <div style="display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;">
       <a href="https://www.facebook.com/share/1BtBF4DpEu/?mibextid=wwXIfr" rel="noopener noreferrer" target="_blank"
@@ -4540,14 +4541,14 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         🚗 View Rental Options
       </a>
       <a href="https://airbnb.com/h/cascadesgsc" onclick="return openAirbnbListing(event);"
-         style="display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.6rem 1.1rem;border-radius:0.6rem;font-family:'Raleway',sans-serif;font-size:0.78rem;font-weight:700;color:#fff;background:linear-gradient(135deg,#C9963A 0%,#E8B84B 50%,#C9963A 100%);border:none;text-decoration:none;box-shadow:0 3px 12px rgba(201,150,58,0.35);flex:1;min-width:140px;max-width:180px;">
+         style="display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.6rem 1.1rem;border-radius:0.6rem;font-family:'Raleway',sans-serif;font-size:0.78rem;font-weight:700;color:#fff;background:linear-gradient(135deg,#7A5A2B 0%,#8F6B30 50%,#7A5A2B 100%);border:none;text-decoration:none;box-shadow:0 3px 12px rgba(201,150,58,0.35);flex:1;min-width:140px;max-width:180px;">
         💬 Ask Us to Connect
       </a>
     </div>
   </div>
   <!-- Travel Insider Tip — integrated with recommended options -->
   <div class="p-4 rounded-xl" style="background:rgba(255,255,255,0.65);border:1px solid rgba(201,150,58,0.15);">
-    <p class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:var(--bronze);letter-spacing:0.1em;">✦ Travel Insider Tips</p>
+    <p class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:var(--accent-text);letter-spacing:0.1em;">✦ Travel Insider Tips</p>
     <div class="space-y-3">
       <div class="flex items-start gap-3">
         <span style="font-size:1.35rem;flex-shrink:0;line-height:1.2;margin-top:0.05rem;">📱</span>
@@ -4573,7 +4574,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <!-- STEP 2: Security Gate -->
 <div class="flex items-start">
 <div class="flex-shrink-0">
-<div class="text-4xl md:text-5xl serif-font" style="color: var(--bronze);">
+<div class="text-4xl md:text-5xl serif-font" style="color: var(--bronze-display);">
           2
          </div>
 </div>
@@ -4594,7 +4595,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="flex items-start">
 <div class="flex-shrink-0">
-<div class="text-4xl md:text-5xl serif-font" style="color: var(--bronze);">
+<div class="text-4xl md:text-5xl serif-font" style="color: var(--bronze-display);">
           3
          </div>
 </div>
@@ -4632,7 +4633,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <strong class="text-gray-800">
              Support:
             </strong>
-            Should the keypad remain unavailable, <a class="font-semibold hover:underline" href="https://airbnb.com/h/cascadesgsc" onclick="return openAirbnbListing(event);" style="color: var(--bronze);">send us a message</a> or contact our team at the number provided in our earlier message for immediate assistance.
+            Should the keypad remain unavailable, <a class="font-semibold hover:underline" href="https://airbnb.com/h/cascadesgsc" onclick="return openAirbnbListing(event);" style="color: var(--accent-text);">send us a message</a> or contact our team at the number provided in our earlier message for immediate assistance.
            </p>
 </div>
 </div>
@@ -4651,11 +4652,11 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-500 italic mb-4">Inside a secured village — please read before arriving with a vehicle</p>
 <div class="space-y-4">
 <div class="p-3 rounded-lg" style="background:rgba(201,150,58,0.07);border:1px solid rgba(201,150,58,0.18);">
-  <p class="text-sm font-semibold mb-1.5" style="color:var(--bronze);">🚗 Vehicle Allowance</p>
+  <p class="text-sm font-semibold mb-1.5" style="color:var(--accent-text);">🚗 Vehicle Allowance</p>
   <p class="text-sm text-gray-700 leading-relaxed">The village is gated, so <strong>one vehicle per reservation</strong>. Park in front of the unit, alongside it, or just beside — whichever is free when you arrive.</p>
 </div>
 <div class="p-3 rounded-lg" style="background:rgba(255,255,255,0.6);border:1px solid rgba(201,150,58,0.12);">
-  <p class="text-sm font-semibold mb-1.5" style="color:var(--bronze);">🔒 Security &amp; Monitoring</p>
+  <p class="text-sm font-semibold mb-1.5" style="color:var(--accent-text);">🔒 Security &amp; Monitoring</p>
   <p class="text-sm text-gray-700 leading-relaxed">Rest assured — an <strong>outdoor CCTV camera covers the parking area</strong> around the clock, watching over your vehicle, and the subdivision maintains an active security team at all entry points. A <strong>pod lock for the gate</strong> is also provided indoors, with the key card and remotes, if you'd like an extra layer overnight. The camera is <strong>outside only</strong> — there is no recording of any kind inside the unit.</p>
 </div>
 <div class="p-3 rounded-lg" style="background:rgba(255,235,185,0.35);border:1px solid rgba(201,150,58,0.25);">
@@ -4696,7 +4697,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="flex items-start">
 <div class="flex-shrink-0">
-<div class="text-4xl md:text-5xl serif-font" style="color: var(--bronze);">
+<div class="text-4xl md:text-5xl serif-font" style="color: var(--bronze-display);">
           4
          </div>
 </div>
@@ -4852,11 +4853,11 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           </p>
 <div class="space-y-3">
   <div class="p-3 rounded-lg" style="background:rgba(201,150,58,0.07);border:1px solid rgba(201,150,58,0.18);">
-    <p class="text-sm font-semibold mb-1.5 flex items-center gap-2" style="color:var(--bronze);"><span aria-hidden="true">📹</span> Outdoor CCTV</p>
+    <p class="text-sm font-semibold mb-1.5 flex items-center gap-2" style="color:var(--accent-text);"><span aria-hidden="true">📹</span> Outdoor CCTV</p>
     <p class="text-sm text-gray-700 leading-relaxed">A single exterior camera watches the parking area and the approach. Your car is looked after through the night, and you are never arriving into the dark unseen.</p>
   </div>
   <div class="p-3 rounded-lg" style="background:rgba(201,150,58,0.07);border:1px solid rgba(201,150,58,0.18);">
-    <p class="text-sm font-semibold mb-1.5 flex items-center gap-2" style="color:var(--bronze);"><span aria-hidden="true">🔐</span> Gate Pod Lock</p>
+    <p class="text-sm font-semibold mb-1.5 flex items-center gap-2" style="color:var(--accent-text);"><span aria-hidden="true">🔐</span> Gate Pod Lock</p>
     <p class="text-sm text-gray-700 leading-relaxed">For a second layer between the street and your door, a gate pod lock is provided for you to fit. It sits indoors with the key card and the remotes — use it or don't, entirely as you please.</p>
   </div>
   <div class="p-3 rounded-lg" style="background:rgba(255,255,255,0.6);border:1px solid rgba(201,150,58,0.12);">
@@ -4997,7 +4998,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <!-- PHOTO: Replace 1adY7ZHf8Az2rdnxCncGGnliTiDNzg8Bq with the Drive file ID for "1. Hero Image Sala.jpg" -->
 <img src="https://drive.google.com/thumbnail?id=1adY7ZHf8Az2rdnxCncGGnliTiDNzg8Bq&sz=w800" alt="Cascade Hideaway living area — warm and welcoming sanctuary" loading="lazy" decoding="async" width="800" height="450" style="width:100%; height:260px; object-fit:cover; display:block;" onerror="this.parentElement.style.display='none'">
 <div class="px-4 py-2 text-center" style="background: rgba(249,246,240,0.95);">
-<p class="text-xs italic" style="color: var(--bronze);">Living Area — Hotel Comfort, Home Warmth</p>
+<p class="text-xs italic" style="color: var(--accent-text);">Living Area — Hotel Comfort, Home Warmth</p>
 </div>
 </div>
 <!-- Grid: Bedroom, Kitchen, Bathroom -->
@@ -5099,7 +5100,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
              onerror="this.parentElement.style.background='#F7F2E8'">
       </div>
       <div class="flex-1 min-w-0">
-        <div style="font-family:'Raleway',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#B58E5F;margin-bottom:0.3rem;">✦ Recommended in GenSan</div>
+        <div style="font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-text);margin-bottom:0.3rem;">✦ Recommended in GenSan</div>
         <h4 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:#3D2B1F;line-height:1.15;margin:0;">Book a Grab Taxi</h4>
         <p style="font-family:'Raleway',sans-serif;font-size:0.7rem;color:#9C8A76;margin:0.25rem 0 0;letter-spacing:0.02em;">Fastest, most reliable way around the city</p>
       </div>
@@ -5122,7 +5123,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 
     <!-- Primary CTA — full width book button -->
     <a href="#" onclick="openGrabApp(); return false;" aria-label="Open Grab app"
-       style="display:flex;align-items:center;justify-content:center;gap:0.6rem;width:100%;padding:0.85rem 1.25rem;border-radius:0.75rem;background:linear-gradient(135deg,#B58E5F 0%,#C9A57A 50%,#8C6A3A 100%);color:#FDFAF5;font-family:'Raleway',sans-serif;font-size:0.82rem;font-weight:600;letter-spacing:0.04em;text-decoration:none;box-shadow:0 4px 18px rgba(181,142,95,0.32);transition:opacity 0.18s ease;margin-bottom:0.6rem;"
+       style="display:flex;align-items:center;justify-content:center;gap:0.6rem;width:100%;padding:0.85rem 1.25rem;border-radius:0.75rem;background:linear-gradient(135deg,#7A5A2B 0%,#8F6B30 50%,#6A4C22 100%);color:#FDFAF5;font-family:'Raleway',sans-serif;font-size:0.82rem;font-weight:600;letter-spacing:0.04em;text-decoration:none;box-shadow:0 4px 18px rgba(181,142,95,0.32);transition:opacity 0.18s ease;margin-bottom:0.6rem;"
        onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z"/><circle cx="7.5" cy="14.5" r="1.5"/><circle cx="16.5" cy="14.5" r="1.5"/></svg>
       Open Grab &amp; Book
@@ -5131,19 +5132,19 @@ input,textarea,select{ caret-color:var(--cx-gold); }
     <!-- Secondary CTAs — 3 column row -->
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.45rem;">
       <a href="https://m.grab.com/booking" rel="noopener noreferrer" target="_blank"
-         style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;padding:0.65rem 0.4rem;border-radius:0.65rem;background:rgba(181,142,95,0.08);border:1px solid rgba(181,142,95,0.28);color:#8C6A3A;font-family:'Raleway',sans-serif;font-size:0.65rem;font-weight:600;text-decoration:none;text-align:center;transition:background 0.15s;"
+         style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;padding:0.65rem 0.4rem;border-radius:0.65rem;background:rgba(181,142,95,0.08);border:1px solid rgba(181,142,95,0.28);color:var(--accent-text);font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:600;text-decoration:none;text-align:center;transition:background 0.15s;"
          onmouseover="this.style.background='rgba(181,142,95,0.16)'" onmouseout="this.style.background='rgba(181,142,95,0.08)'">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
         Web
       </a>
       <a href="https://play.google.com/store/apps/details?id=com.grabtaxi.passenger" rel="noopener noreferrer" target="_blank" aria-label="Get Grab on Google Play"
-         style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;padding:0.65rem 0.4rem;border-radius:0.65rem;background:rgba(181,142,95,0.08);border:1px solid rgba(181,142,95,0.28);color:#8C6A3A;font-family:'Raleway',sans-serif;font-size:0.65rem;font-weight:600;text-decoration:none;text-align:center;transition:background 0.15s;"
+         style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;padding:0.65rem 0.4rem;border-radius:0.65rem;background:rgba(181,142,95,0.08);border:1px solid rgba(181,142,95,0.28);color:var(--accent-text);font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:600;text-decoration:none;text-align:center;transition:background 0.15s;"
          onmouseover="this.style.background='rgba(181,142,95,0.16)'" onmouseout="this.style.background='rgba(181,142,95,0.08)'">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.5,12.92 20.16,13.19L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
         Google Play
       </a>
       <a href="https://apps.apple.com/ph/app/grab-superapp/id641809260" rel="noopener noreferrer" target="_blank" aria-label="Get Grab on the App Store"
-         style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;padding:0.65rem 0.4rem;border-radius:0.65rem;background:rgba(181,142,95,0.08);border:1px solid rgba(181,142,95,0.28);color:#8C6A3A;font-family:'Raleway',sans-serif;font-size:0.65rem;font-weight:600;text-decoration:none;text-align:center;transition:background 0.15s;"
+         style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;padding:0.65rem 0.4rem;border-radius:0.65rem;background:rgba(181,142,95,0.08);border:1px solid rgba(181,142,95,0.28);color:var(--accent-text);font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:600;text-decoration:none;text-align:center;transition:background 0.15s;"
          onmouseover="this.style.background='rgba(181,142,95,0.16)'" onmouseout="this.style.background='rgba(181,142,95,0.08)'">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.1,22C7.79,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.67 14.94,2.04 15.94,2C16.07,3.17 15.6,4.35 14.9,5.19C14.21,6.04 13.07,6.7 11.95,6.61C11.8,5.46 12.36,4.26 13,3.5Z"/></svg>
         App Store
@@ -5172,7 +5173,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 
 <!-- Compact App Row: Grab Food + foodpanda -->
 <div class="p-4 rounded-xl" style="background: rgba(255,255,255,0.6); border: 1px solid rgba(192,160,98,0.15);">
-  <p class="text-xs uppercase tracking-wide font-semibold mb-3" style="color: var(--bronze);">Also Available — Food &amp; Grocery Delivery</p>
+  <p class="text-xs uppercase tracking-wide font-semibold mb-3" style="color: var(--accent-text);">Also Available — Food &amp; Grocery Delivery</p>
   <div class="grid grid-cols-2 gap-3 mb-3">
     <a href="https://food.grab.com/ph/en/" rel="noopener noreferrer" target="_blank"
        onclick="if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){event.preventDefault();dcLaunchGrabApp&&dcLaunchGrabApp('FOOD');}"
@@ -5188,7 +5189,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
       foodpanda
     </a>
   </div>
-  <p class="text-xs text-gray-500 italic text-center">Full delivery menu in the <strong class="font-semibold" style="color:var(--bronze);">Delivery</strong> tab</p>
+  <p class="text-xs text-gray-500 italic text-center">Full delivery menu in the <strong class="font-semibold" style="color:var(--accent-text);">Delivery</strong> tab</p>
 </div>
 </div>
 
@@ -5226,7 +5227,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           Witness the "Tuna Capital" in action at the legendary fish port. Experience the giant tuna trade at sunrise (around 5:00 AM) for an authentic market experience.
          </p>
 <div class="accent-box p-4 rounded-xl mb-4">
-<p class="text-xs font-semibold mb-2" style="color: var(--bronze);">
+<p class="text-xs font-semibold mb-2" style="color: var(--accent-text);">
            ⏰ Best Time: 5:00-9:00 AM
           </p>
 <p class="text-xs text-gray-700 mb-2">
@@ -5263,7 +5264,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           The vibrant, green heart of the city—perfect for leisurely strolls, jogging, or enjoying local street food.
          </p>
 <p class="text-xs text-gray-500 mb-3">🚕 Grab · approx. 15–20 min from Cascade</p>
-<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Plaza+Heneral+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Plaza+Heneral+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 View Location →
          </a>
 </div>
@@ -5310,7 +5311,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
          </p>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
 <div class="bg-white/60 p-4 rounded-xl">
-<p class="text-xs font-semibold mb-1" style="color: var(--bronze);">
+<p class="text-xs font-semibold mb-1" style="color: var(--accent-text);">
             Best Time to Visit
            </p>
 <p class="text-sm text-gray-700">
@@ -5318,7 +5319,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
            </p>
 </div>
 <div class="bg-white/60 p-4 rounded-xl">
-<p class="text-xs font-semibold mb-1" style="color: var(--bronze);">
+<p class="text-xs font-semibold mb-1" style="color: var(--accent-text);">
             Travel Time
            </p>
 <p class="text-sm text-gray-700">
@@ -5345,7 +5346,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 </div>
 <p class="text-xs text-gray-700 mb-2 leading-relaxed">GenSan's highest summit rewards early risers with a sweeping panorama of the city and Sarangani Bay. A popular sunrise hike — bring a light jacket, it gets cool at the top.</p>
-<a class="text-xs hover:underline flex items-center gap-1" href="https://www.google.com/maps?q=Sanchez+Peak+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">📍 Trail Head Map →</a>
+<a class="text-xs hover:underline flex items-center gap-1" href="https://www.google.com/maps?q=Sanchez+Peak+General+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">📍 Trail Head Map →</a>
 </div>
 <!-- Paragliding — Featured Card -->
 <div class="feature-card p-5 rounded-xl bg-gradient-to-br from-sky-50/30 to-blue-50/20">
@@ -5362,7 +5363,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 </div>
 <p class="text-xs text-gray-700 mb-2 leading-relaxed">Safi Ranch in Sarangani is one of Mindanao's top paragliding sites. Tandem flights available for first-timers — glide over the coastline with the Celebes Sea below. Book ahead during dry season weekends.</p>
-<a class="text-xs hover:underline flex items-center gap-1" href="https://www.google.com/maps/search/?api=1&query=Safi+Ranch+Paragliding+Sarangani" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">📍 Get Directions →</a>
+<a class="text-xs hover:underline flex items-center gap-1" href="https://www.google.com/maps/search/?api=1&query=Safi+Ranch+Paragliding+Sarangani" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">📍 Get Directions →</a>
 </div>
 
 </div>
@@ -5396,11 +5397,11 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-sm text-gray-700 mb-4 leading-relaxed">Six kilometres of powdery white sand facing the Celebes Sea — calm, uncrowded, and genuinely beautiful. Resorts along the strip offer day visits and overnight stays. Best experienced on a dry-season morning before the midday heat.</p>
 <div class="grid grid-cols-2 gap-3 mb-4">
 <div class="bg-white/60 p-3 rounded-xl">
-<p class="text-xs font-semibold mb-1" style="color: var(--bronze);">Getting There</p>
+<p class="text-xs font-semibold mb-1" style="color: var(--accent-text);">Getting There</p>
 <p class="text-xs text-gray-700">Van from KCC Mall terminal → Glan (~1 hr), then tricycle to beach</p>
 </div>
 <div class="bg-white/60 p-3 rounded-xl">
-<p class="text-xs font-semibold mb-1" style="color: var(--bronze);">Best Time</p>
+<p class="text-xs font-semibold mb-1" style="color: var(--accent-text);">Best Time</p>
 <p class="text-xs text-gray-700">Feb–April dry season · Morning visits · Last van back by 4 PM</p>
 </div>
 </div>
@@ -5426,11 +5427,11 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-sm text-gray-700 mb-4 leading-relaxed">A highland escape at 1,000m elevation — cool air, mist-covered mountains, and one of Southeast Asia's highest ziplines soaring over seven cascading waterfalls. Add a lake cruise, T'boli Dreamweavers weaving, and fresh tilapia lunch for a genuinely full day.</p>
 <div class="grid grid-cols-2 gap-3 mb-4">
 <div class="bg-white/60 p-3 rounded-xl">
-<p class="text-xs font-semibold mb-1" style="color: var(--bronze);">Getting There</p>
+<p class="text-xs font-semibold mb-1" style="color: var(--accent-text);">Getting There</p>
 <p class="text-xs text-gray-700">Bus from Bulaong Terminal → ~2 hrs · Habal-habal in Lake Sebu</p>
 </div>
 <div class="bg-white/60 p-3 rounded-xl">
-<p class="text-xs font-semibold mb-1" style="color: var(--bronze);">Don't Miss</p>
+<p class="text-xs font-semibold mb-1" style="color: var(--accent-text);">Don't Miss</p>
 <p class="text-xs text-gray-700">Zipline ₱350/person · Lotus flowers bloom 5:30–8 AM only</p>
 </div>
 </div>
@@ -5458,7 +5459,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <div class="flex items-center gap-3 mb-3 flex-wrap">
 <p class="text-xs text-gray-500">🚕 Grab · approx. 45 min from property</p>
 </div>
-<a class="text-sm hover:underline flex items-center gap-2" href="https://www.google.com/maps?q=SG+Farm+Strawberry+Guyabano+Tupi+South+Cotabato" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">📍 Navigate to SG Farm →</a>
+<a class="text-sm hover:underline flex items-center gap-2" href="https://www.google.com/maps?q=SG+Farm+Strawberry+Guyabano+Tupi+South+Cotabato" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">📍 Navigate to SG Farm →</a>
 </div>
 <!-- CASCADE-EUPHORIA-CARD:v1 -->
 <div class="feature-card p-5 md:p-6 rounded-2xl bg-gradient-to-br from-fuchsia-50/40 to-rose-50/20" data-time-tag="morning-activity">
@@ -5571,7 +5572,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <p class="text-xs text-gray-600 mb-2">Convenient location with satellite government offices, retail and dining.</p>
 <p class="text-xs text-gray-500 mb-2">⏱️ 10 minutes drive</p>
-<a class="inline-flex items-center gap-1 text-xs font-medium hover:underline" href="https://maps.app.goo.gl/69WJMLfXPZRawXQn8" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="inline-flex items-center gap-1 text-xs font-medium hover:underline" href="https://maps.app.goo.gl/69WJMLfXPZRawXQn8" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
 <span>📍</span><span>Get Directions</span>
 </a>
 </div>
@@ -5587,12 +5588,12 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <div class="p-4">
 <div class="flex items-start justify-between mb-2">
 <h4 class="font-semibold text-base" style="color: var(--dark-bronze);">Veranza Mall</h4>
-<span class="text-xs px-2 py-1 rounded-full font-medium" style="background:rgba(201,150,58,0.15);color:var(--bronze);border:1px solid rgba(201,150,58,0.2);">Upscale · ATM</span>
+<span class="text-xs px-2 py-1 rounded-full font-medium" style="background:rgba(201,150,58,0.15);color:var(--accent-text);border:1px solid rgba(201,150,58,0.2);">Upscale · ATM</span>
 </div>
 <p class="text-xs text-gray-600 mb-1">Modern lifestyle hub with quality dining, retail, and al-fresco strip.</p>
-<p class="text-xs font-semibold mb-2" style="color:var(--bronze);">🏦 BDO + Euronet ATM (Level 2)</p>
+<p class="text-xs font-semibold mb-2" style="color:var(--accent-text);">🏦 BDO + Euronet ATM (Level 2)</p>
 <p class="text-xs text-gray-500 mb-2">⏱️ 12 minutes drive</p>
-<a class="inline-flex items-center gap-1 text-xs font-medium hover:underline" href="https://maps.app.goo.gl/kdQKAya8AauE6vya8" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="inline-flex items-center gap-1 text-xs font-medium hover:underline" href="https://maps.app.goo.gl/kdQKAya8AauE6vya8" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
 <span>📍</span><span>Get Directions</span>
 </a>
 </div>
@@ -5612,7 +5613,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <p class="text-xs text-gray-600 mb-2">Budget-conscious shopping with good variety of local and national brands. Connected to the Veranza area.</p>
 <p class="text-xs text-gray-500 mb-2">⏱️ 12 minutes drive</p>
-<a class="inline-flex items-center gap-1 text-xs font-medium hover:underline" href="https://maps.app.goo.gl/tSmZeZd34kR6GrMz5" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="inline-flex items-center gap-1 text-xs font-medium hover:underline" href="https://maps.app.goo.gl/tSmZeZd34kR6GrMz5" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
 <span>📍</span><span>Get Directions</span>
 </a>
 </div>
@@ -5624,7 +5625,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
      When activating, promote to a full mall card and use the confirmed pin:
      https://maps.app.goo.gl/Tm6FoyewQv4o3Dnj6  ("S&R Membership Shopping - GenSan", 6.1199805, 125.1851099)
      NOTE: verify the "across from Gaisano Mall / National Highway Lagao" wording against that pin before publishing. -->
-<p class="text-xs text-gray-600 leading-relaxed"><span class="font-semibold" style="color: var(--bronze);">Watch this space —</span> GenSan's first <strong>S&amp;R Membership Shopping</strong> warehouse is expected to open along the National Highway in Lagao, directly across from Gaisano Mall. It will offer imported goods, health supplements, and bulk household items. Membership required. <a class="hover:underline" href="https://www.snrshopping.com/" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">Opening news and membership details →</a> <a class="hover:underline" href="https://www.google.com/maps/search/?api=1&amp;query=National+Highway+Lagao+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">📍 Area map →</a></p>
+<p class="text-xs text-gray-600 leading-relaxed"><span class="font-semibold" style="color: var(--accent-text);">Watch this space —</span> GenSan's first <strong>S&amp;R Membership Shopping</strong> warehouse is expected to open along the National Highway in Lagao, directly across from Gaisano Mall. It will offer imported goods, health supplements, and bulk household items. Membership required. <a class="hover:underline" href="https://www.snrshopping.com/" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">Opening news and membership details →</a> <a class="hover:underline" href="https://www.google.com/maps/search/?api=1&amp;query=National+Highway+Lagao+General+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">📍 Area map →</a></p>
 </div>
 </div>
 </div>
@@ -5721,7 +5722,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         </h3>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
 <div class="bg-white/60 p-4 rounded-xl">
-<p class="font-semibold mb-2 flex items-center" style="color: var(--bronze);">
+<p class="font-semibold mb-2 flex items-center" style="color: var(--accent-text);">
 <span class="mr-2">
             🌅
            </span>
@@ -5732,7 +5733,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           </p>
 </div>
 <div class="bg-white/60 p-4 rounded-xl">
-<p class="font-semibold mb-2 flex items-center" style="color: var(--bronze);">
+<p class="font-semibold mb-2 flex items-center" style="color: var(--accent-text);">
 <span class="mr-2">
             ☀️
            </span>
@@ -5743,7 +5744,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           </p>
 </div>
 <div class="bg-white/60 p-4 rounded-xl">
-<p class="font-semibold mb-2 flex items-center" style="color: var(--bronze);">
+<p class="font-semibold mb-2 flex items-center" style="color: var(--accent-text);">
 <span class="mr-2">
             🌙
            </span>
@@ -5758,7 +5759,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-sm text-gray-700 mb-3">
           Need personalized itineraries or special arrangements?
          </p>
-<p class="text-sm" style="color: var(--bronze);">
+<p class="text-sm" style="color: var(--accent-text);">
           📱 We're here to help:
 <a class="transport-link" href="https://airbnb.com/h/cascadesgsc" onclick="return openAirbnbListing(event);">
 <span>💬</span>
@@ -5843,7 +5844,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           Cozy evening haven with "coffee + soulful food" atmosphere. Specialty coffee meets rare retail finds — a distinctive GenSan concept. Open daily from 3 PM, perfect for late afternoon and evening visits.
          </p>
 <p class="text-xs text-gray-500 mb-3">🚕 Grab · approx. 15 min from property</p>
-<a class="text-sm hover:underline flex items-center gap-2" href="https://www.google.com/maps?q=Oona%20Caf%C3%A9%20%26%20Co%20General%20Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-sm hover:underline flex items-center gap-2" href="https://www.google.com/maps?q=Oona%20Caf%C3%A9%20%26%20Co%20General%20Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 Find on Map →
          </a>
 </div>
@@ -5870,7 +5871,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           Your nearest café at just 2.6 km away! Famous for stunning floral interiors, making it the city's most "Instagrammable" cafe. Perfect for aesthetic coffee moments and convenient quick visits.
          </p>
 <p class="text-xs text-gray-500 mb-3">🚕 Grab · approx. 5 min from property</p>
-<a class="text-sm hover:underline flex items-center gap-2" href="https://www.google.com/maps?q=Coffee+Project+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-sm hover:underline flex items-center gap-2" href="https://www.google.com/maps?q=Coffee+Project+General+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 Navigate Here →
          </a>
 </div>
@@ -5900,7 +5901,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-700 mb-2">
           Top spot for cakes, pastries, and delicious comfort food like truffle pasta.
          </p>
-<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Butter+and+Spoon+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Butter+and+Spoon+General+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 View →
          </a>
 </div>
@@ -5928,7 +5929,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-700 mb-2">
           A laid-back neighbourhood spot where thick burgers and comfort-forward American fare take center stage. Unpretentious, generous, and consistently satisfying — the kind of place locals return to without much deliberation.
          </p>
-<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Nikkos+Brew+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Nikkos+Brew+General+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 Find →
          </a>
 </div>
@@ -5955,7 +5956,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-700 mb-2">
           A refined hotel café tucked within Santi's Hotel, serving thoughtfully prepared coffee alongside light meals in a calm, air-conditioned setting. A pleasant retreat from the midday heat with a quietly elevated atmosphere.
          </p>
-<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Cafe+Santi+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Cafe+Santi+General+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 Navigate →
          </a>
 </div>
@@ -5979,7 +5980,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-700 mb-2">
           The Philippines' foremost homegrown coffee chain, with a GenSan presence worth knowing. Dependable espresso drinks, comfortable seating, and reliable Wi-Fi — a natural choice when you need to work through an afternoon or simply sit with something good to drink.
          </p>
-<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Bos+Coffee+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Bos+Coffee+General+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 Directions →
          </a>
 </div>
@@ -6003,7 +6004,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-700 mb-2">
           The newer Starbucks branch along National Highway, GenSan — more accessible and typically less crowded than its SM City counterpart. A familiar retreat for your morning Frappuccino or a focused afternoon with your laptop. Earn and redeem Starbucks Rewards; order ahead on the app to skip the queue.
          </p>
-<a class="text-xs hover:underline" href="https://www.google.com/maps/search/?api=1&query=Starbucks+National+Highway+Lagao+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline" href="https://www.google.com/maps/search/?api=1&query=Starbucks+National+Highway+Lagao+General+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 Directions →
          </a>
 </div>
@@ -6031,7 +6032,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-700 mb-2">
           A recently opened two-storey café inside Gaisano Mall — cozy ambiance, warm lighting, and a broad menu spanning specialty coffee, pasta, waffles, rice meals, and desserts. Approximately 15 minutes from the property by Grab.
          </p>
-<a class="text-xs hover:underline" href="https://www.google.com/maps/search/?api=1&query=The+Coffee+Bar+Gaisano+Mall+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline" href="https://www.google.com/maps/search/?api=1&query=The+Coffee+Bar+Gaisano+Mall+General+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 Directions →
          </a>
 </div>
@@ -6184,7 +6185,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
            An elegant garden setting for Filipino fine dining and premium steaks. The atmosphere is unhurried — think celebrations, anniversaries, and meals that deserve a proper table. Well-regarded for its quality steaks alongside refined Filipino classics.
           </p>
 <p class="text-xs text-gray-500 mb-2">🚕 Grab · approx. 20 min from property</p>
-<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Alfonsos+General+Santos" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline" href="https://www.google.com/maps?q=Alfonsos+General+Santos" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
            📍 View Location →
           </a>
 </div>
@@ -6210,7 +6211,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
            "The House That Fried Chicken Built" — since 1945, Max's signature whole fried chicken has been the gold standard of Filipino comfort food. Golden-crisp skin, fall-off-the-bone tenderness. Complete the table with kare-kare, sinigang, lumpiang shanghai, and a cold halo-halo to finish.
           </p>
 <p class="text-xs text-gray-500 mb-2">🚕 Grab · approx. 15 min from property</p>
-<a class="text-xs hover:underline" href="https://www.google.com/maps/place/Max's+Restaurant+(Robinsons+Gen+San)/@6.1215935,125.1906922,17z" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline" href="https://www.google.com/maps/place/Max's+Restaurant+(Robinsons+Gen+San)/@6.1215935,125.1906922,17z" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
            📍 Robinsons Place →
           </a>
 </div>
@@ -6249,7 +6250,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           A Mediterranean-Asian kitchen with a private cellar room for the smaller occasion — one of the few spaces in GenSan that feel suited for a quiet date night rather than a group dinner. The menu reads with ambition; the wine list is one of the city's better offerings.
          </p>
 <p class="text-xs text-gray-500 mb-2">🚕 Grab · approx. 20 min from property</p>
-<a class="text-sm hover:underline" href="https://maps.app.goo.gl/e19ujrML1Tt7VH919" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-sm hover:underline" href="https://maps.app.goo.gl/e19ujrML1Tt7VH919" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 Reserve →
          </a>
 </div>
@@ -6277,7 +6278,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
           The in-house restaurant of the Grand Summit Hotel, where hotel-grade service meets GenSan's signature ingredient. The fresh tuna sashimi and tuna sisig are the draws — both prepared with produce sourced directly from the city's renowned fishing port. A polished, air-conditioned dining room suited for business lunches or a proper sit-down dinner.
          </p>
 <p class="text-xs text-gray-500 mb-2">🚕 Grab · approx. 15 min from property</p>
-<a class="text-sm hover:underline" href="https://maps.google.com/?cid=12189300974736002791" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-sm hover:underline" href="https://maps.google.com/?cid=12189300974736002791" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
           📍 Navigate →
          </a>
 </div>
@@ -6386,7 +6387,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-xs text-gray-500 mb-4">🚕 Grab · approx. 15 min from property</p>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
 <div class="bg-white/60 p-4 rounded-xl">
-<p class="text-xs font-semibold mb-1" style="color: var(--bronze);">
+<p class="text-xs font-semibold mb-1" style="color: var(--accent-text);">
             Must-Try
            </p>
 <p class="text-sm text-gray-700">
@@ -6394,7 +6395,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
            </p>
 </div>
 <div class="bg-white/60 p-4 rounded-xl">
-<p class="text-xs font-semibold mb-1" style="color: var(--bronze);">
+<p class="text-xs font-semibold mb-1" style="color: var(--accent-text);">
             Best Time
            </p>
 <p class="text-sm text-gray-700">
@@ -6430,7 +6431,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-sm text-gray-700 mb-3 leading-relaxed">
            GenSan's first and only Halal-certified restaurant, and a genuine institution. Dine kamayan-style — meals served on banana leaves, eaten with your hands — in open-air traditional nipa huts. The chicken sisig is a city-wide favorite: crunchy, savory, and deeply satisfying. Order the nilagpang (grilled chicken slow-simmered in broth), and finish with their celebrated buko halo-halo, finely shaved and generously layered. Halal throughout.
           </p>
-<a class="text-xs hover:underline" href="https://maps.google.com/?cid=7302666169777950826" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline" href="https://maps.google.com/?cid=7302666169777950826" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
            📍 Directions →
           </a>
 </div>
@@ -6622,7 +6623,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-sm text-gray-700 mb-3 leading-relaxed">
            Everything you need without leaving the neighborhood. This well-curated mini grocery offers quality products at welcoming prices—your one-stop convenience right within the subdivision.
           </p>
-<a class="text-xs hover:underline flex items-center gap-2" href="https://maps.app.goo.gl/GeVVnhSYxyp2XgWu6" rel="noopener noreferrer" style="color: var(--bronze);" target="_blank">
+<a class="text-xs hover:underline flex items-center gap-2" href="https://maps.app.goo.gl/GeVVnhSYxyp2XgWu6" rel="noopener noreferrer" style="color: var(--accent-text);" target="_blank">
            📍 Get Directions →
           </a>
 </div>
@@ -6631,7 +6632,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-sm text-gray-700 mb-2">
           Still deciding where to eat?
          </p>
-<p class="text-sm" style="color: var(--bronze);">
+<p class="text-sm" style="color: var(--accent-text);">
           📱 Message us:
 <a class="transport-link" href="https://airbnb.com/h/cascadesgsc" onclick="return openAirbnbListing(event);">
 <span>💬</span>
@@ -6747,7 +6748,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-10">
 <div class="feature-card p-4 md:p-5 rounded-xl">
 <div class="flex items-start">
-<span class="text-xl md:text-2xl mr-3" style="color: var(--bronze);">
+<span class="text-xl md:text-2xl mr-3" style="color: var(--accent-text);">
            🏠
           </span>
 <div>
@@ -6762,7 +6763,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="feature-card p-4 md:p-5 rounded-xl">
 <div class="flex items-start">
-<span class="text-xl md:text-2xl mr-3" style="color: var(--bronze);">
+<span class="text-xl md:text-2xl mr-3" style="color: var(--accent-text);">
            ✨
           </span>
 <div>
@@ -6780,7 +6781,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="feature-card p-4 md:p-5 rounded-xl">
 <div class="flex items-start">
-<span class="text-xl md:text-2xl mr-3" style="color: var(--bronze);">
+<span class="text-xl md:text-2xl mr-3" style="color: var(--accent-text);">
            🚭
           </span>
 <div>
@@ -6795,7 +6796,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="feature-card p-4 md:p-5 rounded-xl" data-time-tag="night-activity">
 <div class="flex items-start">
-<span class="text-xl md:text-2xl mr-3" style="color: var(--bronze);">
+<span class="text-xl md:text-2xl mr-3" style="color: var(--accent-text);">
            🌙
           </span>
 <div>
@@ -6810,7 +6811,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="feature-card p-4 md:p-5 rounded-xl">
 <div class="flex items-start">
-<span class="text-xl md:text-2xl mr-3" style="color: var(--bronze);">
+<span class="text-xl md:text-2xl mr-3" style="color: var(--accent-text);">
            🌱
           </span>
 <div>
@@ -6825,7 +6826,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="feature-card p-4 md:p-5 rounded-xl">
 <div class="flex items-start">
-<span class="text-xl md:text-2xl mr-3" style="color: var(--bronze);">
+<span class="text-xl md:text-2xl mr-3" style="color: var(--accent-text);">
            💬
           </span>
 <div>
@@ -6849,7 +6850,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
          💧
         </span>
 <div>
-<h3 class="font-bold text-lg md:text-xl mb-2" style="color: var(--bronze);">
+<h3 class="font-bold text-lg md:text-xl mb-2" style="color: var(--accent-text);">
           A Note on Our Plumbing
          </h3>
 <p class="text-sm md:text-base text-gray-700 leading-relaxed">
@@ -6938,7 +6939,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--accent-gold), var(--bronze), transparent);"></div>
         <div class="text-3xl mb-3 floating-icon">📶</div>
         <h4 class="font-bold text-base md:text-lg mb-2" style="color: var(--dark-bronze);">Internet Stays On</h4>
-        <p class="text-xs md:text-sm text-gray-800 leading-relaxed font-medium">Your Wi-Fi connection <strong style="color: var(--bronze);">will continue to work</strong> even during a blackout — the router has dedicated backup power.</p>
+        <p class="text-xs md:text-sm text-gray-800 leading-relaxed font-medium">Your Wi-Fi connection <strong style="color: var(--accent-text);">will continue to work</strong> even during a blackout — the router has dedicated backup power.</p>
         <div class="mt-3">
           <span class="inline-block text-xs font-bold px-3 py-1 rounded-full" style="background: rgba(192, 160, 98, 0.2); color: var(--dark-bronze); border: 1px solid rgba(192, 160, 98, 0.4);">✓ Always Connected</span>
         </div>
@@ -7036,7 +7037,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
         <div>
           <p class="text-sm md:text-base text-gray-700 leading-relaxed">
             <strong style="color: var(--dark-bronze);">We're always here for you.</strong> Should any concern arise, don't hesitate to reach us at any time —
-            through <a href="https://airbnb.com/h/cascadesgsc" onclick="return openAirbnbListing(event);" class="font-semibold hover:underline" style="color: var(--bronze);">Airbnb messaging</a>
+            through <a href="https://airbnb.com/h/cascadesgsc" onclick="return openAirbnbListing(event);" class="font-semibold hover:underline" style="color: var(--accent-text);">Airbnb messaging</a>
             or directly through our on-the-ground partners. Your comfort and peace of mind are our priority, around the clock.
           </p>
         </div>
@@ -7054,12 +7055,12 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 <p class="text-sm" style="color:#6b5b4a;margin:0;">A simple, calm guide for earthquakes and other natural events. You are in safe hands.</p></div>
 </div>
 <div class="space-y-3">
-<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#C9963A,#A07830);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">1</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">During the shaking — Drop, Cover, Hold On</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">Drop to the floor, take cover under a sturdy table or desk, and hold on until the shaking stops. Stay clear of windows, mirrors, and tall furniture. If you are in bed, stay there and shield your head with a pillow. Please don’t run outside while the ground is still moving.</p></div></div>
-<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#C9963A,#A07830);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">2</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">Right after — pause and check</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">Take a breath and check yourself and anyone with you. Watch for broken glass — slip on shoes before walking. Aftershocks are normal and may follow, so stay calm and ready.</p></div></div>
-<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#C9963A,#A07830);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">3</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">Step outside calmly if it feels unsafe</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">If you smell gas, see damage, or simply feel safer outside, leave without rushing. Bring your phone, the key, and an ID. Use the stairs, never elevators, and gather in an open space away from buildings, walls, and power lines.</p></div></div>
-<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#C9963A,#A07830);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">4</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">Near the coast? Move to higher ground</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">General Santos sits by Sarangani Bay. If you happen to be near the shoreline and the shaking feels strong or lasts a long time, head inland or uphill right away — don’t wait for an official siren.</p></div></div>
-<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#C9963A,#A07830);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">5</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">Power & utilities</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">If you can do it safely, switch off the unit’s main breaker. Avoid candles in case of a gas leak — use your phone light instead. The in-unit EcoFlow power station can keep your phone charged if electricity is interrupted.</p></div></div>
-<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#C9963A,#A07830);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">6</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">Reach us right away</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">Message your host and our on-the-ground partner immediately. We will guide you step by step and check in on you. You are never on your own here.</p></div></div>
+<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#7A5A2B,#6A4C22);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">1</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">During the shaking — Drop, Cover, Hold On</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">Drop to the floor, take cover under a sturdy table or desk, and hold on until the shaking stops. Stay clear of windows, mirrors, and tall furniture. If you are in bed, stay there and shield your head with a pillow. Please don’t run outside while the ground is still moving.</p></div></div>
+<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#7A5A2B,#6A4C22);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">2</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">Right after — pause and check</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">Take a breath and check yourself and anyone with you. Watch for broken glass — slip on shoes before walking. Aftershocks are normal and may follow, so stay calm and ready.</p></div></div>
+<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#7A5A2B,#6A4C22);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">3</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">Step outside calmly if it feels unsafe</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">If you smell gas, see damage, or simply feel safer outside, leave without rushing. Bring your phone, the key, and an ID. Use the stairs, never elevators, and gather in an open space away from buildings, walls, and power lines.</p></div></div>
+<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#7A5A2B,#6A4C22);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">4</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">Near the coast? Move to higher ground</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">General Santos sits by Sarangani Bay. If you happen to be near the shoreline and the shaking feels strong or lasts a long time, head inland or uphill right away — don’t wait for an official siren.</p></div></div>
+<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#7A5A2B,#6A4C22);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">5</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">Power & utilities</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">If you can do it safely, switch off the unit’s main breaker. Avoid candles in case of a gas leak — use your phone light instead. The in-unit EcoFlow power station can keep your phone charged if electricity is interrupted.</p></div></div>
+<div style="display:flex;gap:.75rem;background:rgba(255,255,255,0.62);border-radius:.7rem;padding:.7rem .8rem;"><div style="flex:none;width:1.65rem;height:1.65rem;border-radius:9999px;background:linear-gradient(135deg,#7A5A2B,#6A4C22);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;">6</div><div><p style="font-weight:600;color:#1C1006;font-size:.92rem;margin:0 0 .15rem;">Reach us right away</p><p style="color:#4a3a28;font-size:.84rem;line-height:1.5;margin:0;">Message your host and our on-the-ground partner immediately. We will guide you step by step and check in on you. You are never on your own here.</p></div></div>
 </div>
 <div style="background:rgba(201,150,58,0.12);border-left:3px solid #C9963A;border-radius:.55rem;padding:.7rem .85rem;margin-top:1rem;">
 <p style="color:#5b4630;font-size:.85rem;line-height:1.5;margin:0;">For any emergency, please don’t hesitate to <strong>contact us or our on-the-ground partner immediately</strong> — day or night. The emergency numbers you may need are listed just below.</p>
@@ -7149,7 +7150,7 @@ input,textarea,select{ caret-color:var(--cx-gold); }
 </div>
 <div class="text-center p-4 bg-white/50 rounded-lg">
 <p class="text-xs text-gray-600 mb-1">Host Support 24/7</p>
-<a class="text-lg md:text-xl font-semibold hover:underline block mb-2" href="https://airbnb.com/h/cascadesgsc" onclick="return openAirbnbListing(event);" style="color: var(--bronze);">
+<a class="text-lg md:text-xl font-semibold hover:underline block mb-2" href="https://airbnb.com/h/cascadesgsc" onclick="return openAirbnbListing(event);" style="color: var(--accent-text);">
 Connect with Us
 </a>
 <p class="text-xs text-gray-600 italic">Available anytime</p>
@@ -7192,7 +7193,7 @@ Connect with Us
     transition: background 0.8s ease;
   ">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%, rgba(201,150,58,0.18) 0%, transparent 70%);pointer-events:none;"></div>
-    <p style="font-family:'Raleway',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:rgba(201,150,58,0.75); margin:0 0 0.75rem;">✦ Word of the Day ✦</p>
+    <p style="font-family:'Raleway',sans-serif; font-size:0.75rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:rgba(201,150,58,0.75); margin:0 0 0.75rem;">✦ Word of the Day ✦</p>
     <p id="wotdWord" style="font-family:'Cormorant Garamond',serif; font-size:clamp(2.4rem,8vw,3.2rem); font-weight:600; color:#F7F2E8; margin:0 0 0.3rem; line-height:1.1; letter-spacing:-0.01em;">Salamat</p>
     <p id="wotdPronounce" style="font-family:'Raleway',sans-serif; font-size:0.8rem; color:rgba(201,150,58,0.8); margin:0 0 0.9rem; font-style:italic;">/sa-LA-mat/</p>
     <div style="width:40px;height:1px;background:rgba(201,150,58,0.35);margin:0 auto 0.9rem;"></div>
@@ -7202,12 +7203,12 @@ Connect with Us
 
 
   <!-- Daily rotating phrase cards grid -->
-  <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--bronze);letter-spacing:0.1em;">Today's Phrase Set</p>
+  <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--accent-text);letter-spacing:0.1em;">Today's Phrase Set</p>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6" id="phraseGrid"></div>
 
   <!-- Always-visible essential phrases -->
   <div class="p-4 rounded-2xl mb-4" style="background:rgba(28,16,6,0.04);border:1px solid rgba(201,150,58,0.15);">
-    <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color:var(--bronze);letter-spacing:0.1em;">✦ Handy Phrases for Your Stay</p>
+    <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color:var(--accent-text);letter-spacing:0.1em;">✦ Handy Phrases for Your Stay</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
       <div class="flex items-start gap-2 p-2.5 rounded-xl" style="background:rgba(255,255,255,0.65);">
         <span style="font-size:1.1rem;flex-shrink:0;">🚕</span>
@@ -7239,7 +7240,7 @@ Connect with Us
   <!-- Context note -->
   <div class="mt-4 p-3 rounded-xl" style="background:rgba(201,150,58,0.05); border:1px dashed rgba(201,150,58,0.22);">
     <p class="text-xs text-gray-600 text-center leading-relaxed" id="phraseWeatherNote">
-      <span style="color:var(--bronze); font-weight:600;">💡 Local tip:</span> Always add <strong>"po"</strong> to show respect — it's like saying "Ma'am/Sir" and goes a long way in GenSan.
+      <span style="color:var(--accent-text); font-weight:600;">💡 Local tip:</span> Always add <strong>"po"</strong> to show respect — it's like saying "Ma'am/Sir" and goes a long way in GenSan.
     </p>
   </div>
 </div>
@@ -7410,7 +7411,7 @@ Connect with Us
 <span class="text-xl">
             📧
            </span>
-<span style="color: var(--bronze);">
+<span style="color: var(--accent-text);">
             cascadereservations@gmail.com
            </span>
 </a>
@@ -7421,7 +7422,7 @@ Connect with Us
 <span class="text-xl">
             📱
            </span>
-<span style="color: var(--bronze);">
+<span style="color: var(--accent-text);">
             Cascade Airbnb
            </span>
 </a>
@@ -7938,7 +7939,7 @@ function openAirbnbListing(event) {
                             style="background:none;border:none;cursor:pointer;
                                    padding:0.2rem 0;min-height:0;min-width:0;
                                    font-family:'Raleway',sans-serif;font-size:0.85rem;
-                                   font-weight:500;color:var(--bronze);
+                                   font-weight:500;color:var(--accent-text);
                                    letter-spacing:0.025em;display:inline-flex;
                                    align-items:center;gap:0.35rem;
                                    transition:opacity 0.15s ease;"
@@ -8009,7 +8010,7 @@ function openAirbnbListing(event) {
 
                         if (warnText) {
                             warnEl.textContent = warnText;
-                            warnEl.style.cssText = `display:block;background:${warnBg};color:${warnColor};font-family:'Raleway',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.18rem 0.65rem;border-radius:999px;margin-bottom:0.15rem;text-align:center;`;
+                            warnEl.style.cssText = `display:block;background:${warnBg};color:${warnColor};font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.18rem 0.65rem;border-radius:999px;margin-bottom:0.15rem;text-align:center;`;
                         } else {
                             warnEl.style.display = 'none';
                         }
@@ -8080,7 +8081,7 @@ function openAirbnbListing(event) {
                     if (!el || !data) return;
                     // Color by urgency level
                     const aqiN = Number(data.aqi);
-                    let color = 'var(--bronze)'; // Good — default bronze
+                    let color = 'var(--accent-text)'; // Good — default bronze
                     if (aqiN > 150) color = '#b91c1c';       // Unhealthy — red
                     else if (aqiN > 100) color = '#c2410c';  // Sensitive — orange
                     else if (aqiN > 50)  color = '#a16207';  // Moderate — amber
@@ -8786,7 +8787,7 @@ function openAirbnbListing(event) {
               '<div style="text-align:center;padding:0.5rem 0;">' +
               '<div style="font-size:1.75rem;margin-bottom:0.5rem;">🔒</div>' +
               '<p style="font-family:\'Raleway\',sans-serif;font-size:0.85rem;color:var(--dark-bronze);font-weight:600;margin-bottom:0.4rem;">Guest access has expired.</p>' +
-              '<p style="font-family:\'Cormorant Garamond\',serif;font-size:0.92rem;color:#6b7280;font-style:italic;line-height:1.55;">Please verify your booking details to continue accessing your guide.</p>' +
+              '<p style="font-family:\'Cormorant Garamond\',serif;font-size:0.92rem;color:#5C4D3F;font-style:italic;line-height:1.55;">Please verify your booking details to continue accessing your guide.</p>' +
               '<button id="ch-from-expired-verify" class="modal-btn modal-btn-primary w-full" style="margin-top:1rem;">← Verify Booking</button>' +
               '</div>';
             const fb = document.querySelector('#ch-from-expired-verify');
@@ -9222,16 +9223,16 @@ function openAirbnbListing(event) {
                     // Sub-row items — ordered to match screenshot
                     const sub = [];
                     if (d.rain_prob > 0) sub.push(`<span style="color:#2563eb;display:inline-flex;align-items:center;gap:0.2rem;">💧 <span>${d.rain_prob}% Precip</span></span>`);
-                    if (d.feels_like_high != null) sub.push(`<span style="color:#6b7280;display:inline-flex;align-items:center;gap:0.2rem;">🌡 <span>Feels ${d.feels_like_high}°</span></span>`);
+                    if (d.feels_like_high != null) sub.push(`<span style="color:#5C4D3F;display:inline-flex;align-items:center;gap:0.2rem;">🌡 <span>Feels ${d.feels_like_high}°</span></span>`);
                     if (uvi > 0) sub.push(`<span style="color:${uvC};display:inline-flex;align-items:center;gap:0.2rem;text-shadow:0 1px 2px rgba(0,0,0,0.12);">☀ <span>UV ${uvi}${uvT ? ' · '+uvT : ''}</span></span>`);
-                    const subRow = sub.length ? `<div style="margin-top:0.4rem;padding-top:0.35rem;border-top:1px solid rgba(192,160,98,0.12);display:flex;align-items:center;justify-content:center;gap:1rem;font-family:'Raleway',sans-serif;font-size:0.65rem;font-weight:500;">${sub.join('')}</div>` : '';
+                    const subRow = sub.length ? `<div style="margin-top:0.4rem;padding-top:0.35rem;border-top:1px solid rgba(192,160,98,0.12);display:flex;align-items:center;justify-content:center;gap:1rem;font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:500;">${sub.join('')}</div>` : '';
                     return `<div style="background:rgba(255,255,255,0.75);border:1px solid rgba(192,160,98,0.2);border-radius:0.875rem;padding:0.75rem 1rem;box-shadow:0 2px 10px rgba(74,63,53,0.07),0 1px 3px rgba(192,160,98,0.12);">
                       <div style="display:flex;align-items:center;gap:0.6rem;">
                         <span style="font-size:1.9rem;flex-shrink:0;line-height:1;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.15)) drop-shadow(0 1px 3px rgba(255,255,255,0.6));">${d.emoji||'🌤️'}</span>
                         <div style="flex:1;min-width:0;">
                           <div style="display:flex;align-items:baseline;gap:0.3rem;">
                             <span style="font-family:'Raleway',sans-serif;font-size:0.88rem;font-weight:700;color:var(--dark-bronze);text-shadow:0 1px 2px rgba(255,255,255,0.8);">${dayShort}</span>
-                            <span style="font-family:'Raleway',sans-serif;font-size:0.68rem;color:#9ca3af;">${dateLbl}</span>
+                            <span style="font-family:'Raleway',sans-serif;font-size:0.75rem;color:#74665A;">${dateLbl}</span>
                           </div>
                           ${d.description ? `<div style="font-family:'Raleway',sans-serif;font-size:0.75rem;color:#5a4a3a;margin-top:0.1rem;line-height:1.35;text-shadow:0 1px 2px rgba(255,255,255,0.7);">${d.description}</div>` : ''}
                         </div>
@@ -9244,8 +9245,8 @@ function openAirbnbListing(event) {
                 }).join('');
                 const srcLabel = { pirate_weather: 'PirateWeather', google_weather: 'Google Weather', open_meteo: 'Open-Meteo' }[proxyData.source] || proxyData.source || 'Weather';
                 const fetchedAt = proxyData.fetched_at ? ` · ${new Date(proxyData.fetched_at).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true,timeZone:'Asia/Manila'})}` : '';
-                const sourceFooter = `<p style="font-family:'Raleway',sans-serif;font-size:0.62rem;color:rgba(120,90,60,0.45);text-align:center;margin-top:0.75rem;letter-spacing:0.04em;">via ${srcLabel}${fetchedAt}</p>`;
-                html += `<div style="margin-top:0.5rem;"><p style="font-family:'Raleway',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--bronze);margin:0 0 0.6rem;opacity:0.75;text-align:center;">5-Day Forecast · General Santos</p><div style="display:flex;flex-direction:column;gap:0.4rem;">${cardsHTML}</div>${sourceFooter}</div>`;
+                const sourceFooter = `<p style="font-family:'Raleway',sans-serif;font-size:0.75rem;color:#74665A;text-align:center;margin-top:0.75rem;letter-spacing:0.04em;">via ${srcLabel}${fetchedAt}</p>`;
+                html += `<div style="margin-top:0.5rem;"><p style="font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-text);margin:0 0 0.6rem;opacity:1;text-align:center;">5-Day Forecast · General Santos</p><div style="display:flex;flex-direction:column;gap:0.4rem;">${cardsHTML}</div>${sourceFooter}</div>`;
             } catch(e) { console.warn('Proxy forecast render:', e); }
 
         } else if (data && data.hourly && data.daily) {
@@ -9298,12 +9299,12 @@ function openAirbnbListing(event) {
                 else if(uv>=6){uvT=`High (${uv})`;uvC='#C9963A';}      /* champagne gold */
                 else if(uv>=3){uvT=`Moderate (${uv})`;uvC='#B09A5C';} /* antique gold */
                 else{uvT=`Low (${uv})`;}
-                const tp=proxyFcDays[i]?.thunder_prob??0; const thunderBadge=tp>10?`<div style="font-size:0.65rem;color:#f59e0b;font-weight:700;margin-top:0.15rem;">⚡ ${tp}% storm</div>`:'';
-                return `<div style="background:rgba(255,255,255,0.75);border:1px solid rgba(192,160,98,0.2);border-radius:0.875rem;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem;box-shadow:0 2px 10px rgba(74,63,53,0.07),0 1px 3px rgba(192,160,98,0.12);"><div style="min-width:48px;text-align:center;"><div style="font-family:'Raleway',sans-serif;font-size:0.8rem;font-weight:700;color:var(--dark-bronze);text-shadow:0 1px 2px rgba(255,255,255,0.8);">${ds}</div><div style="font-family:'Raleway',sans-serif;font-size:0.68rem;color:#6b7280;">${dl}</div></div><span style="font-size:1.6rem;flex-shrink:0;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.15)) drop-shadow(0 1px 3px rgba(255,255,255,0.6));">${ic}</span><div style="flex:1;min-width:0;font-family:'Raleway',sans-serif;font-size:0.78rem;font-weight:500;color:#4a3a2a;text-align:center;text-shadow:0 1px 2px rgba(255,255,255,0.7);">${desc}</div><div style="text-align:right;flex-shrink:0;"><div style="font-family:'Raleway',sans-serif;font-size:0.85rem;font-weight:700;color:var(--dark-bronze);text-shadow:0 1px 4px rgba(74,63,53,0.18);">${hi}° <span style="font-weight:400;color:#9ca3af;">/ ${lo}°</span></div><div style="font-size:0.68rem;margin-top:0.2rem;"><span style="color:${uvC};font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,0.1);">☀ UV: ${uvT}</span></div><div style="font-size:0.68rem;color:#2563eb;font-weight:600;">💧 ${rp}%</div>${thunderBadge}</div></div>`;}).join('');
-                html+=`<div style="margin-top:0.5rem;"><p style="font-family:'Raleway',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--bronze);margin:0 0 0.6rem;opacity:0.75;text-align:center;">5-Day Forecast · General Santos</p><div style="display:flex;flex-direction:column;gap:0.45rem;">${fc}</div></div>`;
+                const tp=proxyFcDays[i]?.thunder_prob??0; const thunderBadge=tp>10?`<div style="font-size:0.75rem;color:#f59e0b;font-weight:700;margin-top:0.15rem;">⚡ ${tp}% storm</div>`:'';
+                return `<div style="background:rgba(255,255,255,0.75);border:1px solid rgba(192,160,98,0.2);border-radius:0.875rem;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem;box-shadow:0 2px 10px rgba(74,63,53,0.07),0 1px 3px rgba(192,160,98,0.12);"><div style="min-width:48px;text-align:center;"><div style="font-family:'Raleway',sans-serif;font-size:0.8rem;font-weight:700;color:var(--dark-bronze);text-shadow:0 1px 2px rgba(255,255,255,0.8);">${ds}</div><div style="font-family:'Raleway',sans-serif;font-size:0.75rem;color:#6b7280;">${dl}</div></div><span style="font-size:1.6rem;flex-shrink:0;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.15)) drop-shadow(0 1px 3px rgba(255,255,255,0.6));">${ic}</span><div style="flex:1;min-width:0;font-family:'Raleway',sans-serif;font-size:0.78rem;font-weight:500;color:#4a3a2a;text-align:center;text-shadow:0 1px 2px rgba(255,255,255,0.7);">${desc}</div><div style="text-align:right;flex-shrink:0;"><div style="font-family:'Raleway',sans-serif;font-size:0.85rem;font-weight:700;color:var(--dark-bronze);text-shadow:0 1px 4px rgba(74,63,53,0.18);">${hi}° <span style="font-weight:400;color:#9ca3af;">/ ${lo}°</span></div><div style="font-size:0.75rem;margin-top:0.2rem;"><span style="color:${uvC};font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,0.1);">☀ UV: ${uvT}</span></div><div style="font-size:0.75rem;color:#2563eb;font-weight:600;">💧 ${rp}%</div>${thunderBadge}</div></div>`;}).join('');
+                html+=`<div style="margin-top:0.5rem;"><p style="font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-text);margin:0 0 0.6rem;opacity:1;text-align:center;">5-Day Forecast · General Santos</p><div style="display:flex;flex-direction:column;gap:0.45rem;">${fc}</div></div>`;
             } catch(e){ console.warn('Forecast cards:', e); }
         } else if (cur) {
-            html += `<p style="text-align:center;font-size:0.85rem;color:#9ca3af;padding:1rem 0;">Detailed forecast not available.</p>`;
+            html += `<p style="text-align:center;font-size:0.85rem;color:#74665A;padding:1rem 0;">Detailed forecast not available.</p>`;
         }
 
         if (loader) loader.style.display='none';
@@ -9478,7 +9479,7 @@ function openAirbnbListing(event) {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.45rem;
     font-weight: 300;
-    color: var(--bronze);
+    color: var(--accent-text);
     line-height: 0.9;
     letter-spacing: -0.015em;
   }
@@ -9546,7 +9547,7 @@ function openAirbnbListing(event) {
     display: inline-flex; align-items: center; gap: .25rem;
     font-size: .75rem; padding: .25rem .45rem;
     border: 1px solid rgba(166,124,82,.35); border-radius: .45rem;
-    background: rgba(192,160,98,.08); cursor: pointer; text-decoration: none; color: var(--bronze);
+    background: rgba(192,160,98,.08); cursor: pointer; text-decoration: none; color: var(--accent-text);
   }
   .cc-chip:hover { background: rgba(192,160,98,.14); }
 </style>
@@ -10463,11 +10464,11 @@ function openAirbnbListing(event) {
   /* ── Section eyebrow label pattern (used in phrase, wifi) ── */
   .eyebrow-label {
     font-family: 'Raleway', sans-serif;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--bronze);
+    color: var(--accent-text);
   }
 
   /* ── Infographic image: crisp on HiDPI ── */
@@ -10735,7 +10736,7 @@ function openAirbnbListing(event) {
         '💡 "Sige" is the most useful Filipino word — it means okay, go ahead, or even goodbye.',
         '💡 Price negotiation tip: "Pila man?" with a smile often gets you a better deal at the palengke.',
       ];
-      weatherNote.innerHTML = `<span style="color:var(--bronze);font-weight:600;">✦</span> ${notes[dayIdx % notes.length]}`;
+      weatherNote.innerHTML = `<span style="color:var(--accent-text);font-weight:600;">✦</span> ${notes[dayIdx % notes.length]}`;
     }
 
     // Render phrase cards
@@ -10745,8 +10746,8 @@ function openAirbnbListing(event) {
           <span style="font-size:1.4rem;flex-shrink:0;">${p.emoji}</span>
           <div>
             <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--dark-bronze);margin:0 0 0.1rem;line-height:1.2;">${p.word}</p>
-            <p style="font-family:'Raleway',sans-serif;font-size:0.72rem;color:var(--charcoal);opacity:0.8;margin:0 0 0.15rem;">${p.meaning}</p>
-            <span style="font-family:'Raleway',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--bronze);opacity:0.75;">${p.lang}</span>
+            <p style="font-family:'Raleway',sans-serif;font-size:0.75rem;color:var(--charcoal);opacity:0.8;margin:0 0 0.15rem;">${p.meaning}</p>
+            <span style="font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);opacity:1;">${p.lang}</span>
           </div>
         </div>
       `).join('');
@@ -11541,10 +11542,10 @@ function openAirbnbListing(event) {
   border-radius:0.75rem; padding:0.7rem 0.9rem; font-size:0.8rem;
   color:var(--dark-bronze); line-height:1.75; margin-bottom:1.1rem;
 }
-.gps-nudge-steps strong { color:var(--bronze); }
+.gps-nudge-steps strong { color:var(--accent-text); }
 .gps-nudge-btn {
   display:block; width:100%; padding:0.85rem;
-  background:linear-gradient(135deg,var(--bronze) 0%,var(--dark-bronze) 100%);
+  background:linear-gradient(135deg,#7A5A2B 0%,var(--dark-bronze) 100%);
   color:#fff; font-weight:600; font-size:0.9rem; letter-spacing:0.03em;
   border:none; border-radius:0.75rem; cursor:pointer; text-align:center;
   box-shadow:0 4px 14px rgba(166,124,82,0.35); touch-action:manipulation;
@@ -11552,7 +11553,7 @@ function openAirbnbListing(event) {
 }
 .gps-nudge-btn:active { transform:scale(0.98); }
 .gps-nudge-skip {
-  text-align:center; font-size:0.72rem; color:#b0a090; margin-top:0.65rem; line-height:1.4;
+  text-align:center; font-size:0.75rem; color:#74665A; margin-top:0.65rem; line-height:1.4;
 }
 /* Static GPS note — compact inline, sits inside address box */
 .dc-gps-note {
@@ -11784,7 +11785,7 @@ function openAirbnbListing(event) {
         var coHead = coSection.querySelector('p');
         if (coHead && checkoutTime){
           var timeNote = document.createElement('p');
-          timeNote.style.cssText='font-family:"Raleway",sans-serif;font-size:0.85rem;font-weight:600;color:var(--bronze);text-align:center;margin-top:-0.75rem;margin-bottom:1.25rem;';
+          timeNote.style.cssText='font-family:"Raleway",sans-serif;font-size:0.85rem;font-weight:600;color:var(--accent-text);text-align:center;margin-top:-0.75rem;margin-bottom:1.25rem;';
           timeNote.innerHTML='🕐 Your checkout time: <strong>'+fmtTime(checkoutTime)+'</strong>';
           coHead.parentNode.insertBefore(timeNote, coHead.nextSibling);
         }
@@ -11861,7 +11862,7 @@ function openAirbnbListing(event) {
 <!-- /CASCADE-WELCOME-NUDGE:v2 -->
 <!-- CASCADE-EQ-DIALOG:v1 — opening note on Explore/Dining; auto-dismiss on scroll; auto-expires -->
 <style id="ch-eq-style">
-.ch-recovery-pill{display:inline-flex;align-items:center;gap:.3em;margin-top:.4rem;padding:.18rem .55rem;border-radius:9999px;font-size:.62rem;font-weight:600;line-height:1.25;background:rgba(201,150,58,.14);color:#8a6418;border:1px solid rgba(201,150,58,.4);letter-spacing:.01em;}
+.ch-recovery-pill{display:inline-flex;align-items:center;gap:.3em;margin-top:.4rem;padding:.18rem .55rem;border-radius:9999px;font-size:0.75rem;font-weight:600;line-height:1.25;background:rgba(201,150,58,.14);color:#8a6418;border:1px solid rgba(201,150,58,.4);letter-spacing:.01em;}
 .ch-eq-backdrop{position:fixed;inset:0;background:rgba(28,16,6,.45);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1.25rem;opacity:0;pointer-events:none;transition:opacity .35s ease;}
 .ch-eq-backdrop.show{opacity:1;pointer-events:auto;}
 .ch-eq-dialog{max-width:30rem;width:100%;background:linear-gradient(135deg,#FBF7EE 0%,#F7F2E8 100%);border:1px solid rgba(201,150,58,.35);border-radius:1.1rem;box-shadow:0 18px 50px rgba(28,16,6,.35);padding:1.5rem 1.4rem;transform:translateY(14px) scale(.985);transition:transform .35s cubic-bezier(.16,1,.3,1);}
@@ -11871,10 +11872,10 @@ function openAirbnbListing(event) {
 .ch-eq-emergency{background:rgba(201,150,58,.12);border-left:3px solid #C9963A;border-radius:.5rem;padding:.6rem .75rem;color:#5b4630;font-size:.82rem;line-height:1.5;}
 .ch-eq-actions{display:flex;gap:.6rem;margin-top:1.1rem;flex-wrap:wrap;}
 .ch-eq-btn{flex:1;min-width:8rem;text-align:center;padding:.62rem .8rem;border-radius:.6rem;font-size:.85rem;font-weight:600;cursor:pointer;border:none;transition:filter .2s ease;}
-.ch-eq-btn-primary{background:linear-gradient(135deg,#C9963A,#A07830);color:#fff;}
+.ch-eq-btn-primary{background:linear-gradient(135deg,#7A5A2B,#6A4C22);color:#fff;}
 .ch-eq-btn-ghost{background:transparent;color:#8a6418;border:1px solid rgba(201,150,58,.5);}
 .ch-eq-btn:hover{filter:brightness(1.06);}
-.ch-eq-hint{text-align:center;font-size:.68rem;color:#a08a6a;margin-top:.7rem;letter-spacing:.02em;}
+.ch-eq-hint{text-align:center;font-size:0.75rem;color:#74665A;margin-top:.7rem;letter-spacing:.02em;}
 </style>
 <div class="ch-eq-backdrop" id="chEqBackdrop" role="dialog" aria-modal="true" aria-labelledby="chEqTitle" aria-describedby="chEqBody">
 <div class="ch-eq-dialog" role="document">
