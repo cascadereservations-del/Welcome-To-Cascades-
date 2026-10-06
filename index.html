@@ -9299,8 +9299,8 @@ function openAirbnbListing(event) {
                 else if(uv>=6){uvT=`High (${uv})`;uvC='#C9963A';}      /* champagne gold */
                 else if(uv>=3){uvT=`Moderate (${uv})`;uvC='#B09A5C';} /* antique gold */
                 else{uvT=`Low (${uv})`;}
-                const tp=proxyFcDays[i]?.thunder_prob??0; const thunderBadge=tp>10?`<div style="font-size:0.75rem;color:#f59e0b;font-weight:700;margin-top:0.15rem;">⚡ ${tp}% storm</div>`:'';
-                return `<div style="background:rgba(255,255,255,0.75);border:1px solid rgba(192,160,98,0.2);border-radius:0.875rem;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem;box-shadow:0 2px 10px rgba(74,63,53,0.07),0 1px 3px rgba(192,160,98,0.12);"><div style="min-width:48px;text-align:center;"><div style="font-family:'Raleway',sans-serif;font-size:0.8rem;font-weight:700;color:var(--dark-bronze);text-shadow:0 1px 2px rgba(255,255,255,0.8);">${ds}</div><div style="font-family:'Raleway',sans-serif;font-size:0.75rem;color:#6b7280;">${dl}</div></div><span style="font-size:1.6rem;flex-shrink:0;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.15)) drop-shadow(0 1px 3px rgba(255,255,255,0.6));">${ic}</span><div style="flex:1;min-width:0;font-family:'Raleway',sans-serif;font-size:0.78rem;font-weight:500;color:#4a3a2a;text-align:center;text-shadow:0 1px 2px rgba(255,255,255,0.7);">${desc}</div><div style="text-align:right;flex-shrink:0;"><div style="font-family:'Raleway',sans-serif;font-size:0.85rem;font-weight:700;color:var(--dark-bronze);text-shadow:0 1px 4px rgba(74,63,53,0.18);">${hi}° <span style="font-weight:400;color:#9ca3af;">/ ${lo}°</span></div><div style="font-size:0.75rem;margin-top:0.2rem;"><span style="color:${uvC};font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,0.1);">☀ UV: ${uvT}</span></div><div style="font-size:0.75rem;color:#2563eb;font-weight:600;">💧 ${rp}%</div>${thunderBadge}</div></div>`;}).join('');
+                const tp=proxyFcDays[i]?.thunder_prob??0; const thunderBadge=tp>10?`<div style="font-size:0.75rem;color:#9C3F0A;font-weight:700;margin-top:0.15rem;">⚡ ${tp}% storm</div>`:'';
+                return `<div style="background:rgba(255,255,255,0.75);border:1px solid rgba(192,160,98,0.2);border-radius:0.875rem;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem;box-shadow:0 2px 10px rgba(74,63,53,0.07),0 1px 3px rgba(192,160,98,0.12);"><div style="min-width:48px;text-align:center;"><div style="font-family:'Raleway',sans-serif;font-size:0.8rem;font-weight:700;color:var(--dark-bronze);text-shadow:0 1px 2px rgba(255,255,255,0.8);">${ds}</div><div style="font-family:'Raleway',sans-serif;font-size:0.75rem;color:#5C4D3F;">${dl}</div></div><span style="font-size:1.6rem;flex-shrink:0;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.15)) drop-shadow(0 1px 3px rgba(255,255,255,0.6));">${ic}</span><div style="flex:1;min-width:0;font-family:'Raleway',sans-serif;font-size:0.78rem;font-weight:500;color:#4a3a2a;text-align:center;text-shadow:0 1px 2px rgba(255,255,255,0.7);">${desc}</div><div style="text-align:right;flex-shrink:0;"><div style="font-family:'Raleway',sans-serif;font-size:0.85rem;font-weight:700;color:var(--dark-bronze);text-shadow:0 1px 4px rgba(74,63,53,0.18);">${hi}° <span style="font-weight:400;color:#74665A;">/ ${lo}°</span></div><div style="font-size:0.75rem;margin-top:0.2rem;"><span style="color:${uvC};font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,0.1);">☀ UV: ${uvT}</span></div><div style="font-size:0.75rem;color:#2563eb;font-weight:600;">💧 ${rp}%</div>${thunderBadge}</div></div>`;}).join('');
                 html+=`<div style="margin-top:0.5rem;"><p style="font-family:'Raleway',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-text);margin:0 0 0.6rem;opacity:1;text-align:center;">5-Day Forecast · General Santos</p><div style="display:flex;flex-direction:column;gap:0.45rem;">${fc}</div></div>`;
             } catch(e){ console.warn('Forecast cards:', e); }
         } else if (cur) {
@@ -9488,8 +9488,8 @@ function openAirbnbListing(event) {
   }
 
   /* Bronze shade scale for temperatures (cool → very hot) */
-  #weatherWidget .weather-temp.temp-cool     { color: #B8926A; }
-  #weatherWidget .weather-temp.temp-mild     { color: #A67C52; }
+  #weatherWidget .weather-temp.temp-cool     { color: #94663E; }
+  #weatherWidget .weather-temp.temp-mild     { color: #94663E; }
   #weatherWidget .weather-temp.temp-warm     { color: #94663E; }
   #weatherWidget .weather-temp.temp-hot      { color: #82522D; }
   #weatherWidget .weather-temp.temp-very-hot { color: #6F4423; }
@@ -11862,7 +11862,7 @@ function openAirbnbListing(event) {
 <!-- /CASCADE-WELCOME-NUDGE:v2 -->
 <!-- CASCADE-EQ-DIALOG:v1 — opening note on Explore/Dining; auto-dismiss on scroll; auto-expires -->
 <style id="ch-eq-style">
-.ch-recovery-pill{display:inline-flex;align-items:center;gap:.3em;margin-top:.4rem;padding:.18rem .55rem;border-radius:9999px;font-size:0.75rem;font-weight:600;line-height:1.25;background:rgba(201,150,58,.14);color:#8a6418;border:1px solid rgba(201,150,58,.4);letter-spacing:.01em;}
+.ch-recovery-pill{display:inline-flex;align-items:center;gap:.3em;margin-top:.4rem;padding:.18rem .55rem;border-radius:.75rem;font-size:0.75rem;font-weight:600;line-height:1.25;background:rgba(201,150,58,.14);color:#8a6418;border:1px solid rgba(201,150,58,.4);letter-spacing:.01em;}
 .ch-eq-backdrop{position:fixed;inset:0;background:rgba(28,16,6,.45);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1.25rem;opacity:0;pointer-events:none;transition:opacity .35s ease;}
 .ch-eq-backdrop.show{opacity:1;pointer-events:auto;}
 .ch-eq-dialog{max-width:30rem;width:100%;background:linear-gradient(135deg,#FBF7EE 0%,#F7F2E8 100%);border:1px solid rgba(201,150,58,.35);border-radius:1.1rem;box-shadow:0 18px 50px rgba(28,16,6,.35);padding:1.5rem 1.4rem;transform:translateY(14px) scale(.985);transition:transform .35s cubic-bezier(.16,1,.3,1);}
