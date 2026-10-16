@@ -35,7 +35,6 @@ const SHELL_URLS = [
   '/Welcome-To-Cascades-/',
   '/Welcome-To-Cascades-/index.html',
   '/Welcome-To-Cascades-/icon-192.png',
-  '/Welcome-To-Cascades-/manifest.json',
 ];
 
 // ── Install ─────────────────────────────────────────────────────────────────
