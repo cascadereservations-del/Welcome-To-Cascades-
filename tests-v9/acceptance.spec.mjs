@@ -17,10 +17,45 @@ for (const theme of ['day', 'night']) {
         await seed(h.context, entries);
         await ready(h.page);
         await h.page.waitForTimeout(1200);
+        const badImages = [];
+        h.page.on('response', (r) => { if (/\/img\//.test(r.url()) && r.status() >= 400) badImages.push(r.url()); });
         if (state === 'signed-in') {
-          await h.page.evaluate(async () => { for (let y = 0; y < document.documentElement.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 30)); } });
-          await h.page.waitForTimeout(500);
           await expect(h.page.locator('#gate')).toBeHidden();
+          // the book is a horizontal pager: use the page's own dots, then scroll each chapter's own scroller (never window scroll)
+          const total = await h.page.evaluate(() => document.querySelectorAll('.ch').length);
+          expect(total, 'the guide has 6 chapters').toBe(6);
+          expect(await h.page.locator('#dots .dot').count(), 'one dot per chapter').toBe(total);
+          const visited = [];
+          for (let i = 0; i < total; i++) {
+            await h.page.locator(`#dots .dot[data-ch="${i}"]`).click();
+            await h.page.waitForFunction((k) => { const b = document.querySelector('#book'); return document.querySelectorAll('#dots .dot')[k].getAttribute('aria-current') === 'true' && Math.abs(b.scrollLeft - k * b.clientWidth) < 2; }, i);
+            await h.page.evaluate(async (k) => { const ch = document.querySelectorAll('.ch')[k]; for (let y = 0; y <= ch.scrollHeight; y += 500) { ch.scrollTop = y; await new Promise((r) => setTimeout(r, 25)); } }, i);
+            await h.page.waitForTimeout(150);
+            visited.push(await h.page.evaluate(() => [...document.querySelectorAll('#dots .dot')].findIndex((d) => d.getAttribute('aria-current') === 'true')));
+          }
+          // open every guest sheet too (their photos load lazily), then prove every image the page now points at resolves
+          for (const name of ['concierge', 'help', 'wifi', 'arrive', 'nearby', 'index']) {
+            await h.page.evaluate((n) => document.querySelector(`[data-open="${n}"]`).click(), name);
+            await expect(h.page.locator(`#sh-${name}.on`)).toHaveCount(1);
+            await h.page.waitForTimeout(150);
+            await h.page.evaluate(() => document.querySelector('.sheet.on [data-close]').click());
+            await expect(h.page.locator('.sheet.on')).toHaveCount(0);
+          }
+          const refs = await h.page.evaluate(() => {
+            const out = new Set(), add = (u) => { if (u && !/^data:/.test(u)) out.add(new URL(u, location.href).pathname); };
+            document.querySelectorAll('img').forEach((i) => add(i.getAttribute('src') || i.dataset.src));
+            document.querySelectorAll('*').forEach((e) => { for (const v of [e.style.backgroundImage, e.dataset.bg, getComputedStyle(e).backgroundImage]) for (const m of String(v || '').matchAll(/url\(["']?([^"')]+)["']?\)/g)) add(m[1]); });
+            return [...out].filter((p) => /\/img\//.test(p));
+          });
+          const missing = [];
+          for (const p of refs) { const r = await h.page.request.get(new URL(p, 'http://127.0.0.1:4391').href); if (!r.ok()) missing.push(p); }
+          fs.mkdirSync('out', { recursive: true });
+          fs.appendFileSync('out/c1-images.txt', `${theme} ${width}px: ${refs.length} image refs in the DOM after every chapter and sheet, ${missing.length} missing
+`);
+          expect(refs.length, 'the page references images').toBeGreaterThan(10);
+          expect(missing, 'every referenced image resolves').toEqual([]);
+          expect(visited, 'every chapter was visited through the pager').toEqual([0, 1, 2, 3, 4, 5]);
+          expect(badImages, 'no local image failed to load in any chapter').toEqual([]);
         } else await expect(h.page.locator('#gate')).toBeVisible();
         expect(await h.page.evaluate(() => document.documentElement.dataset.theme)).toBe(theme === 'day' ? 'light' : 'dark');
         expect(h.errors, 'page errors').toEqual([]);
@@ -203,18 +238,27 @@ for (const theme of ['day', 'night']) {
       await loc.scrollIntoViewIfNeeded();
       await h.page.waitForTimeout(500);
       const col = await loc.evaluate((el) => { const m = getComputedStyle(el).color.match(/[\d.]+/g).map(Number); return { rgb: m.slice(0, 3), a: m[3] ?? 1, text: el.textContent.trim().slice(0, 40) }; });
-      await h.page.addStyleTag({ content: `${sel}, ${sel} *{color:transparent !important;text-shadow:none !important;-webkit-text-fill-color:transparent !important}` });
-      const shot = PNG.sync.read(await loc.screenshot({ animations: 'disabled' }));
-      let worst = 99, mean = [0, 0, 0], n = 0;
-      for (let y = 0; y < shot.height; y += 2) for (let x = 0; x < shot.width; x += 3) {
-        const i = (y * shot.width + x) * 4, bg = [shot.data[i], shot.data[i + 1], shot.data[i + 2]];
-        worst = Math.min(worst, ratio(over(col.rgb, col.a, bg), bg)); mean = mean.map((v, k) => v + bg[k]); n++;
-      }
-      mean = mean.map((v) => Math.round(v / n));
+      const measure = async () => {
+        const shot = PNG.sync.read(await loc.screenshot({ animations: 'disabled' }));
+        let worst = 99, mean = [0, 0, 0], n = 0;
+        for (let y = 0; y < shot.height; y += 2) for (let x = 0; x < shot.width; x += 3) {
+          const i = (y * shot.width + x) * 4, bg = [shot.data[i], shot.data[i + 1], shot.data[i + 2]];
+          worst = Math.min(worst, ratio(over(col.rgb, col.a, bg), bg)); mean = mean.map((v, k) => v + bg[k]); n++;
+        }
+        return { worst, mean: mean.map((v) => Math.round(v / n)) };
+      };
       fs.mkdirSync('out', { recursive: true });
+      // (1) the page's real text-shadow kept: only the glyph colour is made transparent, so the shadow halo stays in the backdrop
+      await h.page.addStyleTag({ content: `${sel}, ${sel} *{color:transparent !important;-webkit-text-fill-color:transparent !important}` });
+      const kept = await measure();
+      fs.appendFileSync('out/c7-contrast.txt', `${theme} ${kind} SHADOW-KEPT meanBg=${kept.mean} worst=${kept.worst.toFixed(2)} mean=${ratio(over(col.rgb, col.a, kept.mean), kept.mean).toFixed(2)}
+`);
+      // (2) shadow removed (the asserted measure, unchanged)
+      await h.page.addStyleTag({ content: `${sel}, ${sel} *{text-shadow:none !important}` });
+      const { worst, mean } = await measure();
       fs.appendFileSync('out/c7-contrast.txt', `${theme} ${kind} "${col.text}" text=${col.rgb} a=${col.a} meanBg=${mean} worst=${worst.toFixed(2)} mean=${ratio(over(col.rgb, col.a, mean), mean).toFixed(2)}\n`);
       const meanRatio = ratio(over(col.rgb, col.a, mean), mean);
-      if (kind === 'body (poster letter)') test.info().annotations.push({ type: 'finding', description: 'light letter text over the poster photo; measured on the approved design, fix needs a visual change' });
+      if (kind === 'body (poster letter)') test.info().annotations.push({ type: 'finding', description: 'owner decision pending. CAUSE OF THE DAY FAILURE (C7b): this measure leaves the paragraph under the fixed dock, whose pale day pill (rgba(252,249,243,.74)) is part of the sampled backdrop; with the paragraph clear of the dock day and night both measure 9.74:1 (shadow kept 11.08:1)' });
       expect(meanRatio, `${theme} ${kind} contrast vs mean backdrop`).toBeGreaterThanOrEqual(4.5);
       await clean(h);
     });
@@ -366,3 +410,32 @@ test('C11c staff: guide_staff_session_v1 404 falls back to verify_admin_pin, no 
   await expect(h.page.locator('#wifilock .locked')).toHaveCount(1);
   await clean(h);
 });
+
+/* ---------- C7b: the same poster-letter paragraph with the fixed dock cleared (hit test) ---------- */
+for (const theme of ['day', 'night']) {
+  test(`C7b poster letter text ${theme}, paragraph clear of the dock >= 4.5 (real backdrop, shadow kept and removed)`, async ({ browser }) => {
+    const h = await newPage(browser, { width: 390, height: 844 });
+    await seed(h.context, { 'cg-theme': theme, ...liveStay() });
+    await ready(h.page);
+    await h.page.waitForTimeout(800);
+    const loc = h.page.locator('#welcome .letter p:not(.dear)').filter({ visible: true }).first();
+    const hit = await loc.evaluate((el) => { el.closest('.ch').scrollTop += el.getBoundingClientRect().top - 200; const r = el.getBoundingClientRect(); const t = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); const d = document.querySelector('.dots').getBoundingClientRect(); return { onTop: t === el, clearOfDock: r.bottom < d.top }; });
+    expect(hit, 'the paragraph is the topmost element at its centre and above the dock').toEqual({ onTop: true, clearOfDock: true });
+    await h.page.waitForTimeout(400);
+    const col = await loc.evaluate((el) => getComputedStyle(el).color.match(/[\d.]+/g).map(Number).slice(0, 3));
+    const res = {};
+    for (const [label, css] of [['shadow-kept', ''], ['shadow-removed', 'text-shadow:none !important']]) {
+      await h.page.addStyleTag({ content: `#welcome .letter p, #welcome .letter p *{color:transparent !important;-webkit-text-fill-color:transparent !important;${css}}` });
+      const shot = PNG.sync.read(await loc.screenshot({ animations: 'disabled' }));
+      let worst = 99, mean = [0, 0, 0], n = 0;
+      for (let y = 0; y < shot.height; y += 2) for (let x = 0; x < shot.width; x += 3) { const i = (y * shot.width + x) * 4, bg = [shot.data[i], shot.data[i + 1], shot.data[i + 2]]; worst = Math.min(worst, ratio(col, bg)); mean = mean.map((v, k) => v + bg[k]); n++; }
+      mean = mean.map((v) => Math.round(v / n));
+      res[label] = { mean: ratio(col, mean), worst };
+    }
+    fs.mkdirSync('out', { recursive: true });
+    fs.appendFileSync('out/c7-contrast.txt', `C7b ${theme} dock-cleared ${JSON.stringify(res)}\n`);
+    expect(res['shadow-removed'].mean, `${theme} mean`).toBeGreaterThanOrEqual(4.5);
+    expect(res['shadow-removed'].worst, `${theme} worst sampled pixel`).toBeGreaterThanOrEqual(4.5);
+    await clean(h);
+  });
+}
