@@ -1390,7 +1390,7 @@ const GSTEPS=['date','initial','checking','fail1','guestonly','success','adminpw
 function gstep(n){if(n==='expired'){showFarewell();return}if(typeof hideFarewell==='function'&&!$('#farewell-page').hidden)hideFarewell();GSTEPS.forEach(x=>$('#g-'+x).hidden=x!==n);const f={date:'#gdate',initial:'#ginit',adminpw:'#gpw'}[n];if(f)setTimeout(()=>$(f)&&$(f).focus(),80)}
 function showGate(n){if(n==='expired'){showFarewell();return}const g=$('#gate');$('#g-guide-back').hidden=!((sget(SK.NAME)&&sget(SK.VER))||sget(SK.ADMIN)||guestPass.has());g.hidden=false;book.inert=true;$('.dock').inert=true;gstep(n||'date')}
 function hideGate(){$('#gate').hidden=true;typeof lazyStart==='function'&&lazyStart();book.inert=false;$('.dock').inert=false}
-$('#g-guide-back').addEventListener('click',hideGate);
+$('#g-guide-back').addEventListener('click',updateGate);
 function updateGate(){ // = live updateUI(): admin or guest pass → open; expired known guest → farewell; no name → gate
  if(sget(SK.ADMIN)||guestPass.has()){hideGate();return}
  if(sget(SK.NAME)&&isExpired()){showGate('expired');return}
@@ -1458,7 +1458,7 @@ function fwStayLine(){const ci=String(sget(SK.CI)||'').slice(0,10),co=String(sge
  if(!ok.test(ci)||!ok.test(co)||ci>=co){el.hidden=true;el.textContent='';return}
  const f=(d,mo)=>new Date(d+'T00:00:00').toLocaleDateString('en-GB',mo?{day:'numeric',month:'short'}:{day:'numeric'});
  el.textContent='Your stay · '+f(ci,ci.slice(0,7)!==co.slice(0,7))+' to '+f(co,1);el.hidden=false}
-function showFarewell(){sset('ch_v2_token',null);store.set(SEC_KEY,null);renderLocks();const nm=(sget(SK.NAME)||'').trim().split(/\s+/)[0];$('#fw-name').textContent=nm&&!/^[A-Z]$/.test(nm)?nm.charAt(0).toUpperCase()+nm.slice(1).toLowerCase():'';
+function showFarewell(){sset('ch_v2_token',null);store.set(SEC_KEY,null);renderLocks();const nm=(sget(SK.NAME)||'').trim().split(/\s+/)[0];$('#fw-name').textContent=nm&&!/^[A-Za-z]$/.test(nm)?nm.charAt(0).toUpperCase()+nm.slice(1).toLowerCase():'';
  fwStayLine();setFwPhoto();
  document.documentElement.classList.add('expired');$('#gate').hidden=true;book.inert=true;$('.dock').inert=true;$('#farewell-page').hidden=false;$('#farewell-page').scrollTop=0;setTimeout(()=>$('#fw-title').focus({preventScroll:true}),300)}
 function hideFarewell(){document.documentElement.classList.remove('expired');$('#farewell-page').hidden=true}

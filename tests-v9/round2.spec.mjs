@@ -445,6 +445,20 @@ test('R2 gate back link: a fresh visitor does not see it', async ({ browser }) =
   const h = await newPage(browser);
   await ready(h.page);
   await expect(h.page.locator('#gate')).toBeVisible();
+  await expect(h.page.locator('#g-guide-back')).toBeAttached();
+  await expect(h.page.locator('#g-guide-back')).toBeHidden();
+  await clean(h);
+});
+
+test('R2 gate back link: a stored name without verification does not show it', async ({ browser }) => {
+  const h = await newPage(browser);
+  await seed(h.context, v7Stay('Maria'));
+  await ready(h.page);
+  await h.page.evaluate(() => localStorage.removeItem('ch_v2_verified'));
+  await h.page.reload();
+  await ready(h.page);
+  await expect(h.page.locator('#gate')).toBeVisible();
+  await expect(h.page.locator('#g-guide-back')).toBeAttached();
   await expect(h.page.locator('#g-guide-back')).toBeHidden();
   await clean(h);
 });
