@@ -377,6 +377,13 @@ table{width:100%;border-collapse:collapse;font-size:0.9375rem}td{padding:10px 0;
 .grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:4px auto 14px}
 .shead{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .x{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-size:1.375rem;line-height:1}
+#sh-dmap,#sh-nearby.lv{height:92vh;height:92dvh;display:flex;flex-direction:column}#sh-dmap>*,#sh-nearby.lv>*{flex:none}#sh-dmap>.mpane,#sh-nearby.lv>.mpane{flex:1 1 auto}
+.mseg{display:flex;gap:8px;margin:0 0 8px}.mseg button{flex:1;min-height:44px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--soft);font-weight:700;font-size:.9rem}.mseg button[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.segn{font-size:.8rem;margin:0 0 10px;text-align:center}
+.mpane{position:relative;min-height:240px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--card)}.mpane[hidden]{display:none}.mpane iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.mstat{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;text-align:center;color:var(--soft);background:var(--card)}.mstat[hidden]{display:none}.mstat p{margin:0}.mstat .sk{width:56%;height:10px;border-radius:9px;background:var(--line);animation:mpulse 1.4s ease-in-out infinite}
+@keyframes mpulse{50%{opacity:.35}}@media(prefers-reduced-motion:reduce){.mstat .sk{animation:none}}
+.dmapbar{display:flex;justify-content:center;margin:2px 0 14px}.dmapbar .btn{min-height:44px}
 .calls{display:grid;grid-template-columns:1.4fr 1fr;gap:10px}
 .call{display:flex;flex-direction:column;border-radius:20px;padding:14px 16px;text-decoration:none;min-height:78px;justify-content:center}
 .call b{font-size:1.188rem}.call span{font-size:0.8125rem;opacity:.92}
@@ -999,6 +1006,7 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
   <div class="band soft"><div class="wrap">
     <div class="head rv"><div class="orn">✦</div><p class="intro">Our own favourites, chosen with care.</p><p class="muted" style="font-size:0.875rem;margin:12px 0 0"><span class="band-p">₱</span> under ₱300 a head · <span class="band-p">₱₱</span> ₱300 to ₱700 · <span class="band-p">₱₱₱</span> ₱700 to ₱1,500 · <span class="band-p">₱₱₱₱</span> above ₱1,500</p></div>
     <div class="filters" id="dfilter" role="group" aria-label="Filter dining"></div>
+    <div class="dmapbar"><button type="button" class="btn" data-open="dmap"><span data-ic="map"></span>Dining map</button></div>
     <div id="dining"></div>
     <p class="note rv">One gentle request: after an evening out, let a Grab bring you home, and keep the house hushed from 10:00 PM for our neighbours. Thank you.</p>
   </div></div>
@@ -1139,12 +1147,23 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
 
 <aside class="sheet" id="sh-nearby" role="dialog" aria-modal="true" aria-label="Around Cascade"><div class="grab"></div>
   <div class="shead"><h2>Around Cascade</h2><button class="x" data-close aria-label="Close">×</button></div>
+  <div class="mseg" role="tablist" aria-label="Map view"><button type="button" role="tab" id="nt-live" aria-selected="true" aria-controls="np-live" data-mt="live">Live map</button><button type="button" role="tab" id="nt-off" aria-selected="false" tabindex="-1" aria-controls="np-off" data-mt="off">Offline map</button></div>
+  <p class="muted c segn">Live map uses mobile data (about 2 MB).</p>
+  <div class="mpane" id="np-live" role="tabpanel" aria-labelledby="nt-live"><div class="mstat" role="status"></div></div>
+  <div id="np-off" role="tabpanel" aria-labelledby="nt-off" hidden>
   <p class="muted" style="margin-top:-6px">Places our guests use most, measured from the house. Tap Walk or Navigate for turn-by-turn directions.</p>
   <div class="filters" id="pfilter" role="group" aria-label="Filter nearby places"></div>
   <div class="pmap"><svg id="pmap" viewBox="-200 -200 400 400" role="img" aria-label="Map of nearby places around Cascade Hideaway"></svg></div>
   <div class="pdetail" id="pdetail" hidden></div>
   <div id="plist"></div>
   <p class="muted c" style="font-size:.8rem;margin-top:12px">Map not to scale: nearby places are spread out so each pin is easy to tap.</p>
+  </div>
+</aside>
+
+<aside class="sheet" id="sh-dmap" role="dialog" aria-modal="true" aria-label="Dining map"><div class="grab"></div>
+  <div class="shead"><h2>Dining map</h2><button class="x" data-close aria-label="Close">×</button></div>
+  <p class="muted c segn">Live map uses mobile data (about 2 MB).</p>
+  <div class="mpane" id="dp-live"><div class="mstat" role="status"></div></div>
 </aside>
 <aside class="sheet" id="sh-stage" role="dialog" aria-modal="true" aria-label="Preview tools"><div class="grab"></div>
   <div class="shead"><h2>Preview tools</h2><button class="x" data-close aria-label="Close">×</button></div>
@@ -1750,7 +1769,19 @@ const mark=()=>{if(!book.clientWidth)return;const i=Math.round(book.scrollLeft/b
 let tm;book.addEventListener('scroll',()=>{clearTimeout(tm);tm=setTimeout(mark,80)},{passive:true});
 const scrim=$('#scrim');let last=null;
 const closeAll=()=>{$$('.sheet.on').forEach(s=>s.classList.remove('on'));document.body.classList.remove('open-s');book.inert=false;$('.dock').inert=false;if(last){last.focus();last=null}};
-const open=n=>{closeAll();if(n==='verify'){showGate('date');return}const s=$('#sh-'+n);if(!s)return;last=document.activeElement;s.classList.add('on');document.body.classList.add('open-s');book.inert=true;$('.dock').inert=true;s.querySelector('.x').focus()};
+const open=n=>{closeAll();if(n==='verify'){showGate('date');return}const s=$('#sh-'+n);if(!s)return;last=document.activeElement;s.classList.add('on');document.body.classList.add('open-s');if(MAPS[n])mapOpen(n);book.inert=true;$('.dock').inert=true;s.querySelector('.x').focus()};
+/* ---------- live map apps (Nearby, Dining): the iframe is created only when its sheet is open and Live is showing ---------- */
+const MAPS={nearby:{u:'https://cascadereservations-del.github.io/Nearby-POIS/',p:'np',t:'Live map of nearby places'},dmap:{u:'https://cascadereservations-del.github.io/Cascade-Dining-Map-/',p:'dp',t:'Live map of dining places'}};
+function mapOpen(k){mapTab(k,k==='dmap'?'live':(MAPS[k].tab||(navigator.onLine?'live':'off')))}
+function mapTab(k,t,fx){const m=MAPS[k];m.tab=t;if(k==='nearby'){$('#np-live').hidden=t!=='live';$('#np-off').hidden=t==='live';$('#sh-nearby').classList.toggle('lv',t==='live');$$('#sh-nearby .mseg button').forEach(b=>{const on=b.dataset.mt===t;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;if(on&&fx)b.focus()})}if(t==='live')mapLoad(k)}
+function mapFail(k){const m=MAPS[k];clearTimeout(m.tm);m.st='fail';if(m.f){m.f.remove();m.f=null}const s=$('#'+m.p+'-live .mstat');s.hidden=false;s.innerHTML='<p>The live map needs a connection.</p>'+(k==='dmap'?'<button type="button" class="btn sm" data-close>Close</button>':'<button type="button" class="btn sm" data-mf>Show offline map</button>')}
+function mapLoad(k){const m=MAPS[k];if(m.st==='load'||m.st==='ok')return;if(!navigator.onLine){mapFail(k);return}m.st='load';const s=$('#'+m.p+'-live .mstat');s.hidden=false;s.innerHTML='<span class="sk"></span><p>Loading the live map…</p>';
+ const f=document.createElement('iframe');f.title=m.t;f.loading='lazy';f.referrerPolicy='strict-origin-when-cross-origin';f.addEventListener('load',()=>{if(m.f!==f)return;clearTimeout(m.tm);m.st='ok';s.hidden=true});
+ f.src=m.u+'?embed=1&theme='+(document.documentElement.dataset.day?'day':'night');m.f=f;$('#'+m.p+'-live').appendChild(f);m.tm=setTimeout(()=>mapFail(k),12e3)}
+$('#sh-nearby .mseg').addEventListener('click',e=>{const b=e.target.closest('[data-mt]');if(b)mapTab('nearby',b.dataset.mt)});
+$('#sh-nearby .mseg').addEventListener('keydown',e=>{const k=e.key;if(k!=='ArrowLeft'&&k!=='ArrowRight'&&k!=='Home'&&k!=='End')return;e.preventDefault();mapTab('nearby',(k==='ArrowLeft'||k==='Home')?'live':'off',1)});
+$('#sh-nearby').addEventListener('click',e=>{if(e.target.closest('[data-mf]'))mapTab('nearby','off',1)});
+addEventListener('offline',()=>Object.keys(MAPS).forEach(k=>{if(MAPS[k].st==='load')mapFail(k)}));
 document.addEventListener('click',e=>{const d=e.target.closest('[data-ch]');if(d){e.preventDefault();closeAll();go(+d.dataset.ch);return}
  const o=e.target.closest('[data-open]');if(o){open(o.dataset.open);return}
  if(e.target.closest('[data-close]')||e.target===scrim)closeAll();
