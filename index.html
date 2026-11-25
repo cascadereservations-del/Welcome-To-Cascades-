@@ -1388,7 +1388,7 @@ document.addEventListener('click',e=>{if(e.target.id!=='secretry')return;
 /* silent token mint: a verified guest with no token (v7.10.8 stay, too early at sign-in, no_name, timeout) gets one from guide_session_v1 without asking again.
    Every limit is stored, so it survives reloads: cg_initial = booking initial; cg_mint = {reason,at} of the last refusal; cg_mintlog = call times in the last 24 h (cap 6; a sign-in resets all three). */
 const MINT={cap:6,netMs:6e4,busyMs:15*6e4,earlyMs:36e5,otherMs:6*36e5,earlyDays:3};
-let mintFly=null;
+let mintFly=null,mintMem=-Infinity;
 function mintInitial(){const i=String(store.get('cg_initial')||'');if(/^[A-Za-z]$/.test(i))return i.toUpperCase();
  const n=String(sget(SK.NAME)||'').trim();if(!n||['guest','user','traveler','traveller','visitor','reserved','airbnb'].includes(n.toLowerCase()))return '';return /^[A-Za-z]/.test(n)?n.charAt(0).toUpperCase():''}
 function mintLog(){try{const a=JSON.parse(store.get('cg_mintlog')||'[]');return Array.isArray(a)?a.filter(t=>Number.isFinite(t)&&Date.now()-t<DAY_MS):[]}catch(e){return[]}}
@@ -1399,12 +1399,12 @@ function mintReasonOf(d){return d&&typeof d.reason==='string'&&d.reason?d.reason
 function mintEligible(){if(!sget(SK.VER)||sget(SK.ADMIN)||guestPass.has()||sget('ch_v2_token'))return false;
  if((G&&G.expired)||isExpired()||!$('#farewell-page').hidden)return false;
  return /^\d{4}-\d\d-\d\d/.test(String(sget(SK.CI)||''))&&!!mintInitial()}
-function mintDue(){if(mintFly||navigator.onLine===false||!mintEligible()||mintLog().length>=MINT.cap)return false;
+function mintDue(){if(mintFly||navigator.onLine===false||!mintEligible()||mintLog().length>=MINT.cap||Date.now()-mintMem<MINT.netMs)return false; /* mintMem: in-memory floor, holds even when storage writes fail */
  const l=mintLast();if(!l)return true;const now=Date.now(),at=Math.min(l.at,now),ci=String(sget(SK.CI)).slice(0,10);
- const w=l.reason==='network'?MINT.netMs:(l.reason==='throttled'||l.reason==='busy')?MINT.busyMs:l.reason==='too_early'?(dayDiff(today(),ci)>MINT.earlyDays?Infinity:MINT.earlyMs):MINT.otherMs;
+ const w=l.reason==='network'?MINT.netMs:(l.reason==='throttled'||l.reason==='busy')?MINT.busyMs:l.reason==='too_early'?(dayDiff(today(),ci)>MINT.earlyDays?Infinity:MINT.earlyMs):(l.reason==='no_name'||l.reason==='no_match')?Infinity:MINT.otherMs; /* no_name / no_match: the server will keep refusing and each try writes a failed row; wait for the next sign-in */
  return now-at>=w}
 function mintSilent(){if(mintFly)return mintFly;if(!mintDue())return Promise.resolve(false);
- const ci0=String(sget(SK.CI)).slice(0,10),ini=mintInitial(),log=mintLog();log.push(Date.now());store.set('cg_mintlog',JSON.stringify(log));
+ mintMem=Date.now();const ci0=String(sget(SK.CI)).slice(0,10),ini=mintInitial(),log=mintLog();log.push(Date.now());store.set('cg_mintlog',JSON.stringify(log));
  const p=(async()=>{let d;
   try{d=await rpc('guide_session_v1',{p_checkin_date:ci0,p_initial:ini,p_client:devId()},8000)}catch(e){mintNote('network');return false}
   if(d&&d.ok===true&&d.token){ /* the stay may have changed while the call was out: store only for the same live stay */

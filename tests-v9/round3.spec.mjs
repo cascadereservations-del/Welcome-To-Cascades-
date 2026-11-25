@@ -39,7 +39,7 @@ test('R3 stored name missing or a placeholder: no mint, and the could-not-load c
   }
 });
 
-test('R3 no_name: verified guest sees the could-not-load card, not the confirm card; 3 reloads and Try again stay at one call inside 6 h', async ({ browser }) => {
+test('R3 no_name: verified guest sees the could-not-load card, not the confirm card; 3 reloads and Try again stay at one call, also past 6 h', async ({ browser }) => {
   const h = await newPage(browser);
   const base = defaults().verify_booking;
   h.mock.set('verify_booking', (b) => { const r = base(b); if (r.json && r.json.first_name) r.json.first_name = 'Reserved'; return r; }); // a placeholder booking name
@@ -71,8 +71,9 @@ test('R3 no_name: verified guest sees the could-not-load card, not the confirm c
   expect(mints(h), 'just under 6 h').toHaveLength(1);
   h.mock.set('guide_session_v1', defaults().guide_session_v1);
   await wake(h.page, 2 * MIN);
-  await expect.poll(() => mints(h).length).toBe(2); // past 6 h
-  await expect(h.page.locator('#wifilock')).toContainText(WIFI.pass);
+  await h.page.waitForTimeout(400); // past 6 h: no_name is never retried silently (each try would write a failed row)
+  expect(mints(h), 'past 6 h, still one call').toHaveLength(1);
+  await expect(h.page.locator('#secretry')).toHaveCount(1);
   await clean(h);
 });
 
