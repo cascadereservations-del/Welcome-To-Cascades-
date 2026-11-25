@@ -13,9 +13,11 @@ const STUB = `<!doctype html><meta charset="utf-8"><title>stub</title><body styl
 /** Answer both map hosts locally (or never answer) and record every request. Registered after newPage, so it wins over the generic route. */
 async function stubMaps(h, { hang = false } = {}) {
   h.reqs = [];
+  h.held = [];
+  h.release = async () => { for (const r of h.held.splice(0)) await r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: STUB }); };
   await h.context.route('https://cascadereservations-del.github.io/**', async (route) => {
     h.reqs.push(route.request().url());
-    if (hang) return;
+    if (hang) { h.held.push(route); return; }
     await route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: STUB });
   });
 }
@@ -60,9 +62,12 @@ for (const theme of ['day', 'night']) {
     expect(h.reqs[0]).toBe(`${NEARBY}?embed=1&theme=${theme === 'day' ? 'day' : 'night'}`);
     const f = h.page.locator('#np-live iframe');
     await expect(f).toHaveAttribute('title', 'Live map of nearby places');
-    await expect(f).toHaveAttribute('loading', 'lazy');
+    expect(await f.getAttribute('loading'), 'no lazy loading: the frame is created on open and must load while the sheet is shown').toBeNull();
+    await expect(f).toHaveAttribute('sandbox', 'allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms');
+    expect(await f.getAttribute('sandbox')).not.toMatch(/allow-same-origin|allow-top-navigation/);
+    await expect(f).toHaveAttribute('allow', 'clipboard-write');
     await expect(f).toHaveAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-    expect(await f.getAttribute('allow'), 'no geolocation permission is delegated').toBeNull();
+    expect(await f.getAttribute('allow'), 'no geolocation permission is delegated').not.toMatch(/geolocation/);
     await loaded(h.page, 'np-live');
     await h.page.waitForTimeout(500);
     await h.page.screenshot({ path: `${OUT}/nearby-live-${theme}-390x844.png`, animations: 'disabled' });
@@ -173,6 +178,69 @@ test('M2f an app that never loads: the quiet loading line, then after 12 s the c
   await expect(h.page.getByRole('button', { name: 'Show offline map' })).toBeHidden();
   await h.page.locator('#dp-live .mstat').getByRole('button', { name: 'Close' }).click();
   await expect(h.page.locator('.sheet.on')).toHaveCount(0);
+  await clean(h);
+});
+
+test('M2i after the 12 s timeout the frame is kept under the connection message; a late load clears the message; the offline event removes the frame', async ({ browser }) => {
+  const h = await boot(browser, { hang: true });
+  await openSheet(h.page, 'nearby');
+  await expect.poll(() => h.reqs.length).toBe(1);
+  await h.page.clock.runFor(12500);
+  await expect(h.page.locator('#np-live .mstat')).toContainText('The live map needs a connection.');
+  await expect(h.page.locator('#np-live iframe'), 'the load in progress is not deleted').toHaveCount(1);
+  await closeSheet(h.page);
+  await openSheet(h.page, 'nearby');
+  await expect(h.page.locator('#np-live iframe')).toHaveCount(1);
+  expect(h.reqs, 'reopening while slow does not start a second request').toHaveLength(1);
+  await h.release();
+  await loaded(h.page, 'np-live'); // the late load hides the message
+  await expect(h.page.locator('#np-live iframe')).toHaveCount(1);
+  await clean(h);
+
+  const o = await boot(browser, { hang: true });
+  await openSheet(o.page, 'nearby');
+  await o.page.clock.runFor(12500);
+  await expect(o.page.locator('#np-live iframe')).toHaveCount(1);
+  await o.page.evaluate(() => window.dispatchEvent(new Event('offline')));
+  await expect(o.page.locator('#np-live iframe'), 'the browser offline event removes the frame').toHaveCount(0);
+  await expect(o.page.locator('#np-live .mstat')).toContainText('The live map needs a connection.');
+  await clean(o);
+});
+
+test('M2j tab memory: offline at first open does not stick once the connection returns; a tab picked by hand does', async ({ browser }) => {
+  const h = await boot(browser);
+  await h.context.setOffline(true);
+  await expect.poll(() => h.page.evaluate(() => navigator.onLine)).toBe(false);
+  await openSheet(h.page, 'nearby');
+  await expect(h.page.locator('#nt-off')).toHaveAttribute('aria-selected', 'true');
+  await closeSheet(h.page);
+  await h.context.setOffline(false);
+  await expect.poll(() => h.page.evaluate(() => navigator.onLine)).toBe(true);
+  await openSheet(h.page, 'nearby');
+  await expect(h.page.locator('#nt-live')).toHaveAttribute('aria-selected', 'true');
+  await expect(h.page.locator('#np-live iframe')).toHaveCount(1);
+  await h.page.locator('#nt-off').click(); // chosen by hand: it is remembered
+  await closeSheet(h.page);
+  await openSheet(h.page, 'nearby');
+  await expect(h.page.locator('#nt-off')).toHaveAttribute('aria-selected', 'true');
+  await clean(h);
+});
+
+test('M2k a theme change after a map loaded: the hidden frame is not reloaded, the next open loads it with the new theme', async ({ browser }) => {
+  const h = await boot(browser, { theme: 'day' });
+  await openSheet(h.page, 'nearby');
+  await loaded(h.page, 'np-live');
+  await closeSheet(h.page);
+  await h.page.evaluate(() => document.querySelector('#theme [data-t="night"]').click());
+  await expect(h.page.locator('html')).not.toHaveAttribute('data-day', /.*/);
+  await h.page.waitForTimeout(400);
+  expect(h.reqs, 'a hidden sheet is not reloaded at once').toHaveLength(1);
+  await openSheet(h.page, 'nearby');
+  await expect.poll(() => h.reqs.length).toBe(2);
+  expect(h.reqs[1]).toBe(`${NEARBY}?embed=1&theme=night`);
+  await expect(h.page.locator('#np-live iframe')).toHaveCount(1);
+  await expect(h.page.locator('#np-live iframe')).toHaveAttribute('src', `${NEARBY}?embed=1&theme=night`);
+  await loaded(h.page, 'np-live');
   await clean(h);
 });
 

@@ -1772,16 +1772,16 @@ const closeAll=()=>{$$('.sheet.on').forEach(s=>s.classList.remove('on'));documen
 const open=n=>{closeAll();if(n==='verify'){showGate('date');return}const s=$('#sh-'+n);if(!s)return;last=document.activeElement;s.classList.add('on');document.body.classList.add('open-s');if(MAPS[n])mapOpen(n);book.inert=true;$('.dock').inert=true;s.querySelector('.x').focus()};
 /* ---------- live map apps (Nearby, Dining): the iframe is created only when its sheet is open and Live is showing ---------- */
 const MAPS={nearby:{u:'https://cascadereservations-del.github.io/Nearby-POIS/',p:'np',t:'Live map of nearby places'},dmap:{u:'https://cascadereservations-del.github.io/Cascade-Dining-Map-/',p:'dp',t:'Live map of dining places'}};
-function mapOpen(k){mapTab(k,k==='dmap'?'live':(MAPS[k].tab||(navigator.onLine?'live':'off')))}
+function mapOpen(k){const m=MAPS[k];mapTab(k,k==='dmap'?'live':(m.user&&m.tab?m.tab:(navigator.onLine?'live':'off')))}
 function mapTab(k,t,fx){const m=MAPS[k];m.tab=t;if(k==='nearby'){$('#np-live').hidden=t!=='live';$('#np-off').hidden=t==='live';$('#sh-nearby').classList.toggle('lv',t==='live');$$('#sh-nearby .mseg button').forEach(b=>{const on=b.dataset.mt===t;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;if(on&&fx)b.focus()})}if(t==='live')mapLoad(k)}
-function mapFail(k){const m=MAPS[k];clearTimeout(m.tm);m.st='fail';if(m.f){m.f.remove();m.f=null}const s=$('#'+m.p+'-live .mstat');s.hidden=false;s.innerHTML='<p>The live map needs a connection.</p>'+(k==='dmap'?'<button type="button" class="btn sm" data-close>Close</button>':'<button type="button" class="btn sm" data-mf>Show offline map</button>')}
-function mapLoad(k){const m=MAPS[k];if(m.st==='load'||m.st==='ok')return;if(!navigator.onLine){mapFail(k);return}m.st='load';const s=$('#'+m.p+'-live .mstat');s.hidden=false;s.innerHTML='<span class="sk"></span><p>Loading the live map…</p>';
- const f=document.createElement('iframe');f.title=m.t;f.loading='lazy';f.referrerPolicy='strict-origin-when-cross-origin';f.addEventListener('load',()=>{if(m.f!==f)return;clearTimeout(m.tm);m.st='ok';s.hidden=true});
- f.src=m.u+'?embed=1&theme='+(document.documentElement.dataset.day?'day':'night');m.f=f;$('#'+m.p+'-live').appendChild(f);m.tm=setTimeout(()=>mapFail(k),12e3)}
-$('#sh-nearby .mseg').addEventListener('click',e=>{const b=e.target.closest('[data-mt]');if(b)mapTab('nearby',b.dataset.mt)});
-$('#sh-nearby .mseg').addEventListener('keydown',e=>{const k=e.key;if(k!=='ArrowLeft'&&k!=='ArrowRight'&&k!=='Home'&&k!=='End')return;e.preventDefault();mapTab('nearby',(k==='ArrowLeft'||k==='Home')?'live':'off',1)});
-$('#sh-nearby').addEventListener('click',e=>{if(e.target.closest('[data-mf]'))mapTab('nearby','off',1)});
-addEventListener('offline',()=>Object.keys(MAPS).forEach(k=>{if(MAPS[k].st==='load')mapFail(k)}));
+function mapFail(k,keep){const m=MAPS[k];clearTimeout(m.tm);m.st=keep?'slow':'fail';if(!keep&&m.f){m.f.remove();m.f=null}const s=$('#'+m.p+'-live .mstat');s.hidden=false;s.innerHTML='<p>The live map needs a connection.</p>'+(k==='dmap'?'<button type="button" class="btn sm" data-close>Close</button>':'<button type="button" class="btn sm" data-mf>Show offline map</button>')}
+function mapLoad(k){const m=MAPS[k],th=document.documentElement.dataset.day?'day':'night';if(m.f&&m.th!==th){clearTimeout(m.tm);m.f.remove();m.f=null;m.st=null}if(m.st==='load'||m.st==='ok'||m.st==='slow')return;if(!navigator.onLine){mapFail(k);return}m.st='load';const s=$('#'+m.p+'-live .mstat');s.hidden=false;s.innerHTML='<span class="sk"></span><p>Loading the live map…</p>';
+ const f=document.createElement('iframe');f.title=m.t;f.setAttribute('sandbox','allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms');f.setAttribute('allow','clipboard-write');f.referrerPolicy='strict-origin-when-cross-origin';f.addEventListener('load',()=>{if(m.f!==f)return;clearTimeout(m.tm);m.st='ok';s.hidden=true});
+ f.src=m.u+'?embed=1&theme='+th;m.th=th;m.f=f;$('#'+m.p+'-live').appendChild(f);m.tm=setTimeout(()=>mapFail(k,1),12e3)}
+$('#sh-nearby .mseg').addEventListener('click',e=>{const b=e.target.closest('[data-mt]');if(b){MAPS.nearby.user=1;mapTab('nearby',b.dataset.mt)}});
+$('#sh-nearby .mseg').addEventListener('keydown',e=>{const k=e.key;if(k!=='ArrowLeft'&&k!=='ArrowRight'&&k!=='Home'&&k!=='End')return;e.preventDefault();MAPS.nearby.user=1;mapTab('nearby',(k==='ArrowLeft'||k==='Home')?'live':'off',1)});
+$('#sh-nearby').addEventListener('click',e=>{if(e.target.closest('[data-mf]')){MAPS.nearby.user=1;mapTab('nearby','off',1)}});
+addEventListener('offline',()=>Object.keys(MAPS).forEach(k=>{if(MAPS[k].st==='load'||MAPS[k].st==='slow')mapFail(k)}));
 document.addEventListener('click',e=>{const d=e.target.closest('[data-ch]');if(d){e.preventDefault();closeAll();go(+d.dataset.ch);return}
  const o=e.target.closest('[data-open]');if(o){open(o.dataset.open);return}
  if(e.target.closest('[data-close]')||e.target===scrim)closeAll();
@@ -1848,6 +1848,7 @@ function applyTheme(anim){const mode=themeMode(),{day0,day1}=sunTimes(),now=Math
  r.dataset.theme=isDay?'light':'dark';if(isDay)r.dataset.day='1';else delete r.dataset.day;
  const mt=document.querySelector('meta[name=theme-color]');if(mt)mt.content=isDay?'#F5F0E7':'#1C1006';
  $$('#theme button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===mode));
+ if(typeof MAPS!=='undefined')Object.keys(MAPS).forEach(k=>{if(MAPS[k].f&&MAPS[k].tab==='live'&&$('#sh-'+k).classList.contains('on'))mapLoad(k)});
  const h=$('#themehint');if(h)h.textContent=mode==='auto'?(isDay?`Day look until ${fmtMin(day1)}, then evening tones.`:`Evening tones until ${fmtMin(day0)}, then the day look.`):(mode==='day'?'Day look, all day.':'Evening tones, all day.')}
 $('#theme').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;store.set('cg-theme',b.dataset.t);applyTheme(true)});
 applyTheme(false);setInterval(()=>{if(!document.hidden&&themeMode()==='auto')applyTheme(true)},5*60*1000);
