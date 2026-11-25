@@ -45,7 +45,7 @@ const SHELL_URLS = [
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(SHELL_CACHE)
-      .then(cache => cache.addAll(SHELL_URLS.filter(Boolean)))
+      .then(cache => cache.addAll(SHELL_URLS.filter(Boolean).map(u => new Request(u, { cache: 'reload' }))))   // fresh fetch, not the HTTP cache
       .then(() => self.skipWaiting())   // activate immediately, don't wait for old SW to die
   );
 });
@@ -141,18 +141,20 @@ self.addEventListener('fetch', event => {
 
 /** Navigation fallback: serve the cached guide shell when offline */
 async function navigationHandler(request) {
+  // One entry per page, keyed by origin + pathname: ?fbclid= / ?sw=1 URLs share it
+  const u = new URL(request.url);
+  const key = u.origin + u.pathname;
   try {
     const response = await fetch(request);
     if (response.ok) {
       const cache = await caches.open(SHELL_CACHE);
-      cache.put(request, response.clone());
+      cache.put(key, response.clone());
     }
     return response;
   } catch {
     // Offline — serve cached index.html so guests don't get a blank screen
-    // the copy stored by the last successful navigation first (it is the newest), then the precached shell
-    const cached = await caches.match(request)
-                || await caches.match(request, { ignoreSearch: true })
+    // the copy stored by the last successful navigation of this path first (it is the newest), then the precached shell
+    const cached = await caches.match(key)
                 || await caches.match('/Welcome-To-Cascades-/index.html')
                 || await caches.match('/Welcome-To-Cascades-/');
     if (cached) return cached;
