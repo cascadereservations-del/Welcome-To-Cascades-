@@ -1178,7 +1178,6 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
       <div class="orn" style="color:#f2d79c">✦</div>
       <h2 id="g-sname">Welcome</h2>
       <p class="gsub" id="g-sinfo"></p>
-      <p class="gnote" id="g-welback" hidden></p>
       <div id="g-askname" hidden><label class="gfield" for="gname" style="text-align:center">WHAT SHOULD WE CALL YOU?</label><input id="gname" class="ginput" autocomplete="given-name" placeholder="Your first name"></div>
       <button class="btn gold gbtn" id="g-success-btn">Open my guide →</button>
     </div>
@@ -1202,7 +1201,7 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
       <a class="btn glass gbtn" href="https://airbnb.com/h/cascadesgsc">Book your next stay</a>
       <button class="glink" id="g-reverify">Returning with a new booking? Verify here</button>
     </div>
-    <p class="gnote" id="gpreview"></p>
+    <p class="gnote"></p>
   </div>
 </div>
 <div class="toast" id="toast" role="status"></div>
@@ -1215,7 +1214,6 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const nav=q=>'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(/^-?\d+\.\d+,\s*-?\d+\.\d+$/.test(q)||/,/.test(q)?q:q+', General Santos City')+'&travelmode=driving&dir_action=navigate';
-const PREVIEW=true; // production: false (removes the mock check, the seed and the code-less preview tools)
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}};
 // live-guide format: values are JSON-encoded under the ch_v2_* keys
 const sget=k=>{const v=store.get(k);if(v==null)return null;try{return JSON.parse(v)}catch(e){return v}};
@@ -1275,18 +1273,17 @@ $$('[data-ic]').forEach(e=>{e.innerHTML=ic(e.dataset.ic)});
 $('#hosp').href=nav('St. Elizabeth Hospital, National Highway, General Santos City');$('#hosp').insertAdjacentHTML('afterbegin',PIN);
 
 /* ---------- personalisation (same keys as the live guide's verify_booking flow) ---------- */
-const SK={FIRST:'ch_v2_firstSeenMs',NAME:'ch_v2_guestName',ADMIN:'ch_v2_isAdmin',CO:'ch_v2_checkoutDate',CI:'ch_v2_checkinDate',NIGHTS:'ch_v2_nights',COT:'ch_v2_checkoutTime',VER:'ch_v2_verified',BROWSE:'cg_browsing',PRE:'cg_preview_seeded_v2'};
+const SK={FIRST:'ch_v2_firstSeenMs',NAME:'ch_v2_guestName',ADMIN:'ch_v2_isAdmin',CO:'ch_v2_checkoutDate',CI:'ch_v2_checkinDate',NIGHTS:'ch_v2_nights',COT:'ch_v2_checkoutTime',VER:'ch_v2_verified',BROWSE:'cg_browsing'};
 const SB='https://qkgfhsdppslwunarczeq.supabase.co',ANON='sb_publishable_JFuRYZ9csmQULcMRmHXDSg_Abo9UeCj';
 const tz='Asia/Manila';
 const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:tz}).format(new Date());
 const addDays=(d,n)=>{const [y,m,dd]=d.split('-').map(Number);return new Date(Date.UTC(y,m-1,dd+n)).toISOString().slice(0,10)};
 const dayDiff=(a,b)=>Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/864e5);
 const fmtD=d=>new Date(d+'T00:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
-if(PREVIEW&&!store.get('cg_preview_gate_v3')){store.set('cg_preview_gate_v3','1');[SK.NAME,SK.CI,SK.CO,SK.NIGHTS,SK.COT,SK.VER,SK.ADMIN,SK.FIRST].forEach(k=>store.set(k,null));store.set('cg_guest_until',null)}
 const nowH=()=>{const p=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'numeric',minute:'numeric',hourCycle:'h23'}).formatToParts(new Date());const g=t=>+p.find(x=>x.type===t).value;return g('hour')+g('minute')/60};
 const fmtT=v=>{if(!v)return '12 noon';const m=String(v).match(/^(\d{1,2}):(\d{2})/);if(!m)return String(v);const h=+m[1],mi=m[2];if(h===12&&mi==='00')return '12 noon';return (h%12||12)+(mi!=='00'?':'+mi:'')+(h<12?' AM':' PM')};
 function setStay(n,a,b){const adm=sget(SK.ADMIN);sset(SK.NAME,n||null);sset(SK.CI,a||null);sset(SK.CO,b||null);sset(SK.NIGHTS,a&&b?dayDiff(a,b):null);sset(SK.VER,true);sset(SK.FIRST,Date.now()-91000);personalise()}
-function clearStay(){[SK.NAME,SK.CI,SK.CO,SK.NIGHTS,SK.COT,SK.VER,SK.ADMIN].forEach(k=>sset(k,null))}
+function clearStay(){[SK.NAME,SK.CI,SK.CO,SK.NIGHTS,SK.COT,SK.VER,SK.ADMIN].forEach(k=>sset(k,null));sset('ch_v2_token',null);store.set(SEC_KEY,null)}
 let G={};
 const personalise=()=>{
  const ver=!!sget(SK.VER)||!!sget(SK.ADMIN);
@@ -1342,10 +1339,10 @@ $('#pclear').addEventListener('click',()=>{clearStay();personalise();closeAll();
 /* stay secrets: never in the page; fetched with the stay token after verification (get_stay_secrets) and cached for this stay only */
 const SEC_KEY='cg_secrets';
 function secrets(){const v=store.get(SEC_KEY);if(!v)return null;try{const o=JSON.parse(v);if(o.exp&&Date.now()>o.exp){store.set(SEC_KEY,null);return null}return o}catch(e){return null}}
-async function loadSecrets(force){if(!force&&secrets())return secrets();const tok=sget('ch_v2_token');let d=null;
- if(PREVIEW&&!tok){d={wifi_ssid:'WelcomeToCascade-5G',wifi_password:'preview-only',onground_name:'Honey',onground_phone:'+639918538269'}}
- else if(tok){try{d=await rpc('get_stay_secrets',{p_token:tok})}catch(e){d=null}}
- if(d&&d.wifi_password){store.set(SEC_KEY,JSON.stringify({...d,exp:computeExpiry()}));return secrets()}return null}
+async function loadSecrets(force){if(!force&&secrets())return secrets();const tok=sget('ch_v2_token');if(!tok)return null;let d;
+ try{d=await rpc('guide_secrets_v1',{p_token:tok})}catch(e){return secrets()} /* offline, timeout or 404: keep and use the cached secrets */
+ if(d&&d.ok===true&&d.wifi_password){store.set(SEC_KEY,JSON.stringify({...d,exp:computeExpiry()}));return secrets()}
+ if(d&&d.ok===false){sset('ch_v2_token',null);store.set(SEC_KEY,null)}return null}
 function wifiQR(ssid,pw){try{const esc2=t=>String(t).replace(/([\\;,:"])/g,'\\$1');const q=qrcode(0,'M');q.addData(`WIFI:T:WPA;S:${esc2(ssid)};P:${esc2(pw)};;`);q.make();return q.createSvgTag({cellSize:5,margin:2,scalable:true})}catch(e){return''}}
 function applyContact(sc){const nm=(sc&&sc.onground_name)||'Honey',ph=(sc&&sc.onground_phone)||'+639918538269',d=String(ph).replace(/\D/g,'').replace(/^0/,'63'),tel='+'+d,pretty=d.replace(/^63(\d{3})(\d{3})(\d{4})$/,'+63 $1 $2 $3');
  $$('[data-og-name]').forEach(e=>e.textContent=nm);$$('[data-og-phone]').forEach(e=>e.textContent=pretty);$$('[data-og-tel]').forEach(e=>e.href='tel:'+tel)}
@@ -1353,8 +1350,9 @@ function renderLocks(){const ok=(G.ver&&!G.expired)||!!sget(SK.ADMIN);
  const lockCard=(what)=>`<div class="locked"><p class="serif" style="font-size:1.4rem;margin:0 0 6px">${ic('lock')}${what}</p><p class="muted" style="margin:0 0 12px">Confirm your booking to see this. It takes your check-in date and one letter.</p><button class="btn gold" data-open="verify">✦ Confirm my booking</button></div>`;
  const sc=ok?secrets():null;applyContact(sc);
  if(!ok){$('#wifilock').innerHTML=lockCard('Your Wi-Fi details');$('#locklock').innerHTML=lockCard('Your door guide');return}
+ if(!sc&&!sget('ch_v2_token')){$('#wifilock').innerHTML=lockCard('Your Wi-Fi details');$('#locklock').innerHTML=lockCard('Your door guide');return}
  if(!sc){$('#wifilock').innerHTML=`<div class="card c"><p class="muted" style="margin:0">Fetching your Wi-Fi details…</p><p class="muted" style="margin:8px auto 0;font-size:.875rem">They're also in your Airbnb check-in message.</p></div>`;
-  loadSecrets().then(x=>{if(x)renderLocks();else $('#wifilock').innerHTML=`<div class="card c"><p class="muted" style="margin:0">We couldn't load your Wi-Fi details just now. You'll find them in your Airbnb check-in message, or message us and we'll send them right away.</p><button class="btn" style="margin-top:12px" id="secretry">Try again</button></div>`})}
+  loadSecrets().then(x=>{if(x||!sget('ch_v2_token'))renderLocks();else $('#wifilock').innerHTML=`<div class="card c"><p class="muted" style="margin:0">We couldn't load your Wi-Fi details just now. You'll find them in your Airbnb check-in message, or message us and we'll send them right away.</p><button class="btn" style="margin-top:12px" id="secretry">Try again</button></div>`})}
  else{const qr=wifiQR(sc.wifi_ssid||'',sc.wifi_password);
   $('#wifilock').innerHTML=`<div class="card c">${qr?`<div class="qrbox" role="img" aria-label="QR code to join ${esc(sc.wifi_ssid||'the Wi-Fi')}">${qr}</div><p class="muted" style="margin:8px auto 0;font-size:.875rem">Point your camera at the code to join</p>`:''}</div><div class="card"><p class="label">PASSWORD</p><p class="serif brk" style="font-size:1.75rem;margin:0 0 12px">${esc(sc.wifi_password)}</p><button class="btn gold" data-copy="${esc(sc.wifi_password)}">Copy password</button></div>`}
  $('#locklock').innerHTML=`<img src="img/smartlock.webp" alt="Smart lock guide: wake the keypad, enter your PIN and press #, turn the handle, close the door firmly" style="width:100%;border-radius:16px;margin:4px 0 12px;display:block">`}
@@ -1382,12 +1380,10 @@ const NUDGE={dateOnly:[["That date didn't match. Let's try again.","Check your b
  initialWrong:[["Date confirmed! Just the name initial to sort.","Use the first letter of the lead guest name on your Airbnb booking. Any case is fine."],["Date is confirmed, one small step left.","Try the first letter of the primary guest name, not a co-traveller."]],
  networkError:[["Connection hiccup, worth one more try.","Check your signal and tap Try again."],["Small network blip on our end.","One more tap should sort it."]]};
 const nIdx={};function nudge(k){const pool=NUDGE[k];const i=(nIdx[k]=(nIdx[k]||0)+1)%pool.length;$('#g-nudge-t').textContent=pool[i][0];$('#g-nudge-s').textContent=pool[i][1]}
-async function rpc(fn,body){const r=await fetch(SB+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:ANON,Authorization:'Bearer '+ANON,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw new Error('http '+r.status);return r.json()}
-// preview stand-in for verify_booking (Claude's sandbox blocks Supabase); removed when PREVIEW=false
-function mockVerify(d,L){const t=today();if(d===addDays(t,-5))return{found:true,expired:true,checkout_date:addDays(t,-3),checkin_date:d};if(d!==t)return{found:false};if(L==null)return{found:true};if(L.toUpperCase()!=='M')return{found:true,match:false};return{found:true,match:true,first_name:'Maria',full_name:'Maria Santos',checkin_date:t,checkout_date:addDays(t,2),nights:2,checkout_time:'12:00'}}
-/* v2 RPCs return a stay token; fall back to v1 until the migration is live */
-async function rpc2(fn,body){try{return await rpc(fn+'_v2',body)}catch(e){if(String(e.message).includes('404'))return rpc(fn,body);throw e}}
-async function verifyBooking(d,L){try{return await rpc2('verify_booking',L==null?{p_checkin_date:d}:{p_checkin_date:d,p_initial:L})}catch(e){if(!PREVIEW)throw e;await new Promise(r=>setTimeout(r,650));return mockVerify(d,L)}}
+async function rpc(fn,body){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),15000);try{const r=await fetch(SB+'/rest/v1/rpc/'+fn,{method:'POST',signal:ctl.signal,headers:{apikey:ANON,Authorization:'Bearer '+ANON,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw new Error('http '+r.status);return await r.json()}finally{clearTimeout(to)}}
+async function verifyBooking(d,L){return rpc('verify_booking',L==null?{p_checkin_date:d}:{p_checkin_date:d,p_initial:L})}
+/* stable random device id for the session RPCs (throttling), kept on this device only */
+function devId(){let v=store.get('cg_dev');if(!/^[0-9a-f]{32}$/.test(v||'')){v=null;try{const a=new Uint8Array(16);crypto.getRandomValues(a);v=Array.from(a,x=>x.toString(16).padStart(2,'0')).join('');store.set('cg_dev',v)}catch(e){}}return v||'guest'}
 const fmtLong=v=>new Date(v+'T00:00:00').toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric'});
 let gBusy=null;$('#gdate').addEventListener('change',async()=>{const v=$('#gdate').value;if(!v||gBusy===v)return;gBusy=v;setTimeout(()=>{if(gBusy===v)gBusy=null},2500);gDate=v;$('#gdatechk').hidden=false;
  try{const d=await verifyBooking(gDate,null);$('#gdatechk').hidden=true;
@@ -1401,10 +1397,11 @@ async function submitInitial(){const L=$('#ginit').value.trim().charAt(0);if(!gD
   if(d.expired===true){if(d.checkout_date)sset(SK.CO,d.checkout_date);if(d.checkin_date)sset(SK.CI,d.checkin_date);sset(SK.VER,true);sset(SK.NAME,sget(SK.NAME)||L.toUpperCase());sset(SK.FIRST,Date.now()-91000);attempt=0;gstep('expired');return}
   if(d.match===false){attempt++;nudge('initialWrong');gstep(attempt>=2?'guestonly':'fail1');return}
   const nm=(d.first_name||'').trim(),ph=['guest','user','traveler','traveller','visitor','reserved','airbnb',''].includes(nm.toLowerCase())||nm.length<2,show=ph?'':nm;
-  if(d.token)sset('ch_v2_token',d.token);store.set(SEC_KEY,null);sset(SK.NAME,show);sset(SK.CO,d.checkout_date||null);sset(SK.CI,d.checkin_date||gDate);sset(SK.NIGHTS,d.nights||null);sset(SK.COT,d.checkout_time||null);sset(SK.VER,true);sset(SK.FIRST,Date.now());attempt=0;
+  sset('ch_v2_token',null);store.set(SEC_KEY,null);
+  try{const ss=await rpc('guide_session_v1',{p_checkin_date:gDate,p_initial:L,p_client:devId()});if(ss&&ss.ok===true&&ss.token)sset('ch_v2_token',ss.token)}catch(e){/* backend not ready or offline: continue signed in without a token (lock card) */}
+  sset(SK.NAME,show);sset(SK.CO,d.checkout_date||null);sset(SK.CI,d.checkin_date||gDate);sset(SK.NIGHTS,d.nights||null);sset(SK.COT,d.checkout_time||null);sset(SK.VER,true);sset(SK.FIRST,Date.now());attempt=0;
   $('#g-sname').textContent=show?`Welcome, ${show}`:'Welcome home';$('#g-askname').hidden=!!show;$('#gname').value='';$('#g-sinfo').textContent=d.nights?`${d.nights} night${d.nights!==1?'s':''}${d.checkout_date?' · check-out '+fmtD(d.checkout_date)+', '+fmtT(d.checkout_time):''}`:'';
-  $('#g-welback').hidden=true;gstep('success');
-  (async()=>{try{const h=await rpc('get_guest_history',{p_full_name:d.full_name||show});if(h&&h.is_returning){rpc('log_returning_guest_alert',{p_guest_name:d.full_name||show,p_current_checkin:d.checkin_date||null,p_current_checkout:d.checkout_date||null,p_current_nights:d.nights||null,p_previous_stays:h.previous_stays,p_total_nights:h.total_nights,p_last_stay_checkin:h.last_stay?h.last_stay.checkin:null,p_last_stay_checkout:h.last_stay?h.last_stay.checkout:null}).catch(()=>{});$('#g-welback').textContent='You\'ve been missed. Welcome home again.';$('#g-welback').hidden=false;$('#g-success-btn').textContent='Welcome back to your sanctuary →'}}catch(e){}})();
+  gstep('success')
  }catch(e){attempt++;nudge('networkError');gstep(attempt>=2?'guestonly':'fail1')}}
 $('#g-open').addEventListener('click',submitInitial);$('#ginit').addEventListener('keydown',e=>{if(e.key==='Enter')submitInitial()});
 $('#g-back').addEventListener('click',()=>gstep('date'));
@@ -1453,8 +1450,8 @@ $('#g-guest').addEventListener('click',()=>{const K='ch_v2_guestUsedTs',used=+(s
 $('#g-admin-link').addEventListener('click',()=>{$('#gpw').value='';$('#gpwerr').hidden=true;gstep('adminpw')});
 $('#g-pw-back').addEventListener('click',()=>gstep('date'));
 async function adminGo(){const v=$('#gpw').value.trim(),err=t=>{$('#gpwerr').textContent=t;$('#gpwerr').hidden=false;$('#gpw').select()};if(!v){err('Please enter the access code.');return}
- let out;try{out=await rpc2('verify_admin_pin',{p_code:v,p_client:String(sget(SK.FIRST)||'guest')})}catch(e){if(!PREVIEW){err('Could not reach the server. Check your connection and try again.');return}out={ok:true,users:['Lloyd','Marifel','Honey']}}
- if(out&&out.ok){if(out.token)sset('ch_v2_token',out.token);const ids=(Array.isArray(out.users)&&out.users.length?out.users:['Lloyd','Marifel','Honey']).filter(n=>n&&n!=='Others');$('#gids').innerHTML=ids.map(n=>`<button class="btn glass" data-aid="${esc(n)}">${esc(n)}</button>`).join('');gstep('admin')}
+ let out;const cl=devId();try{try{out=await rpc('guide_staff_session_v1',{p_code:v,p_client:cl})}catch(e){if(!String(e.message).includes('404'))throw e;out=await rpc('verify_admin_pin',{p_code:v,p_client:cl})}}catch(e){err('Could not reach the server. Check your connection and try again.');return}
+ if(out&&out.ok){sset('ch_v2_token',out.token||null);store.set(SEC_KEY,null);const ids=(Array.isArray(out.users)&&out.users.length?out.users:['Lloyd','Marifel','Honey']).filter(n=>n&&n!=='Others');$('#gids').innerHTML=ids.map(n=>`<button class="btn glass" data-aid="${esc(n)}">${esc(n)}</button>`).join('');gstep('admin')}
  else if(out&&out.throttled)err('Too many attempts. Please wait 15 minutes and try again.');else err('That code didn\'t match. Please try again.')}
 $('#g-pw-go').addEventListener('click',adminGo);$('#gpw').addEventListener('keydown',e=>{if(e.key==='Enter')adminGo()});
 $('#gids').addEventListener('click',e=>{const b=e.target.closest('[data-aid]');if(!b)return;sset(SK.NAME,b.dataset.aid);sset(SK.ADMIN,true);sset(SK.VER,true);sset(SK.FIRST,Date.now());hideGate();personalise();toast(`Welcome, ${b.dataset.aid}. Preview tools are in the concierge.`)});
@@ -1464,8 +1461,7 @@ async function maybeReconcile(){try{if(sget(SK.ADMIN)||guestPass.has())return;co
  const d=await rpc('verify_booking',{p_checkin_date:ci});if(!d||d.found===false){sset(SK.CO,addDays(today(),-1));personalise();updateGate();return}
  if(d.expired===true){if(d.checkout_date)sset(SK.CO,d.checkout_date);personalise();updateGate();return}
  let ch=0;if(d.checkout_date&&d.checkout_date!==co){sset(SK.CO,d.checkout_date);ch=1}if(d.nights&&d.nights!==sget(SK.NIGHTS)){sset(SK.NIGHTS,d.nights);ch=1}if(ch)personalise()}catch(e){/* fail-open, like the live guide */}}
-$('#grabtaxi').addEventListener('click',e=>{if(PREVIEW)return;e.preventDefault();const t=Date.now();location.href='grab://open?screenType=BOOKING';setTimeout(()=>{if(Date.now()-t<1600&&!document.hidden)location.href='https://www.grab.com/ph/transport/taxi/'},1200)});
-$('#gpreview').textContent=PREVIEW?'Preview: use today\'s date and the letter M. Any staff code works here.':'';
+$('#grabtaxi').addEventListener('click',e=>{e.preventDefault();const t=Date.now();location.href='grab://open?screenType=BOOKING';setTimeout(()=>{if(Date.now()-t<1600&&!document.hidden)location.href='https://www.grab.com/ph/transport/taxi/'},1200)});
 
 /* ---------- preview tools: one tap to any moment of a stay ---------- */
 const STAGES=[["guest","Signed out (gate)"],["pre","Arriving in 3 days"],["arr","Arrival day"],["mid","Mid-stay"],["last","Last night"],["out","Check-out day"],["post","Day after"],["exp","Expired"]];
@@ -1654,7 +1650,6 @@ post.addEventListener('click',turn);$('#turn').addEventListener('click',turn);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll();if(document.body.classList.contains('open-s')||e.altKey||e.metaKey||e.ctrlKey||e.target.tagName==='INPUT')return;if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
 
 /* ---------- weather: same weather-proxy Edge Function as the live guide ---------- */
-const WXSNAP={"current":{"temp":30,"feels_like":35,"description":"Overcast","humidity":59,"dew_point":21,"visibility":16.1,"uv_index":3,"uv_label":"Moderate","cloud_cover":100,"rain_prob":0,"wind_kph":8,"wind_gust_kph":13,"wind_dir":84,"pressure_mb":1009,"sunrise":"5:31 AM","sunset":"5:20 PM","today_high":31,"today_low":23,"code":3,"is_day":true},"forecast":[{"date":"2026-11-24","label":"Today","high":31,"low":23,"feels_like_high":36,"feels_like_low":26,"description":"Drizzle from afternoon until night.","rain_prob":58,"rain_mm":0.1,"humidity":76,"uv_index":8,"uv_label":"Very High","wind_kph":10,"wind_gust_kph":13,"thunder_prob":0,"code":63,"sunrise":"5:31 AM","sunset":"5:20 PM"},{"date":"2026-11-25","label":"Tomorrow","high":33,"low":23,"feels_like_high":38,"feels_like_low":26,"description":"Drizzle from afternoon until night.","rain_prob":27,"rain_mm":0.1,"humidity":72,"uv_index":8,"uv_label":"Very High","wind_kph":10,"wind_gust_kph":13,"thunder_prob":0,"code":63,"sunrise":"5:31 AM","sunset":"5:20 PM"},{"date":"2026-11-26","label":"Thu","high":32,"low":23,"feels_like_high":36,"feels_like_low":25,"description":"Overcast in the afternoon.","rain_prob":10,"rain_mm":0,"humidity":72,"uv_index":8,"uv_label":"Very High","wind_kph":13,"wind_gust_kph":16,"thunder_prob":0,"code":3,"sunrise":"5:32 AM","sunset":"5:20 PM"},{"date":"2026-11-27","label":"Fri","high":33,"low":23,"feels_like_high":37,"feels_like_low":26,"description":"Clear until afternoon, returning overnight.","rain_prob":0,"rain_mm":0,"humidity":70,"uv_index":8,"uv_label":"Very High","wind_kph":12,"wind_gust_kph":16,"thunder_prob":0,"code":0,"sunrise":"5:32 AM","sunset":"5:20 PM"},{"date":"2026-11-28","label":"Sat","high":33,"low":23,"feels_like_high":39,"feels_like_low":25,"description":"Possible drizzle until night.","rain_prob":23,"rain_mm":0.2,"humidity":74,"uv_index":8,"uv_label":"Very High","wind_kph":8,"wind_gust_kph":10,"thunder_prob":0,"code":0,"sunrise":"5:33 AM","sunset":"5:20 PM"},{"date":"2026-11-29","label":"Sun","high":33,"low":22,"feels_like_high":37,"feels_like_low":25,"description":"Drizzle from afternoon until night.","rain_prob":27,"rain_mm":0.1,"humidity":72,"uv_index":7,"uv_label":"High","wind_kph":8,"wind_gust_kph":10,"thunder_prob":0,"code":63,"sunrise":"5:33 AM","sunset":"5:21 PM"},{"date":"2026-11-30","label":"Mon","high":33,"low":22,"feels_like_high":40,"feels_like_low":25,"description":"Drizzle from afternoon until night.","rain_prob":43,"rain_mm":0.1,"humidity":72,"uv_index":7,"uv_label":"High","wind_kph":7,"wind_gust_kph":9,"thunder_prob":0,"code":63,"sunrise":"5:34 AM","sunset":"5:21 PM"}],"hourly":[{"time":"2026-11-24T07:00:00.000Z","rain_chance_pct":33,"mm":0.5,"code":53,"temp":28},{"time":"2026-11-24T08:00:00.000Z","rain_chance_pct":43,"mm":0.5,"code":53,"temp":27},{"time":"2026-11-24T09:00:00.000Z","rain_chance_pct":47,"mm":0.1,"code":51,"temp":27},{"time":"2026-11-24T10:00:00.000Z","rain_chance_pct":39,"mm":0.1,"code":51,"temp":26},{"time":"2026-11-24T11:00:00.000Z","rain_chance_pct":25,"mm":0,"code":3,"temp":26},{"time":"2026-11-24T12:00:00.000Z","rain_chance_pct":14,"mm":0,"code":2,"temp":26},{"time":"2026-11-24T13:00:00.000Z","rain_chance_pct":10,"mm":0,"code":1,"temp":25},{"time":"2026-11-24T14:00:00.000Z","rain_chance_pct":9,"mm":0,"code":1,"temp":25},{"time":"2026-11-24T15:00:00.000Z","rain_chance_pct":8,"mm":0,"code":0,"temp":25},{"time":"2026-11-24T16:00:00.000Z","rain_chance_pct":7,"mm":0,"code":0,"temp":24},{"time":"2026-11-24T17:00:00.000Z","rain_chance_pct":7,"mm":0,"code":0,"temp":24},{"time":"2026-11-24T18:00:00.000Z","rain_chance_pct":6,"mm":0,"code":0,"temp":24},{"time":"2026-11-24T19:00:00.000Z","rain_chance_pct":5,"mm":0,"code":0,"temp":24},{"time":"2026-11-24T20:00:00.000Z","rain_chance_pct":5,"mm":0,"code":0,"temp":24},{"time":"2026-11-24T21:00:00.000Z","rain_chance_pct":4,"mm":0,"code":0,"temp":24},{"time":"2026-11-24T22:00:00.000Z","rain_chance_pct":3,"mm":0,"code":0,"temp":25},{"time":"2026-11-24T23:00:00.000Z","rain_chance_pct":2,"mm":0,"code":1,"temp":27},{"time":"2026-11-25T00:00:00.000Z","rain_chance_pct":2,"mm":0,"code":3,"temp":29},{"time":"2026-11-25T01:00:00.000Z","rain_chance_pct":4,"mm":0,"code":3,"temp":30},{"time":"2026-11-25T02:00:00.000Z","rain_chance_pct":7,"mm":0,"code":3,"temp":32},{"time":"2026-11-25T03:00:00.000Z","rain_chance_pct":14,"mm":0,"code":3,"temp":32},{"time":"2026-11-25T04:00:00.000Z","rain_chance_pct":29,"mm":0.1,"code":51,"temp":32},{"time":"2026-11-25T05:00:00.000Z","rain_chance_pct":48,"mm":0.5,"code":53,"temp":30},{"time":"2026-11-25T06:00:00.000Z","rain_chance_pct":63,"mm":3.3,"code":95,"temp":25}],"rain_watch":null,"aqi":27,"fetched_at":"2026-11-24T15:19:16+08:00","source":"pirate_weather"};
 const WXI={0:'sun',1:'cloudsun',2:'cloudsun',3:'cloud',45:'fog',48:'fog',51:'drizzle',53:'drizzle',55:'drizzle',61:'rain',63:'rain',65:'rain',80:'drizzle',81:'rain',82:'rain',95:'storm',96:'storm',99:'storm'};
 const wxIcon=c=>ic(WXI[c]||'cloudsun');
 const hourOf=t=>new Date(t).toLocaleTimeString('en-US',{hour:'numeric',timeZone:tz}).replace(':00','');
@@ -1687,7 +1682,7 @@ function renderWx(d,live){const c=d.current||{},f=d.forecast||[],now=Date.now();
  const ad=d.fetched_at?new Date(d.fetched_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:tz}):'';
  $('#wxsrc').textContent=live?`Live forecast · updated ${at}`:stale?`Last updated ${ad}, ${at} · refreshing now`:`Forecast as of ${ad}, ${at} · refreshing now`;
  scene()}
-async function loadWx(retry){if(!loadWx.done){let c=null;try{c=JSON.parse(store.get('cg_wx')||'null')}catch(e){}if(c&&c.d&&c.d.current)renderWx(c.d,false,c.t);else if(PREVIEW)renderWx(WXSNAP,false);loadWx.done=1}
+async function loadWx(retry){if(!loadWx.done){let c=null;try{c=JSON.parse(store.get('cg_wx')||'null')}catch(e){}if(c&&c.d&&c.d.current)renderWx(c.d,false,c.t);loadWx.done=1}
  try{const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),30000);const r=await fetch(SB+'/functions/v1/weather-proxy',{signal:ctl.signal});clearTimeout(to);if(!r.ok)throw 0;const d=await r.json();if(d&&d.current){renderWx(d,true);store.set('cg_wx',JSON.stringify({t:Date.now(),d}));typeof applyTheme==='function'&&applyTheme(true)}}catch(e){if(!retry)setTimeout(()=>loadWx(1),4000)}}
 setInterval(()=>{if(!document.hidden)loadWx()},30*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadWx()});
 
@@ -1701,7 +1696,7 @@ $('#tsize').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if
 /* ---------- appearance: Auto follows GenSan daylight (sunrise + 30 min to sunset - 30 min), Day and Night are manual ---------- */
 const toMin=t=>{const m=/^(\d{1,2}):(\d{2})\s*([AP]M)$/i.exec(String(t||'').trim());if(!m)return null;let h=+m[1]%12;if(/p/i.test(m[3]))h+=12;return h*60+ +m[2]};
 const fmtMin=m=>{const h=Math.floor(m/60),mm=String(m%60).padStart(2,'0');return (h%12||12)+':'+mm+(h<12?' AM':' PM')};
-function sunTimes(){let c=null;try{c=JSON.parse(store.get('cg_wx')||'null')}catch(e){}const cur=(c&&c.d&&c.d.current)||(PREVIEW&&typeof WXSNAP!=='undefined'?WXSNAP.current:null)||{};
+function sunTimes(){let c=null;try{c=JSON.parse(store.get('cg_wx')||'null')}catch(e){}const cur=(c&&c.d&&c.d.current)||{};
  const r=toMin(cur.sunrise),st=toMin(cur.sunset);return{day0:(r!=null?r:360)+30,day1:(st!=null?st:1050)-30}}
 function themeMode(){return store.get('cg-theme')||'auto'}
 function applyTheme(anim){const mode=themeMode(),{day0,day1}=sunTimes(),now=Math.round(nowH()*60),isDay=mode==='day'||(mode==='auto'&&now>=day0&&now<day1);
