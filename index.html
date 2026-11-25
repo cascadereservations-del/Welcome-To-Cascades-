@@ -11,9 +11,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Cascade Guide">
-<title>Cascade Guest Guide v9</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Cascade Guest Guide v9.1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet" crossorigin>
 <style>
 /* VOICE: a gracious host's handwritten welcome; warm, unhurried, kind.
    IDEA: a six-chapter picture-book magazine that opens on a welcome poster with your letter.
@@ -1290,7 +1290,7 @@ const fmtD=d=>new Date(d+'T00:00:00').toLocaleDateString('en-GB',{weekday:'short
 const nowH=()=>{const p=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'numeric',minute:'numeric',hourCycle:'h23'}).formatToParts(new Date());const g=t=>+p.find(x=>x.type===t).value;return g('hour')+g('minute')/60};
 const fmtT=v=>{if(!v)return '12 noon';const m=String(v).match(/^(\d{1,2}):(\d{2})/);if(!m)return String(v);const h=+m[1],mi=m[2];if(h===12&&mi==='00')return '12 noon';return (h%12||12)+(mi!=='00'?':'+mi:'')+(h<12?' AM':' PM')};
 function setStay(n,a,b){const adm=sget(SK.ADMIN);sset(SK.NAME,n||null);sset(SK.CI,a||null);sset(SK.CO,b||null);sset(SK.NIGHTS,a&&b?dayDiff(a,b):null);sset(SK.VER,true);sset(SK.FIRST,Date.now()-91000);personalise()}
-function clearStay(){[SK.NAME,SK.CI,SK.CO,SK.NIGHTS,SK.COT,SK.VER,SK.ADMIN].forEach(k=>sset(k,null));sset('ch_v2_token',null);store.set(SEC_KEY,null)}
+function clearStay(){[SK.NAME,SK.CI,SK.CO,SK.NIGHTS,SK.COT,SK.VER,SK.ADMIN].forEach(k=>sset(k,null));sset('ch_v2_token',null);store.set(SEC_KEY,null);store.set('cg_initial',null);store.set('cg_mint',null)}
 let G={};
 const personalise=()=>{
  const ver=!!sget(SK.VER)||!!sget(SK.ADMIN);
@@ -1343,7 +1343,7 @@ $('#pclear').addEventListener('click',()=>{clearStay();personalise();closeAll();
 
 
 /* ---------- locks: Wi-Fi password and door guide appear only for a verified stay ---------- */
-/* stay secrets: never in the page; fetched with the stay token after verification (get_stay_secrets) and cached for this stay only */
+/* stay secrets: never in the page; fetched with the stay token after verification (guide_secrets_v1) and cached for this stay only */
 const SEC_KEY='cg_secrets';
 function secrets(){const v=store.get(SEC_KEY);if(!v)return null;try{const o=JSON.parse(v);if(o.exp&&Date.now()>o.exp){store.set(SEC_KEY,null);return null}return o}catch(e){return null}}
 let secFly=null;
@@ -1366,18 +1366,54 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)revalSecre
 function wifiQR(ssid,pw){try{const esc2=t=>String(t).replace(/([\\;,:"])/g,'\\$1');const q=qrcode(0,'M');q.addData(`WIFI:T:WPA;S:${esc2(ssid)};P:${esc2(pw)};;`);q.make();return q.createSvgTag({cellSize:5,margin:2,scalable:true})}catch(e){return''}}
 function applyContact(sc){const nm=(sc&&sc.onground_name)||'Honey',ph=(sc&&sc.onground_phone)||'+639918538269',d=String(ph).replace(/\D/g,'').replace(/^0/,'63'),tel='+'+d,pretty=d.replace(/^63(\d{3})(\d{3})(\d{4})$/,'+63 $1 $2 $3');
  $$('[data-og-name]').forEach(e=>e.textContent=nm);$$('[data-og-phone]').forEach(e=>e.textContent=pretty);$$('[data-og-tel]').forEach(e=>e.href='tel:'+tel)}
-function renderLocks(){const ok=(G.ver&&!G.expired)||!!sget(SK.ADMIN);
+function renderLocks(){const ok=(G.ver&&!G.expired&&!isExpired())||!!sget(SK.ADMIN);
  const lockCard=(what)=>`<div class="locked"><p class="serif" style="font-size:1.4rem;margin:0 0 6px">${ic('lock')}${what}</p><p class="muted" style="margin:0 0 12px">Confirm your booking to see this. It takes your check-in date and one letter.</p><button class="btn gold" data-open="verify">✦ Confirm my booking</button></div>`;
  const doorGuide=`<img src="img/smartlock.webp" alt="Smart lock guide: wake the keypad, enter your PIN and press #, turn the handle, close the door firmly" style="width:100%;border-radius:16px;margin:4px 0 12px;display:block">`;
  const sc=ok?secrets():null;applyContact(sc);
  if(!ok){$('#wifilock').innerHTML=lockCard('Your Wi-Fi details');$('#locklock').innerHTML=lockCard('Your door guide');return}
- if(!sc&&!sget('ch_v2_token')){$('#wifilock').innerHTML=lockCard('Your Wi-Fi details');$('#locklock').innerHTML=doorGuide;return}
- if(!sc){$('#wifilock').innerHTML=`<div class="card c"><p class="muted" style="margin:0">Fetching your Wi-Fi details…</p><p class="muted" style="margin:8px auto 0;font-size:.875rem">They're also in your Airbnb check-in message.</p></div>`;
-  loadSecrets().then(x=>{if(x||!sget('ch_v2_token'))renderLocks();else $('#wifilock').innerHTML=`<div class="card c"><p class="muted" style="margin:0">We couldn't load your Wi-Fi details just now. You'll find them in your Airbnb check-in message, or message us and we'll send them right away.</p><button class="btn" style="margin-top:12px" id="secretry">Try again</button></div>`})}
+ const fetching=`<div class="card c"><p class="muted" style="margin:0">Fetching your Wi-Fi details…</p><p class="muted" style="margin:8px auto 0;font-size:.875rem">They're also in your Airbnb check-in message.</p></div>`,
+  noLoad=`<div class="card c"><p class="muted" style="margin:0">We couldn't load your Wi-Fi details just now. You'll find them in your Airbnb check-in message, or message us and we'll send them right away.</p><button class="btn" style="margin-top:12px" id="secretry">Try again</button></div>`;
+ /* verified (or staff) without a token: never the confirm card, which only loops. A silent mint may be running or due; otherwise the could-not-load card with Try again */
+ if(!sc&&!sget('ch_v2_token')){const due=!mintFly&&mintDue();if(due)setTimeout(mintSilent,0);$('#wifilock').innerHTML=(mintFly||due)?fetching:noLoad;$('#locklock').innerHTML=doorGuide;return}
+ if(!sc){$('#wifilock').innerHTML=fetching;
+  loadSecrets().then(x=>{if(x||!sget('ch_v2_token'))renderLocks();else $('#wifilock').innerHTML=noLoad})}
  else{const qr=wifiQR(sc.wifi_ssid||'',sc.wifi_password);
   $('#wifilock').innerHTML=`<div class="card c">${qr?`<div class="qrbox" role="img" aria-label="QR code to join ${esc(sc.wifi_ssid||'the Wi-Fi')}">${qr}</div><p class="muted" style="margin:8px auto 0;font-size:.875rem">Point your camera at the code to join</p>`:''}</div><div class="card"><p class="label">PASSWORD</p><p class="serif brk" style="font-size:1.75rem;margin:0 0 12px">${esc(sc.wifi_password)}</p><button class="btn gold" data-copy="${esc(sc.wifi_password)}">Copy password</button></div>`;revalSecrets()}
  $('#locklock').innerHTML=doorGuide}
-document.addEventListener('click',e=>{if(e.target.id==='secretry'){e.target.disabled=true;loadSecrets(true).then(()=>renderLocks())}});
+document.addEventListener('click',e=>{if(e.target.id!=='secretry')return;
+ if(!sget('ch_v2_token')){ /* no token: staff re-open the code step (the code is never stored); a guest runs the rate-limited silent mint */
+  if(sget(SK.ADMIN)){$('#gpw').value='';$('#gpwerr').hidden=true;showGate('adminpw');return}
+  e.target.disabled=true;mintSilent().then(()=>renderLocks());return}
+ e.target.disabled=true;loadSecrets(true).then(()=>renderLocks())});
+/* silent token mint: a verified guest with no token (v7.10.8 stay, too early at sign-in, no_name, timeout) gets one from guide_session_v1 without asking again.
+   Every limit is stored, so it survives reloads: cg_initial = booking initial; cg_mint = {reason,at} of the last refusal; cg_mintlog = call times in the last 24 h (cap 6; a sign-in resets all three). */
+const MINT={cap:6,netMs:6e4,busyMs:15*6e4,earlyMs:36e5,otherMs:6*36e5,earlyDays:3};
+let mintFly=null;
+function mintInitial(){const i=String(store.get('cg_initial')||'');if(/^[A-Za-z]$/.test(i))return i.toUpperCase();
+ const n=String(sget(SK.NAME)||'').trim();if(!n||['guest','user','traveler','traveller','visitor','reserved','airbnb'].includes(n.toLowerCase()))return '';return /^[A-Za-z]/.test(n)?n.charAt(0).toUpperCase():''}
+function mintLog(){try{const a=JSON.parse(store.get('cg_mintlog')||'[]');return Array.isArray(a)?a.filter(t=>Number.isFinite(t)&&Date.now()-t<DAY_MS):[]}catch(e){return[]}}
+function mintLast(){try{const o=JSON.parse(store.get('cg_mint')||'null');return o&&typeof o.reason==='string'&&Number.isFinite(o.at)?o:null}catch(e){return null}}
+function mintNote(reason){store.set('cg_mint',reason?JSON.stringify({reason,at:Date.now()}):null)}
+function mintReasonOf(d){return d&&typeof d.reason==='string'&&d.reason?d.reason:'unknown'}
+/* who may mint at all: verified guest, not staff, not expired, farewell not showing, no token yet */
+function mintEligible(){if(!sget(SK.VER)||sget(SK.ADMIN)||guestPass.has()||sget('ch_v2_token'))return false;
+ if((G&&G.expired)||isExpired()||!$('#farewell-page').hidden)return false;
+ return /^\d{4}-\d\d-\d\d/.test(String(sget(SK.CI)||''))&&!!mintInitial()}
+function mintDue(){if(mintFly||navigator.onLine===false||!mintEligible()||mintLog().length>=MINT.cap)return false;
+ const l=mintLast();if(!l)return true;const now=Date.now(),at=Math.min(l.at,now),ci=String(sget(SK.CI)).slice(0,10);
+ const w=l.reason==='network'?MINT.netMs:(l.reason==='throttled'||l.reason==='busy')?MINT.busyMs:l.reason==='too_early'?(dayDiff(today(),ci)>MINT.earlyDays?Infinity:MINT.earlyMs):MINT.otherMs;
+ return now-at>=w}
+function mintSilent(){if(mintFly)return mintFly;if(!mintDue())return Promise.resolve(false);
+ const ci0=String(sget(SK.CI)).slice(0,10),ini=mintInitial(),log=mintLog();log.push(Date.now());store.set('cg_mintlog',JSON.stringify(log));
+ const p=(async()=>{let d;
+  try{d=await rpc('guide_session_v1',{p_checkin_date:ci0,p_initial:ini,p_client:devId()},8000)}catch(e){mintNote('network');return false}
+  if(d&&d.ok===true&&d.token){ /* the stay may have changed while the call was out: store only for the same live stay */
+   if(mintEligible()&&String(sget(SK.CI)).slice(0,10)===ci0){sset('ch_v2_token',d.token);store.set(SEC_KEY,null);mintNote(null);return true}
+   return false}
+  mintNote(mintReasonOf(d));return false})();
+ mintFly=p;p.catch(()=>{}).then(()=>{if(mintFly===p)mintFly=null;renderLocks()});return p}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)mintSilent()});
+window.addEventListener('online',()=>{mintSilent()});
 
 /* ---------- live gate: same RPCs, keys, steps, guest pass and expiry rules as the live guide ---------- */
 const DAY_MS=864e5;
@@ -1419,8 +1455,8 @@ async function submitInitial(){const L=$('#ginit').value.trim().charAt(0);if(!gD
   if(d.expired===true){if(d.checkout_date)sset(SK.CO,d.checkout_date);if(d.checkin_date)sset(SK.CI,d.checkin_date);sset(SK.VER,true);sset(SK.NAME,sget(SK.NAME)||L.toUpperCase());sset(SK.FIRST,Date.now()-91000);attempt=0;gstep('expired');return}
   if(d.match===false){attempt++;nudge('initialWrong');gstep(attempt>=2?'guestonly':'fail1');return}
   const nm=(d.first_name||'').trim(),ph=['guest','user','traveler','traveller','visitor','reserved','airbnb',''].includes(nm.toLowerCase())||nm.length<2,show=ph?'':nm;
-  sset('ch_v2_token',null);store.set(SEC_KEY,null);
-  try{const ss=await rpc('guide_session_v1',{p_checkin_date:gDate,p_initial:L,p_client:devId()},8000);if(ss&&ss.ok===true&&ss.token)sset('ch_v2_token',ss.token)}catch(e){/* backend not ready or offline: continue signed in without a token (lock card) */}
+  sset('ch_v2_token',null);store.set(SEC_KEY,null);store.set('cg_mintlog',null);store.set('cg_initial',L.toUpperCase());mintNote(null); /* a sign-in resets the silent-mint limits */
+  try{const ss=await rpc('guide_session_v1',{p_checkin_date:gDate,p_initial:L,p_client:devId()},8000);if(ss&&ss.ok===true&&ss.token)sset('ch_v2_token',ss.token);else mintNote(mintReasonOf(ss))}catch(e){mintNote('network')/* offline or timeout: signed in without a token; the silent mint retries later within its limits */}
   sset(SK.NAME,show);sset(SK.CO,d.checkout_date||null);sset(SK.CI,d.checkin_date||gDate);sset(SK.NIGHTS,d.nights||null);sset(SK.COT,d.checkout_time||null);sset(SK.VER,true);sset(SK.FIRST,Date.now());attempt=0;
   $('#g-sname').textContent=show?`Welcome, ${show}`:'Welcome home';$('#g-askname').hidden=!!show;$('#gname').value='';$('#g-sinfo').textContent=d.nights?`${d.nights} night${d.nights!==1?'s':''}${d.checkout_date?' · check-out '+fmtD(d.checkout_date)+', '+fmtT(d.checkout_time):''}`:'';
   gstep('success')
@@ -1483,7 +1519,7 @@ async function maybeReconcile(){try{if(sget(SK.ADMIN)||guestPass.has())return;co
  if(Date.now()<new Date(String(co).slice(0,10)+'T23:59:59+08:00').getTime()-DAY_MS)return;
  const d=await rpc('verify_booking',{p_checkin_date:ci});if(!d||d.found===false){sset(SK.CO,addDays(today(),-1));personalise();updateGate();return}
  if(d.expired===true){if(d.checkout_date)sset(SK.CO,d.checkout_date);personalise();updateGate();return}
- let ch=0;if(d.checkout_date&&d.checkout_date!==co){sset(SK.CO,d.checkout_date);ch=1}if(d.nights&&d.nights!==sget(SK.NIGHTS)){sset(SK.NIGHTS,d.nights);ch=1}if(ch)personalise()}catch(e){/* fail-open, like the live guide */}}
+ let ch=0;if(d.checkout_date&&d.checkout_date!==co){sset(SK.CO,d.checkout_date);ch=1}if(d.nights&&d.nights!==sget(SK.NIGHTS)){sset(SK.NIGHTS,d.nights);ch=1}if(ch){personalise();if(!$('#farewell-page').hidden&&!isExpired())hideFarewell(); /* an extended stay lifts the farewell without a reload */updateGate();mintSilent()}}catch(e){/* fail-open, like the live guide */}}
 $('#grabtaxi').addEventListener('click',e=>{e.preventDefault();const t=Date.now();location.href='grab://open?screenType=BOOKING';setTimeout(()=>{if(Date.now()-t<1600&&!document.hidden)location.href='https://www.grab.com/ph/transport/taxi/'},1200)});
 
 /* ---------- preview tools: one tap to any moment of a stay ---------- */
@@ -1758,7 +1794,7 @@ chs.forEach(c=>LZ.observe(c));
 new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)lazify(n.parentNode||n)}))).observe(document.body,{childList:true,subtree:true});
 document.addEventListener('click',e=>{if(e.target.closest('[data-open]'))setTimeout(()=>$$('.sheet.on [data-bg],.sheet.on img[data-src]').forEach(lzLoad),30)});
 lazify(document.body);
-if(!sget(SK.FIRST))sset(SK.FIRST,Date.now());personalise();drawD();drawO();drawC();drawP();drawMap();watch();loadWx();updateGate();maybeReconcile();
+if(!sget(SK.FIRST))sset(SK.FIRST,Date.now());personalise();drawD();drawO();drawC();drawP();drawMap();watch();loadWx();updateGate();maybeReconcile();mintSilent();
 $('#plist').addEventListener('click',e=>{const r=e.target.closest('.prow');if(!r||e.target.closest('a'))return;psel=+r.dataset.pi;drawP();drawMap();pdetail(psel)});
 setInterval(()=>{if(document.hidden||document.body.classList.contains('open-s'))return;personalise();const ae=document.activeElement;if(!ae||!ae.closest('#orderin'))drawO();watch($('#orders'))},5*60*1000);
 document.querySelectorAll('a[href^="http"]').forEach(a=>{a.target='_blank';a.rel='noopener'});

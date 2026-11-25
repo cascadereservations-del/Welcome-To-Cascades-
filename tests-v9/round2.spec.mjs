@@ -124,12 +124,14 @@ for (const [label, fail] of [['HTTP 500', () => ({ status: 500, json: null })], 
     await clean(h);
   });
 }
-test('R2c stale cache, explicit ok:false: token and cache dropped, lock card shown', async ({ browser }) => {
+test('R2c stale cache, explicit ok:false: token and cache dropped, could-not-load card shown', async ({ browser }) => {
   const h = await newPage(browser);
+  h.mock.set('guide_session_v1', () => ({ json: { ok: false, reason: 'no_match' } })); // a forged stay gets no token from the server
   h.mock.set('guide_secrets_v1', () => ({ json: { ok: false } }));
   await seed(h.context, liveStay({ extra: { cg_secrets: cacheOf() } }));
   await ready(h.page);
-  await expect(h.page.locator('#wifilock .locked')).toHaveCount(1);
+  await expect(h.page.locator('#wifilock .locked')).toHaveCount(0);
+  await expect(h.page.locator('#secretry')).toHaveCount(1); // verified without a token: the could-not-load card, never the confirm card
   expect(await ls(h.page, 'ch_v2_token')).toBeNull();
   expect(await ls(h.page, 'cg_secrets')).toBeNull();
   expect(await h.page.content()).not.toContain(WIFI.pass);
@@ -249,7 +251,8 @@ for (const [label, session] of [['HTTP 500', () => ({ status: 500, json: null })
     await expect(h.page.locator('#gate')).toBeHidden();
     expect(await ls(h.page, 'ch_v2_token')).toBeNull();
     expect(await ls(h.page, 'cg_secrets')).toBeNull();
-    await expect(h.page.locator('#wifilock .locked')).toHaveCount(1);
+    await expect(h.page.locator('#wifilock .locked')).toHaveCount(0);
+    await expect(h.page.locator('#secretry')).toHaveCount(1);
     expect(await h.page.content()).not.toContain('Old-mock-PW-0001');
     expect(h.mock.callsOf('guide_secrets_v1')).toHaveLength(0);
     await clean(h);
@@ -371,19 +374,35 @@ test('R2 scene(): after sign-in a later scene() change leaves no stale lazy copy
 /* ---------- migration from the v7.10.8 page (no ch_v2_token, plaintext ch_wifi_v1) ---------- */
 const LEGACY_PW = 'Legacy-mock-PW-0001';
 const v7Stay = (name) => stay({ name, ci: TODAY, co: addDays(TODAY, 2), extra: { ch_wifi_v1: LEGACY_PW } }); // mid-stay, check-in today, no token
-test('R2 migration: v7.10.8 mid-stay state opens the guide, Wi-Fi stays locked, door guide shows, legacy key removed', async ({ browser }) => {
+test('R2 migration: v7.10.8 mid-stay state opens the guide, Wi-Fi arrives by a silent mint, door guide shows, legacy key removed', async ({ browser }) => {
   const h = await newPage(browser);
   await seed(h.context, v7Stay('Maria'));
   await ready(h.page);
   await expect(h.page.locator('#gate')).toBeHidden();
   await expect(h.page.locator('#greet')).toHaveText('Good afternoon, Maria. Welcome home.');
   await expect(h.page.locator('#farewell-page')).toBeHidden();
-  await expect(h.page.locator('#wifilock .locked')).toHaveCount(1);
+  await expect(h.page.locator('#wifilock')).toContainText(WIFI.pass);
+  await expect(h.page.locator('#wifilock .locked')).toHaveCount(0);
+  expect(h.mock.callsOf('guide_session_v1')).toHaveLength(1);
   expect(await h.page.locator('#wifilock').textContent()).not.toContain(LEGACY_PW);
   await expect(h.page.locator('#locklock img')).toHaveCount(1);
   await expect(h.page.locator('#locklock .locked')).toHaveCount(0);
   expect(await ls(h.page, 'ch_wifi_v1'), 'plaintext legacy key removed at boot').toBeNull();
   expect(await h.page.content()).not.toContain(LEGACY_PW);
+  await clean(h);
+});
+test('R2 migration: v7.10.8 mid-stay state, mint refused: the could-not-load card shows, never the confirm card, door guide shows, legacy key removed', async ({ browser }) => {
+  const h = await newPage(browser);
+  h.mock.set('guide_session_v1', () => ({ json: { ok: false, reason: 'busy' } }));
+  await seed(h.context, v7Stay('Maria'));
+  await ready(h.page);
+  await expect(h.page.locator('#gate')).toBeHidden();
+  await expect(h.page.locator('#secretry')).toHaveCount(1);
+  await expect(h.page.locator('#wifilock')).toContainText("We couldn't load your Wi-Fi details");
+  await expect(h.page.locator('#wifilock .locked')).toHaveCount(0);
+  expect(await h.page.locator('#wifilock').textContent()).not.toContain(LEGACY_PW);
+  await expect(h.page.locator('#locklock img')).toHaveCount(1);
+  expect(await ls(h.page, 'ch_wifi_v1')).toBeNull();
   await clean(h);
 });
 test('R2 migration: a stored single-letter name does not show as a bare letter in the greeting', async ({ browser }) => {
@@ -420,9 +439,9 @@ test('R2 service worker: ?fbclid= and ?sw= visits share one navigation copy (no 
 
 /* ---------- "Back to my guide" on the gate (owner-approved fix 9) ---------- */
 for (const theme of ['day', 'night']) {
-  test(`R2 gate back link ${theme}: verified guest opens the gate from the lock card, sees the link, one tap returns to the guide, nothing stored changes`, async ({ browser }) => {
+  test(`R2 gate back link ${theme}: guest-pass visitor opens the gate from the lock card, sees the link, one tap returns to the guide, nothing stored changes`, async ({ browser }) => {
     const h = await newPage(browser);
-    await seed(h.context, { 'cg-theme': theme, ...v7Stay('Maria') });
+    await seed(h.context, { 'cg-theme': theme, cg_guest_until: String(NOW_MS + DAY), cg_guest_name: 'Pat' });
     await ready(h.page);
     await expect(h.page.locator('#gate')).toBeHidden();
     const before = await h.page.evaluate(() => JSON.stringify(Object.entries(localStorage).sort()));
@@ -436,7 +455,7 @@ for (const theme of ['day', 'night']) {
     await h.page.locator('#gate').screenshot({ path: `out/gate-back-link-${theme}.png`, animations: 'disabled' });
     await link.click();
     await expect(h.page.locator('#gate')).toBeHidden();
-    await expect(h.page.locator('#greet')).toHaveText('Good afternoon, Maria. Welcome home.');
+    await expect(h.page.locator('#wifilock .locked')).toHaveCount(1);
     expect(await h.page.evaluate(() => JSON.stringify(Object.entries(localStorage).sort()))).toBe(before);
     await clean(h);
   });

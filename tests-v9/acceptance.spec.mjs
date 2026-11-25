@@ -98,12 +98,14 @@ test('C3a guest pass (wrong date path) shows the lock card', async ({ browser })
 
 test('C3b localStorage tampering (names, verified flag, fake token) reveals no secrets when guide_secrets_v1 answers ok:false', async ({ browser }) => {
   const h = await newPage(browser);
+  h.mock.set('guide_session_v1', () => ({ json: { ok: false, reason: 'no_match' } })); // a forged stay gets no token from the server
   h.mock.set('guide_secrets_v1', () => ({ json: { ok: false } }));
   // an attacker sets the identity keys and a made-up token; no cached secrets
   await seed(h.context, stay({ ci: CI, co: CO, token: 'forged-token' }));
   await ready(h.page);
   await expect(h.page.locator('#gate')).toBeHidden();
-  await expect(h.page.locator('#wifilock .locked')).toHaveCount(1);
+  await expect(h.page.locator('#wifilock .locked')).toHaveCount(0);
+  await expect(h.page.locator('#secretry')).toHaveCount(1); // verified without a token: the could-not-load card, never the confirm card
   expect(h.mock.callsOf('guide_secrets_v1')[0].body.p_token).toBe('forged-token');
   expect(await h.page.content()).not.toContain(WIFI.pass);
   expect(await ls(h.page, 'ch_v2_token'), 'token dropped on explicit ok:false').toBeNull();
@@ -111,11 +113,13 @@ test('C3b localStorage tampering (names, verified flag, fake token) reveals no s
   await clean(h);
 });
 
-test('C3c tampering with no token at all shows the lock card, no secrets call', async ({ browser }) => {
+test('C3c tampering with no token at all shows the could-not-load card, no secrets call', async ({ browser }) => {
   const h = await newPage(browser);
+  h.mock.set('guide_session_v1', () => ({ json: { ok: false, reason: 'no_match' } })); // a forged stay gets no token from the server
   await seed(h.context, stay({ ci: CI, co: CO }));
   await ready(h.page);
-  await expect(h.page.locator('#wifilock .locked')).toHaveCount(1);
+  await expect(h.page.locator('#wifilock .locked')).toHaveCount(0);
+  await expect(h.page.locator('#secretry')).toHaveCount(1); // verified without a token: the could-not-load card, never the confirm card
   expect(h.mock.callsOf('guide_secrets_v1')).toHaveLength(0);
   expect(await h.page.evaluate(() => document.body.innerText)).not.toContain(WIFI.pass);
   await clean(h);
@@ -335,7 +339,7 @@ test('C9 token present, no cache, secrets RPC times out: token kept, no crash', 
 });
 
 /* ---------- C10: backend absent (404) ---------- */
-test('C10 guide_session_v1 and guide_secrets_v1 answer 404 -> signed in, lock card, no error shown', async ({ browser }) => {
+test('C10 guide_session_v1 and guide_secrets_v1 answer 404 -> signed in, could-not-load card, no error shown', async ({ browser }) => {
   const h = await newPage(browser);
   h.mock.set('guide_session_v1', () => ({ status: 404, json: { message: 'not found' } }));
   h.mock.set('guide_secrets_v1', () => ({ status: 404, json: { message: 'not found' } }));
@@ -344,7 +348,8 @@ test('C10 guide_session_v1 and guide_secrets_v1 answer 404 -> signed in, lock ca
   await h.page.locator('#g-success').waitFor({ state: 'visible' });
   await h.page.locator('#g-success-btn').click();
   await expect(h.page.locator('#gate')).toBeHidden();
-  await expect(h.page.locator('#wifilock .locked')).toHaveCount(1);
+  await expect(h.page.locator('#wifilock .locked')).toHaveCount(0);
+  await expect(h.page.locator('#secretry')).toHaveCount(1); // verified without a token: the could-not-load card, never the confirm card
   await expect(h.page.locator('#locklock .locked')).toHaveCount(0); // fix 7: door guide (public image) shows for a verified guest without a token
   await expect(h.page.locator('#locklock img')).toHaveCount(1);
   expect(await ls(h.page, 'ch_v2_token')).toBeNull();
@@ -397,7 +402,7 @@ test('C11b staff: wrong code is refused, throttled message shown', async ({ brow
   await expect(h.page.locator('#gpwerr')).toContainText('Too many attempts');
   await clean(h);
 });
-test('C11c staff: guide_staff_session_v1 404 falls back to verify_admin_pin, no token, lock card', async ({ browser }) => {
+test('C11c staff: guide_staff_session_v1 404 falls back to verify_admin_pin, no token, could-not-load card', async ({ browser }) => {
   const h = await newPage(browser);
   h.mock.set('guide_staff_session_v1', () => ({ status: 404, json: null }));
   await ready(h.page);
@@ -409,7 +414,8 @@ test('C11c staff: guide_staff_session_v1 404 falls back to verify_admin_pin, no 
   await h.page.locator('#gids [data-aid="Lloyd"]').click();
   await expect(h.page.locator('#gate')).toBeHidden();
   expect(await ls(h.page, 'ch_v2_token')).toBeNull();
-  await expect(h.page.locator('#wifilock .locked')).toHaveCount(1);
+  await expect(h.page.locator('#wifilock .locked')).toHaveCount(0);
+  await expect(h.page.locator('#secretry')).toHaveCount(1); // verified without a token: the could-not-load card, never the confirm card
   await clean(h);
 });
 
