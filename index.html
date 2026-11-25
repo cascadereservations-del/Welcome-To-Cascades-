@@ -627,6 +627,48 @@ html.thx *{transition:background-color .6s ease,color .6s ease,border-color .6s 
  :root .letter,:root .gcard{background:rgba(36,22,10,.92)}
 }
 
+/* gate, merged look: v7.10.8 structure (photo header, wave, badge, serif title, ornament, pill) on the v9 backdrop, logo and theme tokens */
+.gate .gcard{--gt:#fffaf0;--gh:#fffaf0;--gs:#f6ead2;--gl:#f2d79c;--go:#d9b678;--gn:#e2d2b6;--gk:rgba(242,215,156,.65);--gf:rgba(255,250,240,.94);--gi:#1C1006;--gx:#f2d79c}
+:root[data-day] .gate .gcard{--gt:#3D2B1F;--gh:#3D2B1F;--gs:#665543;--gl:#6E4F22;--go:#B58E5F;--gn:#665543;--gk:rgba(192,160,98,.65);--gf:#fff;--gi:#1C1006;--gx:#8A6320}
+:root .gate .gcard{width:min(100%,400px);padding:0;border-radius:24px;overflow:hidden;text-align:center}
+:root[data-day] .gate .gcard{background:#FCF9F3;color:var(--gt);border:1px solid rgba(192,160,98,.35);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 28px 70px rgba(10,6,2,.5),0 2px 8px rgba(10,6,2,.2);text-shadow:none}
+.ghero{position:relative;height:200px}
+.gph{position:absolute;inset:0;background:#3D2B1F;overflow:hidden;-webkit-mask:linear-gradient(#000,#000) top/100% calc(100% - 46px) no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 52' preserveAspectRatio='none'%3E%3Cpath d='M0,0H400V26C360,12 300,46 240,30C160,8 80,52 0,28Z'/%3E%3C/svg%3E") bottom/100% 46px no-repeat;mask:linear-gradient(#000,#000) top/100% calc(100% - 46px) no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 52' preserveAspectRatio='none'%3E%3Cpath d='M0,0H400V26C360,12 300,46 240,30C160,8 80,52 0,28Z'/%3E%3C/svg%3E") bottom/100% 46px no-repeat}
+.gph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 70%;display:block}
+.gph::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(28,16,6,.08),rgba(28,16,6,.55) 62%,rgba(28,16,6,.16))}
+.gtag{position:absolute;z-index:2;left:0;right:0;bottom:3.3rem;margin:0;padding:0 1.25rem;font:italic 300 1.3rem/1.4 "Cormorant Garamond",serif;letter-spacing:.06em;color:#F7F2E8;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.gbadgeic{position:absolute;z-index:4;left:50%;bottom:-27px;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;background:#fffdf8;display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(201,150,58,.4);box-shadow:0 4px 18px rgba(28,16,6,.28),0 1px 4px rgba(28,16,6,.12)}
+.gbadgeic img{width:36px;height:36px;object-fit:contain;display:block}
+.gbody{padding:calc(27px + 1rem) 1.75rem 1.3rem}
+:root .gate .gcard h2{font:400 1.8rem/1.15 "Cormorant Garamond",serif;letter-spacing:-.01em;color:var(--gh);margin:0}
+.gorn{display:flex;align-items:center;justify-content:center;gap:.5rem;margin:.5rem 0 .7rem}
+.gorn i{width:36px;height:1px;background:linear-gradient(to right,transparent,var(--go))}
+.gorn i:last-child{background:linear-gradient(to left,transparent,var(--go))}
+.gorn b{width:5px;height:5px;border-radius:50%;background:var(--go);opacity:.75}
+:root .gate .gcard .gsub{font:italic 500 1.12rem/1.6 "Cormorant Garamond",serif;color:var(--gs);margin:0 auto 1.2rem;max-width:300px}
+:root .gate .gcard .orn{color:var(--go);margin:0 0 .5rem}
+:root .gate .gcard .gfield{text-align:center;font:700 .74rem Raleway,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gl);margin:0 0 8px}
+:root .gate .gcard .ginput{border-radius:999px;border:1.5px solid var(--gk);background:var(--gf);color:var(--gi);padding:12px 22px;min-height:54px;font:500 .98rem Raleway,sans-serif;box-shadow:0 2px 12px rgba(28,16,6,.08)}
+:root .gate .gcard .ginput::placeholder{color:#7d6c59;opacity:1}
+.gdatew{position:relative}
+.gdatew .ginput{padding-right:50px;text-align:left}
+.gdatew .ginput::-webkit-calendar-picker-indicator{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.gcal{position:absolute;right:20px;top:50%;width:19px;height:19px;margin-top:-9.5px;color:#8A6320;pointer-events:none}
+:root .gate .gcard .gletter{border-radius:22px;border:1.5px solid var(--gk);background:var(--gf);color:var(--gi)}
+:root[data-day] .gate .gcard .gbadge{background:rgba(201,150,58,.1);border:1px solid rgba(201,150,58,.35);color:#3D2B1F}
+:root .gate .gcard .gnote{color:var(--gn);font:italic 500 1rem "Cormorant Garamond",serif;margin:12px 0 0}
+:root .gate .gcard .glink{color:var(--gn);font:500 .82rem Raleway,sans-serif;letter-spacing:.04em;text-decoration:none;min-height:44px;margin-top:6px;padding:10px 14px}
+:root .gate .gcard .glink:hover{text-decoration:underline;text-underline-offset:3px}
+.gtail{color:var(--go);opacity:.85;margin:12px 0 0;line-height:0}
+:root[data-day] .gate .gcard .gnudge{background:#F6EFE0;border:1px solid rgba(192,160,98,.5);color:#3D2B1F}
+:root[data-day] .gate .gcard .gnudge span{color:#665543}
+:root[data-day] .gate .gcard .btn.glass{background:#fff;color:#3D2B1F;border:1.5px solid rgba(192,160,98,.6);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;text-shadow:none}
+:root .gate .gcard .btn{min-height:50px}
+:root .gate .gcard :focus-visible{outline:2px solid var(--gx);outline-offset:2px}
+.gcard:has(#g-initial:not([hidden]),#g-guestonly:not([hidden]),#g-success:not([hidden]),#g-admin:not([hidden]),#g-fail1:not([hidden])) .ghero{height:128px}
+@media(max-height:700px){.ghero{height:128px}.gtag{bottom:2.9rem;font-size:1.15rem}.gbody{padding-top:calc(27px + .7rem)}}
+@media(prefers-reduced-transparency:reduce){:root[data-day] .gate .gcard{background:#FCF9F3}}
+
 /* icons: one stroke, one metal tone at reduced emphasis, one size per context */
 .i{width:1.2em;height:1.2em;flex:none;display:inline-block;vertical-align:-.22em;fill:none;stroke:currentColor}
 .i .wa{stroke:var(--wx-sun)}.i .wb{stroke:var(--wx-rain)}.i .wd{stroke:var(--wx-alert)}
@@ -1147,20 +1189,27 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
 <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gtitle" hidden>
   <div class="slides" data-slides="lamp,home,living,bedroom"></div>
   <div class="gcard">
-    <div class="crest" aria-hidden="true"></div>
+    <div class="ghero" aria-hidden="true">
+      <div class="gph"><img src="img/bedroom.webp" alt="" width="900" height="600" decoding="async"><p class="gtag">Hotel Comfort. Home Warmth.</p></div>
+      <span class="gbadgeic"><img src="img/logo.png" alt="" width="36" height="36" decoding="async"></span>
+    </div>
+    <div class="gbody">
     <div class="gstep" id="g-date">
-      <h2 id="gtitle">Welcome to Cascade Hideaway</h2>
-      <p class="gsub">To open your guide, please enter your check-in date.</p>
+      <h2 id="gtitle">Welcome to Your Sanctuary</h2>
+      <div class="gorn" aria-hidden="true"><i></i><b></b><i></i></div>
+      <p class="gsub">Let's personalise your guide.<br>What is your check-in date?</p>
       <label class="gfield" for="gdate">CHECK-IN DATE</label>
-      <input type="date" id="gdate" class="ginput">
+      <div class="gdatew"><input type="date" id="gdate" class="ginput"><svg class="gcal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M4 10h16M8.5 3v4M15.5 3v4"/></svg></div>
       <p class="gnote" id="gdatechk" hidden>Checking your reservation…</p>
       <button class="glink" id="g-guide-back" style="min-height:44px" hidden>← Back to my guide</button>
+      <div class="gtail" aria-hidden="true"><svg viewBox="0 0 24 12" width="28" height="14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M12 11V4M12 4C9 4 6 3 3 6M12 4c3 0 6-1 9 2M12 7C10 7 8 7 6 9M12 7c2 0 4 0 6 2"/></svg></div>
       <button class="glink" id="g-admin-link">Staff · Admin</button>
     </div>
     <div class="gstep" id="g-initial" hidden>
       <p class="gnote" style="margin:0 0 6px">Check-in confirmed ✓</p>
       <div class="gbadge" id="gbadge"></div>
       <h2>One more thing</h2>
+      <div class="gorn" aria-hidden="true"><i></i><b></b><i></i></div>
       <p class="gsub">What's the first letter of the name on your booking?</p>
       <input id="ginit" class="gletter" maxlength="1" placeholder="A" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="First letter of your booking name">
       <button class="btn gold gbtn" id="g-open">Open my guide</button>
@@ -1169,11 +1218,13 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
     <div class="gstep" id="g-checking" hidden><div class="gspin"></div><p class="gsub">Checking your reservation…</p></div>
     <div class="gstep" id="g-fail1" hidden>
       <h2>Almost there</h2>
+      <div class="gorn" aria-hidden="true"><i></i><b></b><i></i></div>
       <div class="gnudge"><b id="g-nudge-t"></b><span id="g-nudge-s"></span></div>
       <button class="btn gold gbtn" id="g-retry">Try again</button>
     </div>
     <div class="gstep" id="g-guestonly" hidden>
       <h2>Let's get you settled</h2>
+      <div class="gorn" aria-hidden="true"><i></i><b></b><i></i></div>
       <p class="gsub">We couldn't find your booking just yet. You're welcome to look around as our guest for 24 hours. For your Wi-Fi and door details, please message your host.</p>
       <label class="gfield" for="gguestname">WHAT SHOULD WE CALL YOU? (OPTIONAL)</label><input id="gguestname" class="ginput" autocomplete="given-name" placeholder="Your first name">
       <button class="btn gold gbtn" id="g-guest">Enter as guest →</button>
@@ -1183,12 +1234,14 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
     <div class="gstep" id="g-success" hidden>
       <div class="orn" style="color:#f2d79c">✦</div>
       <h2 id="g-sname">Welcome</h2>
+      <div class="gorn" aria-hidden="true"><i></i><b></b><i></i></div>
       <p class="gsub" id="g-sinfo"></p>
       <div id="g-askname" hidden><label class="gfield" for="gname" style="text-align:center">WHAT SHOULD WE CALL YOU?</label><input id="gname" class="ginput" autocomplete="given-name" placeholder="Your first name"></div>
       <button class="btn gold gbtn" id="g-success-btn">Open my guide →</button>
     </div>
     <div class="gstep" id="g-adminpw" hidden>
       <h2>Staff access</h2>
+      <div class="gorn" aria-hidden="true"><i></i><b></b><i></i></div>
       <p class="gsub">Enter your staff code.</p>
       <input type="password" id="gpw" class="ginput" autocomplete="off" inputmode="numeric" aria-label="Access code">
       <p class="gnote" id="gpwerr" hidden></p>
@@ -1197,6 +1250,7 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
     </div>
     <div class="gstep" id="g-admin" hidden>
       <h2>Who's here?</h2>
+      <div class="gorn" aria-hidden="true"><i></i><b></b><i></i></div>
       <div class="gids" id="gids"></div>
     </div>
     <div class="gstep" id="g-expired" hidden>
@@ -1208,6 +1262,7 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
       <button class="glink" id="g-reverify">Returning with a new booking? Verify here</button>
     </div>
     <p class="gnote"></p>
+    </div>
   </div>
 </div>
 <div class="toast" id="toast" role="status"></div>
