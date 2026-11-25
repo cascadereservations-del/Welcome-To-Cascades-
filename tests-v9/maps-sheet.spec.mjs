@@ -59,7 +59,7 @@ for (const theme of ['day', 'night']) {
     await expect(h.page.locator('#nt-live')).toHaveAttribute('aria-selected', 'true');
     await expect(h.page.locator('#np-live iframe')).toHaveCount(1);
     await expect.poll(() => h.reqs.length).toBe(1);
-    expect(h.reqs[0]).toBe(`${NEARBY}?embed=1&theme=${theme === 'day' ? 'day' : 'night'}`);
+    expect(h.reqs[0]).toBe(`${NEARBY}?embed=1&fit=1&theme=${theme === 'day' ? 'day' : 'night'}`);
     const f = h.page.locator('#np-live iframe');
     await expect(f).toHaveAttribute('title', 'Live map of nearby places');
     expect(await f.getAttribute('loading'), 'no lazy loading: the frame is created on open and must load while the sheet is shown').toBeNull();
@@ -141,7 +141,7 @@ test('M2e Dining map button opens #sh-dmap and requests the dining app once; reo
   await expect(h.page.locator('#sh-dmap.on')).toHaveCount(1);
   await expect(h.page.locator('#sh-dmap h2')).toHaveText('Dining map');
   await expect.poll(() => h.reqs.length).toBe(1);
-  expect(h.reqs[0]).toBe(`${DINING}?embed=1&theme=day`);
+  expect(h.reqs[0]).toBe(`${DINING}?embed=1&fit=1&theme=day`);
   await expect(h.page.locator('#dp-live iframe')).toHaveAttribute('title', 'Live map of dining places');
   await loaded(h.page, 'dp-live');
   await h.page.waitForTimeout(500);
@@ -237,9 +237,9 @@ test('M2k a theme change after a map loaded: the hidden frame is not reloaded, t
   expect(h.reqs, 'a hidden sheet is not reloaded at once').toHaveLength(1);
   await openSheet(h.page, 'nearby');
   await expect.poll(() => h.reqs.length).toBe(2);
-  expect(h.reqs[1]).toBe(`${NEARBY}?embed=1&theme=night`);
+  expect(h.reqs[1]).toBe(`${NEARBY}?embed=1&fit=1&theme=night`);
   await expect(h.page.locator('#np-live iframe')).toHaveCount(1);
-  await expect(h.page.locator('#np-live iframe')).toHaveAttribute('src', `${NEARBY}?embed=1&theme=night`);
+  await expect(h.page.locator('#np-live iframe')).toHaveAttribute('src', `${NEARBY}?embed=1&fit=1&theme=night`);
   await loaded(h.page, 'np-live');
   await clean(h);
 });
@@ -320,4 +320,33 @@ test('M2h no horizontal overflow at 360x640 (both sheets, both tabs) and the liv
   await d.page.screenshot({ path: `${OUT}/nearby-live-day-1280x800.png`, animations: 'disabled' });
   expect(await d.page.evaluate(() => document.documentElement.scrollWidth <= 1280)).toBe(true);
   await clean(d);
+});
+
+test('M2l the map app reports its height: the frame fits it and the sheet becomes the only scroller; a bad or foreign message is ignored', async ({ browser }) => {
+  const h = await boot(browser);
+  const FIT = `<!doctype html><meta charset="utf-8"><body style="margin:0;height:1234px"><script>if(/[?&]fit=1/.test(location.search))parent.postMessage({type:'CASCADE_MAP_HEIGHT',h:1234},'*')</script>`;
+  await h.context.route(NEARBY + '**', (route) => route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: FIT }));
+  await openSheet(h.page, 'nearby');
+  expect(await h.page.locator('#np-live iframe').getAttribute('src')).toMatch(/[?&]fit=1(&|$)/);
+  await expect(h.page.locator('#np-live')).toHaveClass(/fit/);
+  const m = await h.page.evaluate(() => { const p = document.querySelector('#np-live'), s = document.querySelector('#sh-nearby'); return { h: p.offsetHeight, scroll: s.scrollHeight > s.clientHeight + 200, oy: getComputedStyle(s).overflowY }; });
+  expect(m.h, 'pane takes the reported height').toBe(1234);
+  expect(m.scroll, 'the sheet itself scrolls').toBe(true);
+  expect(m.oy).toBe('auto');
+  await h.page.evaluate(() => { window.postMessage({ type: 'CASCADE_MAP_HEIGHT', h: 3000 }, '*'); const f = document.querySelector('#np-live iframe'); f.contentWindow.postMessage('x', '*'); });
+  await h.page.waitForTimeout(200);
+  expect(await h.page.evaluate(() => document.querySelector('#np-live').offsetHeight), 'a message from another window changes nothing').toBe(1234);
+  await clean(h);
+});
+
+test('M2m the Restaurants nearby tile opens the Dining map sheet, not a Google link', async ({ browser }) => {
+  const h = await boot(browser);
+  const tile = h.page.locator('.go4 .g4', { hasText: 'Restaurants nearby' });
+  expect(await tile.evaluate((e) => e.tagName + ':' + e.dataset.open)).toBe('BUTTON:dmap');
+  await tile.scrollIntoViewIfNeeded();
+  await tile.click();
+  await expect(h.page.locator('#sh-dmap.on')).toHaveCount(1);
+  await expect(h.page.locator('#dp-live iframe')).toHaveCount(1);
+  expect(await h.page.locator('.go4 a[href*="maps/search/restaurants"]').count()).toBe(0);
+  await clean(h);
 });

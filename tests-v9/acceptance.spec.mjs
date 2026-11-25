@@ -60,7 +60,7 @@ for (const theme of ['day', 'night']) {
         expect(await h.page.evaluate(() => document.documentElement.dataset.theme)).toBe(theme === 'day' ? 'light' : 'dark');
         expect(h.errors, 'page errors').toEqual([]);
         expect(h.consoleErrors, 'console errors').toEqual([]);
-        expect(h.mock.external.filter((u) => !/fonts\.(googleapis|gstatic)\.com|^https:\/\/cascadereservations-del\.github\.io\/(Nearby-POIS|Cascade-Dining-Map-)\/\?embed=1&theme=(day|night)$/.test(u)), 'no unexpected external hosts requested').toEqual([]);
+        expect(h.mock.external.filter((u) => !/fonts\.(googleapis|gstatic)\.com|^https:\/\/cascadereservations-del\.github\.io\/(Nearby-POIS|Cascade-Dining-Map-)\/\?embed=1&fit=1&theme=(day|night)$/.test(u)), 'no unexpected external hosts requested').toEqual([]);
         await clean(h);
       });
     }
