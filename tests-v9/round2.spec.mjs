@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import { test, expect } from '@playwright/test';
 import { NOW_MS, TODAY, WIFI, TOK_GUEST, PORT, addDays, defaults, newPage, ready, seed, stay, ls, guestGate } from './helpers.mjs';
 
@@ -342,11 +343,12 @@ test('R2 staff "exp" stage chip clears ADMIN, the staff token and the cached sec
   await h.page.locator('#gids [data-aid="Honey"]').click();
   await expect(h.page.locator('#wifilock')).toContainText(WIFI.pass);
   expect(JSON.parse(await ls(h.page, 'ch_v2_token'))).toBe('tok-staff-1');
+  expect(await ls(h.page, 'ch_v2_isAdmin'), 'staff flag is set before the exp chip, so the null below is not vacuous').toBe('true');
   await h.page.evaluate(() => document.querySelector('#stagechips [data-st="exp"]').click());
   await expect(h.page.locator('#farewell-page')).toBeVisible();
   expect(await ls(h.page, 'ch_v2_token')).toBeNull();
   expect(await ls(h.page, 'cg_secrets')).toBeNull();
-  expect(await ls(h.page, 'ch_v2_admin')).toBeNull();
+  expect(await ls(h.page, 'ch_v2_isAdmin')).toBeNull();
   expect(await h.page.content()).not.toContain(WIFI.pass);
   await clean(h);
 });
@@ -363,5 +365,86 @@ test('R2 scene(): after sign-in a later scene() change leaves no stale lazy copy
   await expect.poll(() => h.page.locator('#scene').evaluate((el) => el.style.backgroundImage)).not.toBe(noon);
   expect(await h.page.locator('#scene').getAttribute('data-bg')).toBeNull();
   expect(await h.page.locator('#pfront').getAttribute('data-bg')).toBeNull();
+  await clean(h);
+});
+
+/* ---------- migration from the v7.10.8 page (no ch_v2_token, plaintext ch_wifi_v1) ---------- */
+const LEGACY_PW = 'Legacy-mock-PW-0001';
+const v7Stay = (name) => stay({ name, ci: TODAY, co: addDays(TODAY, 2), extra: { ch_wifi_v1: LEGACY_PW } }); // mid-stay, check-in today, no token
+test('R2 migration: v7.10.8 mid-stay state opens the guide, Wi-Fi stays locked, door guide shows, legacy key removed', async ({ browser }) => {
+  const h = await newPage(browser);
+  await seed(h.context, v7Stay('Maria'));
+  await ready(h.page);
+  await expect(h.page.locator('#gate')).toBeHidden();
+  await expect(h.page.locator('#greet')).toHaveText('Good afternoon, Maria. Welcome home.');
+  await expect(h.page.locator('#farewell-page')).toBeHidden();
+  await expect(h.page.locator('#wifilock .locked')).toHaveCount(1);
+  expect(await h.page.locator('#wifilock').textContent()).not.toContain(LEGACY_PW);
+  await expect(h.page.locator('#locklock img')).toHaveCount(1);
+  await expect(h.page.locator('#locklock .locked')).toHaveCount(0);
+  expect(await ls(h.page, 'ch_wifi_v1'), 'plaintext legacy key removed at boot').toBeNull();
+  expect(await h.page.content()).not.toContain(LEGACY_PW);
+  await clean(h);
+});
+test('R2 migration: a stored single-letter name does not show as a bare letter in the greeting', async ({ browser }) => {
+  const h = await newPage(browser);
+  await seed(h.context, v7Stay('M'));
+  await ready(h.page);
+  await expect(h.page.locator('#gate')).toBeHidden();
+  await expect(h.page.locator('#greet')).toHaveText('Good afternoon. Welcome home.');
+  await expect(h.page.locator('#dear')).toHaveText('Dear guest,');
+  await clean(h);
+});
+test('R2 door guide: not verified shows the lock card, not the image', async ({ browser }) => {
+  const h = await newPage(browser);
+  await ready(h.page);
+  await expect(h.page.locator('#locklock .locked')).toHaveCount(1);
+  await expect(h.page.locator('#locklock img')).toHaveCount(0);
+  await clean(h);
+});
+test('R2 service worker: ?fbclid= and ?sw= visits share one navigation copy (no query in the key); offline fallback works', async ({ browser }) => {
+  const h = await newPage(browser);
+  await h.page.goto(SW_URL, { waitUntil: 'load' });
+  await expect.poll(() => h.page.evaluate(async () => { const r = await navigator.serviceWorker.getRegistration(); return !!(r && r.active && r.active.state === 'activated'); }), { timeout: 20000 }).toBe(true);
+  await h.page.reload({ waitUntil: 'load' });
+  await expect.poll(() => h.page.evaluate(() => !!navigator.serviceWorker.controller), { timeout: 20000 }).toBe(true);
+  await h.page.goto(SW_URL.replace('?sw=1', '?fbclid=abc'), { waitUntil: 'load' });
+  await h.page.goto(SW_URL.replace('?sw=1', '?fbclid=def'), { waitUntil: 'load' });
+  const keys = await h.page.evaluate(async () => (await (await caches.open('cascade-shell-v9')).keys()).map((r) => new URL(r.url)).filter((u) => u.pathname.endsWith('index.html')).map((u) => u.pathname + u.search));
+  expect(keys, 'one index.html entry, no query string').toEqual(['/Welcome-To-Cascades-/index.html']);
+  await h.context.setOffline(true);
+  await h.page.goto(SW_URL.replace('?sw=1', '?fbclid=zzz'), { waitUntil: 'load' });
+  await expect(h.page.locator('#gate')).toBeVisible();
+  await clean(h);
+});
+
+/* ---------- "Back to my guide" on the gate (owner-approved fix 9) ---------- */
+for (const theme of ['day', 'night']) {
+  test(`R2 gate back link ${theme}: verified guest opens the gate from the lock card, sees the link, one tap returns to the guide, nothing stored changes`, async ({ browser }) => {
+    const h = await newPage(browser);
+    await seed(h.context, { 'cg-theme': theme, ...v7Stay('Maria') });
+    await ready(h.page);
+    await expect(h.page.locator('#gate')).toBeHidden();
+    const before = await h.page.evaluate(() => JSON.stringify(Object.entries(localStorage).sort()));
+    await h.page.evaluate(() => document.querySelector('#wifilock .locked [data-open="verify"]').click()); // the lock card sits in a sheet that is closed here
+    await expect(h.page.locator('#gate')).toBeVisible();
+    const link = h.page.locator('#g-guide-back');
+    await expect(link).toBeVisible();
+    await expect(link).toHaveText('← Back to my guide');
+    expect((await link.boundingBox()).height).toBeGreaterThanOrEqual(44);
+    fs.mkdirSync('out', { recursive: true });
+    await h.page.locator('#gate').screenshot({ path: `out/gate-back-link-${theme}.png`, animations: 'disabled' });
+    await link.click();
+    await expect(h.page.locator('#gate')).toBeHidden();
+    await expect(h.page.locator('#greet')).toHaveText('Good afternoon, Maria. Welcome home.');
+    expect(await h.page.evaluate(() => JSON.stringify(Object.entries(localStorage).sort()))).toBe(before);
+    await clean(h);
+  });
+}
+test('R2 gate back link: a fresh visitor does not see it', async ({ browser }) => {
+  const h = await newPage(browser);
+  await ready(h.page);
+  await expect(h.page.locator('#gate')).toBeVisible();
+  await expect(h.page.locator('#g-guide-back')).toBeHidden();
   await clean(h);
 });

@@ -1154,6 +1154,7 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
       <label class="gfield" for="gdate">CHECK-IN DATE</label>
       <input type="date" id="gdate" class="ginput">
       <p class="gnote" id="gdatechk" hidden>Checking your reservation…</p>
+      <button class="glink" id="g-guide-back" style="min-height:44px" hidden>← Back to my guide</button>
       <button class="glink" id="g-admin-link">Staff · Admin</button>
     </div>
     <div class="gstep" id="g-initial" hidden>
@@ -1387,8 +1388,9 @@ function computeExpiry(){const co=sget(SK.CO);if(co)return new Date(String(co).s
 function isExpired(){const f=+sget(SK.FIRST)||Date.now();if(Date.now()-f<90000)return false;return Date.now()>=computeExpiry()}
 const GSTEPS=['date','initial','checking','fail1','guestonly','success','adminpw','admin','expired'];
 function gstep(n){if(n==='expired'){showFarewell();return}if(typeof hideFarewell==='function'&&!$('#farewell-page').hidden)hideFarewell();GSTEPS.forEach(x=>$('#g-'+x).hidden=x!==n);const f={date:'#gdate',initial:'#ginit',adminpw:'#gpw'}[n];if(f)setTimeout(()=>$(f)&&$(f).focus(),80)}
-function showGate(n){if(n==='expired'){showFarewell();return}const g=$('#gate');g.hidden=false;book.inert=true;$('.dock').inert=true;gstep(n||'date')}
+function showGate(n){if(n==='expired'){showFarewell();return}const g=$('#gate');$('#g-guide-back').hidden=!((sget(SK.NAME)&&sget(SK.VER))||sget(SK.ADMIN)||guestPass.has());g.hidden=false;book.inert=true;$('.dock').inert=true;gstep(n||'date')}
 function hideGate(){$('#gate').hidden=true;typeof lazyStart==='function'&&lazyStart();book.inert=false;$('.dock').inert=false}
+$('#g-guide-back').addEventListener('click',hideGate);
 function updateGate(){ // = live updateUI(): admin or guest pass → open; expired known guest → farewell; no name → gate
  if(sget(SK.ADMIN)||guestPass.has()){hideGate();return}
  if(sget(SK.NAME)&&isExpired()){showGate('expired');return}
