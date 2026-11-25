@@ -1339,10 +1339,23 @@ $('#pclear').addEventListener('click',()=>{clearStay();personalise();closeAll();
 /* stay secrets: never in the page; fetched with the stay token after verification (get_stay_secrets) and cached for this stay only */
 const SEC_KEY='cg_secrets';
 function secrets(){const v=store.get(SEC_KEY);if(!v)return null;try{const o=JSON.parse(v);if(o.exp&&Date.now()>o.exp){store.set(SEC_KEY,null);return null}return o}catch(e){return null}}
-async function loadSecrets(force){if(!force&&secrets())return secrets();const tok=sget('ch_v2_token');if(!tok)return null;let d;
- try{d=await rpc('guide_secrets_v1',{p_token:tok})}catch(e){return secrets()} /* offline, timeout or 404: keep and use the cached secrets */
- if(d&&d.ok===true&&d.wifi_password){store.set(SEC_KEY,JSON.stringify({...d,exp:computeExpiry()}));return secrets()}
- if(d&&d.ok===false){sset('ch_v2_token',null);store.set(SEC_KEY,null)}return null}
+let secFly=null;
+async function loadSecrets(force){if(!force&&secrets())return secrets();const tok=sget('ch_v2_token');if(!tok)return null;
+ if(secFly&&secFly.tok===tok)return secFly.p;
+ const p=(async()=>{let d;
+  try{d=await rpc('guide_secrets_v1',{p_token:tok})}catch(e){return secrets()} /* offline, timeout or 404: keep and use the cached secrets */
+  const same=sget('ch_v2_token')===tok; /* the token may have changed (new sign-in, sign-out) while this call was out */
+  if(d&&d.ok===true&&d.wifi_password){if(!same)return secrets();store.set(SEC_KEY,JSON.stringify({...d,at:Date.now(),exp:computeExpiry()}));return secrets()}
+  if(d&&d.ok===false){if(same){sset('ch_v2_token',null);store.set(SEC_KEY,null)}return null}
+  return secrets()})(); /* ok:true without a password counts as a failed load: the existing cache stays */
+ secFly={tok,p};p.then(()=>{if(secFly&&secFly.p===p)secFly=null},()=>{if(secFly&&secFly.p===p)secFly=null});return p}
+/* stale-cache check: a cache older than 6 hours is refreshed in the background (the Wi-Fi password may have changed); only a changed value re-renders */
+let secRevAt=0;
+async function revalSecrets(){const c=secrets();if(!c||!sget('ch_v2_token')||navigator.onLine===false||Date.now()-(c.at||0)<=6*36e5||Date.now()-secRevAt<60000)return;secRevAt=Date.now();
+ const sig=o=>o?[o.wifi_ssid,o.wifi_password,o.onground_name,o.onground_phone].join('|'):'';const before=sig(c);
+ try{await loadSecrets(true)}catch(e){return}
+ if(sig(secrets())!==before)renderLocks()}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)revalSecrets()});
 function wifiQR(ssid,pw){try{const esc2=t=>String(t).replace(/([\\;,:"])/g,'\\$1');const q=qrcode(0,'M');q.addData(`WIFI:T:WPA;S:${esc2(ssid)};P:${esc2(pw)};;`);q.make();return q.createSvgTag({cellSize:5,margin:2,scalable:true})}catch(e){return''}}
 function applyContact(sc){const nm=(sc&&sc.onground_name)||'Honey',ph=(sc&&sc.onground_phone)||'+639918538269',d=String(ph).replace(/\D/g,'').replace(/^0/,'63'),tel='+'+d,pretty=d.replace(/^63(\d{3})(\d{3})(\d{4})$/,'+63 $1 $2 $3');
  $$('[data-og-name]').forEach(e=>e.textContent=nm);$$('[data-og-phone]').forEach(e=>e.textContent=pretty);$$('[data-og-tel]').forEach(e=>e.href='tel:'+tel)}
@@ -1354,7 +1367,7 @@ function renderLocks(){const ok=(G.ver&&!G.expired)||!!sget(SK.ADMIN);
  if(!sc){$('#wifilock').innerHTML=`<div class="card c"><p class="muted" style="margin:0">Fetching your Wi-Fi details…</p><p class="muted" style="margin:8px auto 0;font-size:.875rem">They're also in your Airbnb check-in message.</p></div>`;
   loadSecrets().then(x=>{if(x||!sget('ch_v2_token'))renderLocks();else $('#wifilock').innerHTML=`<div class="card c"><p class="muted" style="margin:0">We couldn't load your Wi-Fi details just now. You'll find them in your Airbnb check-in message, or message us and we'll send them right away.</p><button class="btn" style="margin-top:12px" id="secretry">Try again</button></div>`})}
  else{const qr=wifiQR(sc.wifi_ssid||'',sc.wifi_password);
-  $('#wifilock').innerHTML=`<div class="card c">${qr?`<div class="qrbox" role="img" aria-label="QR code to join ${esc(sc.wifi_ssid||'the Wi-Fi')}">${qr}</div><p class="muted" style="margin:8px auto 0;font-size:.875rem">Point your camera at the code to join</p>`:''}</div><div class="card"><p class="label">PASSWORD</p><p class="serif brk" style="font-size:1.75rem;margin:0 0 12px">${esc(sc.wifi_password)}</p><button class="btn gold" data-copy="${esc(sc.wifi_password)}">Copy password</button></div>`}
+  $('#wifilock').innerHTML=`<div class="card c">${qr?`<div class="qrbox" role="img" aria-label="QR code to join ${esc(sc.wifi_ssid||'the Wi-Fi')}">${qr}</div><p class="muted" style="margin:8px auto 0;font-size:.875rem">Point your camera at the code to join</p>`:''}</div><div class="card"><p class="label">PASSWORD</p><p class="serif brk" style="font-size:1.75rem;margin:0 0 12px">${esc(sc.wifi_password)}</p><button class="btn gold" data-copy="${esc(sc.wifi_password)}">Copy password</button></div>`;revalSecrets()}
  $('#locklock').innerHTML=`<img src="img/smartlock.webp" alt="Smart lock guide: wake the keypad, enter your PIN and press #, turn the handle, close the door firmly" style="width:100%;border-radius:16px;margin:4px 0 12px;display:block">`}
 document.addEventListener('click',e=>{if(e.target.id==='secretry'){e.target.disabled=true;loadSecrets(true).then(()=>renderLocks())}});
 
@@ -1380,7 +1393,7 @@ const NUDGE={dateOnly:[["That date didn't match. Let's try again.","Check your b
  initialWrong:[["Date confirmed! Just the name initial to sort.","Use the first letter of the lead guest name on your Airbnb booking. Any case is fine."],["Date is confirmed, one small step left.","Try the first letter of the primary guest name, not a co-traveller."]],
  networkError:[["Connection hiccup, worth one more try.","Check your signal and tap Try again."],["Small network blip on our end.","One more tap should sort it."]]};
 const nIdx={};function nudge(k){const pool=NUDGE[k];const i=(nIdx[k]=(nIdx[k]||0)+1)%pool.length;$('#g-nudge-t').textContent=pool[i][0];$('#g-nudge-s').textContent=pool[i][1]}
-async function rpc(fn,body){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),15000);try{const r=await fetch(SB+'/rest/v1/rpc/'+fn,{method:'POST',signal:ctl.signal,headers:{apikey:ANON,Authorization:'Bearer '+ANON,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw new Error('http '+r.status);return await r.json()}finally{clearTimeout(to)}}
+async function rpc(fn,body,ms){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),ms||15000);try{const r=await fetch(SB+'/rest/v1/rpc/'+fn,{method:'POST',signal:ctl.signal,headers:{apikey:ANON,Authorization:'Bearer '+ANON,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw new Error('http '+r.status);return await r.json()}finally{clearTimeout(to)}}
 async function verifyBooking(d,L){return rpc('verify_booking',L==null?{p_checkin_date:d}:{p_checkin_date:d,p_initial:L})}
 /* stable random device id for the session RPCs (throttling), kept on this device only */
 function devId(){let v=store.get('cg_dev');if(!/^[0-9a-f]{32}$/.test(v||'')){v=null;try{const a=new Uint8Array(16);crypto.getRandomValues(a);v=Array.from(a,x=>x.toString(16).padStart(2,'0')).join('');store.set('cg_dev',v)}catch(e){}}return v||'guest'}
@@ -1398,7 +1411,7 @@ async function submitInitial(){const L=$('#ginit').value.trim().charAt(0);if(!gD
   if(d.match===false){attempt++;nudge('initialWrong');gstep(attempt>=2?'guestonly':'fail1');return}
   const nm=(d.first_name||'').trim(),ph=['guest','user','traveler','traveller','visitor','reserved','airbnb',''].includes(nm.toLowerCase())||nm.length<2,show=ph?'':nm;
   sset('ch_v2_token',null);store.set(SEC_KEY,null);
-  try{const ss=await rpc('guide_session_v1',{p_checkin_date:gDate,p_initial:L,p_client:devId()});if(ss&&ss.ok===true&&ss.token)sset('ch_v2_token',ss.token)}catch(e){/* backend not ready or offline: continue signed in without a token (lock card) */}
+  try{const ss=await rpc('guide_session_v1',{p_checkin_date:gDate,p_initial:L,p_client:devId()},8000);if(ss&&ss.ok===true&&ss.token)sset('ch_v2_token',ss.token)}catch(e){/* backend not ready or offline: continue signed in without a token (lock card) */}
   sset(SK.NAME,show);sset(SK.CO,d.checkout_date||null);sset(SK.CI,d.checkin_date||gDate);sset(SK.NIGHTS,d.nights||null);sset(SK.COT,d.checkout_time||null);sset(SK.VER,true);sset(SK.FIRST,Date.now());attempt=0;
   $('#g-sname').textContent=show?`Welcome, ${show}`:'Welcome home';$('#g-askname').hidden=!!show;$('#gname').value='';$('#g-sinfo').textContent=d.nights?`${d.nights} night${d.nights!==1?'s':''}${d.checkout_date?' · check-out '+fmtD(d.checkout_date)+', '+fmtT(d.checkout_time):''}`:'';
   gstep('success')
@@ -1436,7 +1449,7 @@ function fwStayLine(){const ci=String(sget(SK.CI)||'').slice(0,10),co=String(sge
  if(!ok.test(ci)||!ok.test(co)||ci>=co){el.hidden=true;el.textContent='';return}
  const f=(d,mo)=>new Date(d+'T00:00:00').toLocaleDateString('en-GB',mo?{day:'numeric',month:'short'}:{day:'numeric'});
  el.textContent='Your stay · '+f(ci,ci.slice(0,7)!==co.slice(0,7))+' to '+f(co,1);el.hidden=false}
-function showFarewell(){const nm=(sget(SK.NAME)||'').trim().split(/\s+/)[0];$('#fw-name').textContent=nm&&!/^[A-Z]$/.test(nm)?nm.charAt(0).toUpperCase()+nm.slice(1).toLowerCase():'';
+function showFarewell(){sset('ch_v2_token',null);store.set(SEC_KEY,null);renderLocks();const nm=(sget(SK.NAME)||'').trim().split(/\s+/)[0];$('#fw-name').textContent=nm&&!/^[A-Z]$/.test(nm)?nm.charAt(0).toUpperCase()+nm.slice(1).toLowerCase():'';
  fwStayLine();setFwPhoto();
  document.documentElement.classList.add('expired');$('#gate').hidden=true;book.inert=true;$('.dock').inert=true;$('#farewell-page').hidden=false;$('#farewell-page').scrollTop=0;setTimeout(()=>$('#fw-title').focus({preventScroll:true}),300)}
 function hideFarewell(){document.documentElement.classList.remove('expired');$('#farewell-page').hidden=true}
@@ -1449,9 +1462,10 @@ $('#g-guest').addEventListener('click',()=>{const K='ch_v2_guestUsedTs',used=+(s
  if(!used)store.set(K,String(Date.now()));const gn=$('#gguestname').value.trim().split(/\s+/)[0];store.set('cg_guest_name',gn||null);guestPass.set();hideGate();personalise()});
 $('#g-admin-link').addEventListener('click',()=>{$('#gpw').value='';$('#gpwerr').hidden=true;gstep('adminpw')});
 $('#g-pw-back').addEventListener('click',()=>gstep('date'));
-async function adminGo(){const v=$('#gpw').value.trim(),err=t=>{$('#gpwerr').textContent=t;$('#gpwerr').hidden=false;$('#gpw').select()};if(!v){err('Please enter the access code.');return}
- let out;const cl=devId();try{try{out=await rpc('guide_staff_session_v1',{p_code:v,p_client:cl})}catch(e){if(!String(e.message).includes('404'))throw e;out=await rpc('verify_admin_pin',{p_code:v,p_client:cl})}}catch(e){err('Could not reach the server. Check your connection and try again.');return}
- if(out&&out.ok){sset('ch_v2_token',out.token||null);store.set(SEC_KEY,null);const ids=(Array.isArray(out.users)&&out.users.length?out.users:['Lloyd','Marifel','Honey']).filter(n=>n&&n!=='Others');$('#gids').innerHTML=ids.map(n=>`<button class="btn glass" data-aid="${esc(n)}">${esc(n)}</button>`).join('');gstep('admin')}
+let adminBusy=false;
+async function adminGo(){if(adminBusy)return;const v=$('#gpw').value.trim(),err=t=>{$('#gpwerr').textContent=t;$('#gpwerr').hidden=false;$('#gpw').select()};if(!v){err('Please enter the access code.');return}
+ adminBusy=true;let out;const cl=devId();try{try{out=await rpc('guide_staff_session_v1',{p_code:v,p_client:cl})}catch(e){if(!String(e.message).includes('404'))throw e;out=await rpc('verify_admin_pin',{p_code:v,p_client:cl})}}catch(e){adminBusy=false;err('Could not reach the server. Check your connection and try again.');return}
+ adminBusy=false;if(out&&out.ok){sset('ch_v2_token',out.token||null);store.set(SEC_KEY,null);const ids=(Array.isArray(out.users)&&out.users.length?out.users:['Lloyd','Marifel','Honey']).filter(n=>n&&n!=='Others');$('#gids').innerHTML=ids.map(n=>`<button class="btn glass" data-aid="${esc(n)}">${esc(n)}</button>`).join('');gstep('admin')}
  else if(out&&out.throttled)err('Too many attempts. Please wait 15 minutes and try again.');else err('That code didn\'t match. Please try again.')}
 $('#g-pw-go').addEventListener('click',adminGo);$('#gpw').addEventListener('keydown',e=>{if(e.key==='Enter')adminGo()});
 $('#gids').addEventListener('click',e=>{const b=e.target.closest('[data-aid]');if(!b)return;sset(SK.NAME,b.dataset.aid);sset(SK.ADMIN,true);sset(SK.VER,true);sset(SK.FIRST,Date.now());hideGate();personalise();toast(`Welcome, ${b.dataset.aid}. Preview tools are in the concierge.`)});
@@ -1469,7 +1483,7 @@ function stageNow(){if(!G.ver)return 'guest';if(G.expired)return 'exp';const t=t
 function drawStage(){const cur=stageNow();$('#stagechips').innerHTML=STAGES.map(x=>`<button data-st="${x[0]}" aria-pressed="${x[0]===cur}">${esc(x[1])}</button>`).join('')}
 $('#stagechips').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;const t=today(),n=$('#pname').value.trim()||'Maria',k=b.dataset.st;
  const M={pre:[3,5],arr:[0,3],mid:[-1,2],last:[-2,1],out:[-3,0],post:[-3,-1],exp:[-5,-3]};
- if(k==='guest'){clearStay();personalise();closeAll();updateGate();return}else{const [a,c]=M[k];setStay(n,addDays(t,a),addDays(t,c));if(k==='exp'){sset(SK.ADMIN,null);closeAll();updateGate()}}
+ if(k==='guest'){clearStay();personalise();closeAll();updateGate();return}else{const [a,c]=M[k];setStay(n,addDays(t,a),addDays(t,c));if(k==='exp'){sset(SK.ADMIN,null);sset('ch_v2_token',null);store.set(SEC_KEY,null);closeAll();updateGate()}}
  refocus(`[data-st="${k}"]`);toast(b.textContent)});
 
 /* ---------- word of the moment: the live guide's 21-slot rotation ---------- */
@@ -1588,7 +1602,7 @@ const scene=()=>{const H=nowH(),m=+new Intl.DateTimeFormat('en-US',{timeZone:tz,
  else if(H>=9&&H<15)pick=wet?['sgfarm','The green slopes of Mt. Matutum']:['gumasa','Midday on Gumasa Beach'];
  else if(H>=15&&H<18.5)pick=wet?['highlands','Golden hour over Sarangani Bay']:['euphoria-sunset','Golden hour at Euphoria'];
  else pick=wet?['valleyhigh-alfresco','Evening lights at Valley High']:['highstreet-arcade','Night lights on Gensan High Street'];
- {const u=`url(img/${pick[0]}.webp)`;let on=false;try{on=lzOn}catch(e){}/* before sign-in the images wait for the lazy loader (lzLoad) instead of loading behind the gate */ [$('#pfront'),$('#scene')].forEach(el=>{if(on)el.style.backgroundImage=u;else{el.dataset.bg=u;el.dataset.lz=1}})}$('#scap').textContent=pick[1]};
+ {const u=`url(img/${pick[0]}.webp)`;let on=false;try{on=lzOn}catch(e){}/* before sign-in the images wait for the lazy loader (lzLoad) instead of loading behind the gate */ [$('#pfront'),$('#scene')].forEach(el=>{if(on){el.style.backgroundImage=u;delete el.dataset.bg}else{el.dataset.bg=u;el.dataset.lz=1}})}$('#scap').textContent=pick[1]};
 scene();setInterval(scene,15*60*1000);
 
 let pcat='all',psel=-1;
