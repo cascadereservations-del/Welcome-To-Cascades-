@@ -1588,7 +1588,7 @@ const scene=()=>{const H=nowH(),m=+new Intl.DateTimeFormat('en-US',{timeZone:tz,
  else if(H>=9&&H<15)pick=wet?['sgfarm','The green slopes of Mt. Matutum']:['gumasa','Midday on Gumasa Beach'];
  else if(H>=15&&H<18.5)pick=wet?['highlands','Golden hour over Sarangani Bay']:['euphoria-sunset','Golden hour at Euphoria'];
  else pick=wet?['valleyhigh-alfresco','Evening lights at Valley High']:['highstreet-arcade','Night lights on Gensan High Street'];
- $('#pfront').style.backgroundImage=`url(img/${pick[0]}.webp)`;$('#scene').style.backgroundImage=`url(img/${pick[0]}.webp)`;$('#scap').textContent=pick[1]};
+ {const u=`url(img/${pick[0]}.webp)`;let on=false;try{on=lzOn}catch(e){}/* before sign-in the images wait for the lazy loader (lzLoad) instead of loading behind the gate */ [$('#pfront'),$('#scene')].forEach(el=>{if(on)el.style.backgroundImage=u;else{el.dataset.bg=u;el.dataset.lz=1}})}$('#scap').textContent=pick[1]};
 scene();setInterval(scene,15*60*1000);
 
 let pcat='all',psel=-1;
