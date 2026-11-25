@@ -26,8 +26,8 @@ test('R2a service worker: signed in once, then offline + reload still shows the 
   expect(await ls(h.page, 'cg_secrets')).toContain(WIFI.pass);
   await h.page.waitForTimeout(500); // let the first images settle into the cache
   const caches0 = await h.page.evaluate(async () => { const out = {}; for (const k of await caches.keys()) out[k] = (await (await caches.open(k)).keys()).map((r) => new URL(r.url).pathname + new URL(r.url).search); return out; });
-  expect(Object.keys(caches0), 'shell cache is v12').toContain('cascade-shell-v12');
-  const shell = caches0['cascade-shell-v12'];
+  expect(Object.keys(caches0), 'shell cache is v13').toContain('cascade-shell-v13');
+  const shell = caches0['cascade-shell-v13'];
   for (const f of ['/Welcome-To-Cascades-/index.html', '/Welcome-To-Cascades-/img/smartlock.webp', '/Welcome-To-Cascades-/img/logo.png']) expect(shell, f).toContain(f);
   await h.context.setOffline(true);
   await h.page.reload({ waitUntil: 'load' });
@@ -429,7 +429,7 @@ test('R2 service worker: ?fbclid= and ?sw= visits share one navigation copy (no 
   await expect.poll(() => h.page.evaluate(() => !!navigator.serviceWorker.controller), { timeout: 20000 }).toBe(true);
   await h.page.goto(SW_URL.replace('?sw=1', '?fbclid=abc'), { waitUntil: 'load' });
   await h.page.goto(SW_URL.replace('?sw=1', '?fbclid=def'), { waitUntil: 'load' });
-  const keys = await h.page.evaluate(async () => (await (await caches.open('cascade-shell-v12')).keys()).map((r) => new URL(r.url)).filter((u) => u.pathname.endsWith('index.html')).map((u) => u.pathname + u.search));
+  const keys = await h.page.evaluate(async () => (await (await caches.open('cascade-shell-v13')).keys()).map((r) => new URL(r.url)).filter((u) => u.pathname.endsWith('index.html')).map((u) => u.pathname + u.search));
   expect(keys, 'one index.html entry, no query string').toEqual(['/Welcome-To-Cascades-/index.html']);
   await h.context.setOffline(true);
   await h.page.goto(SW_URL.replace('?sw=1', '?fbclid=zzz'), { waitUntil: 'load' });

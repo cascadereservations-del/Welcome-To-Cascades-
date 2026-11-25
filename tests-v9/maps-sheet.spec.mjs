@@ -360,3 +360,18 @@ test('M2n a height report counts as loaded: the loading cover goes away even whi
   await expect(h.page.locator('#np-live .mstat')).toBeHidden();
   await clean(h);
 });
+
+test('M2o every Restaurants entry point opens the Dining map sheet; no Google restaurant-search link is left', async ({ browser }) => {
+  const h = await boot(browser);
+  expect(await h.page.locator('a[href*="maps/search/restaurants"]').count()).toBe(0);
+  const n = await h.page.locator('[data-open="dmap"]').count();
+  expect(n, 'tile, quick link, chapter button and Dining map button').toBe(4);
+  for (let i = 0; i < n; i++) {
+    await h.page.evaluate((k) => document.querySelectorAll('[data-open="dmap"]')[k].click(), i);
+    await expect(h.page.locator('#sh-dmap.on')).toHaveCount(1);
+    await closeSheet(h.page);
+  }
+  const chip = await h.page.evaluate(() => { const b = document.querySelector('.nearby button'), a = document.querySelector('.nearby a'), cb = getComputedStyle(b), ca = getComputedStyle(a), d = {}; for (const k of ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'borderRadius', 'borderColor', 'backgroundColor', 'backgroundImage', 'boxShadow', 'color', 'minHeight', 'padding']) if (cb[k] !== ca[k]) d[k] = [cb[k], ca[k]]; return d; });
+  expect(chip, 'the Restaurants chip looks like its sibling links').toEqual({});
+  await clean(h);
+});

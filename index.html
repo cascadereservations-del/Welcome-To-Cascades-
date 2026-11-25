@@ -285,7 +285,7 @@ table{width:100%;border-collapse:collapse;font-size:0.9375rem}td{padding:10px 0;
 .rule .wm{position:absolute;right:-8px;bottom:-18px;font-size:5.375rem;opacity:.07;pointer-events:none}
 .rule h4{margin:0 0 4px;font-size:1rem}.rule p{margin:0;color:var(--soft);font-size:0.9062rem;line-height:1.5}
 .nearby{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
-.nearby a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:99px;padding:9px 14px;min-height:42px;font-size:0.875rem;font-weight:600}
+.nearby button{font:inherit;cursor:pointer}.nearby a,.nearby button{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:99px;padding:9px 14px;min-height:42px;font-size:0.875rem;font-weight:600}
 .cover .btn.glass,.btn.glass{text-shadow:0 1px 2px rgba(0,0,0,.6);background:rgba(255,248,235,.12);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-color:rgba(255,240,215,.4);color:#fff}
 .corner{display:grid;gap:14px}
 .ctile{position:relative;overflow:hidden;border-radius:22px;min-height:220px;padding:22px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate;background:#2a1a0c}
@@ -612,7 +612,7 @@ html.thx *{transition:background-color .6s ease,color .6s ease,border-color .6s 
 :root[data-day] .g4{box-shadow:none}
 
 /* translucent paper for content cards on the ground: no blur (legibility, scrolling cost) */
-:root[data-theme] :is(.card,.venue,.ord,.fold,.tile:where(:not(.photo)),.chip3,.ck,.ckc,.rule,.tpl,.pdetail,.nearby a,.x){background:var(--paper);box-shadow:inset 0 1px 0 var(--paper-hi),var(--shadow,0 0 0 transparent)}
+:root[data-theme] :is(.card,.venue,.ord,.fold,.tile:where(:not(.photo)),.chip3,.ck,.ckc,.rule,.tpl,.pdetail,.nearby a,.nearby button,.x){background:var(--paper);box-shadow:inset 0 1px 0 var(--paper-hi),var(--shadow,0 0 0 transparent)}
 :root:not([data-day]) :is(.venue,.ord,.fold){box-shadow:inset 0 1px 0 var(--paper-hi),0 10px 28px -14px rgba(0,0,0,.5)}
 :root:not([data-day]) .band.dark .card{background:rgba(255,248,235,.06)}
 :root[data-theme] .rule{background:radial-gradient(120% 90% at 100% 0%,var(--amb1),transparent 62%),var(--paper)}
@@ -682,7 +682,7 @@ html.thx *{transition:background-color .6s ease,color .6s ease,border-color .6s 
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .btn svg,.quick svg,.idx svg,.bell svg,.tile .ic{stroke-width:1.5}
 .btn .i{width:18px;height:18px;opacity:.9}
-.chip3 .e,.rule .e,.ckc .e,.fold>summary .th,.pe,.locked .i,.nearby a .i,.filters .i,.wxadv .i{color:var(--ico)}
+.chip3 .e,.rule .e,.ckc .e,.fold>summary .th,.pe,.locked .i,.nearby a .i,.nearby button .i,.filters .i,.wxadv .i{color:var(--ico)}
 .chip3 .e{display:flex;justify-content:center;opacity:.9}.chip3 .e .i{width:26px;height:26px}
 :root[data-theme] .rule .e{width:42px;height:42px;background:color-mix(in srgb,var(--chip) 80%,transparent);box-shadow:inset 0 0 0 1px var(--glass-border);margin-bottom:12px}
 .rule .e .i{width:21px;height:21px}
@@ -697,7 +697,7 @@ html.thx *{transition:background-color .6s ease,color .6s ease,border-color .6s 
 .pe .i{width:20px;height:20px;opacity:.9}
 .filters button{display:inline-flex;align-items:center;gap:6px}.filters .i{width:16px;height:16px}
 .filters button[aria-pressed=true] .i{color:currentColor}
-.nearby a .i{width:16px;height:16px}
+.nearby a .i,.nearby button .i{width:16px;height:16px}
 .wxi{line-height:0;color:#f2d79c}:root[data-day] .wxi{color:var(--ico)}.wxi .i{width:44px;height:44px}
 .wxh span .i,.wxd .wxdi .i,.wxr>span .i{width:20px;height:20px;color:var(--ico)}:root:not([data-day]) :is(.wxh,.wxd,.wxr) .i{color:#ecd9b0}
 .wxdr .i,.rp .i{width:.95em;height:.95em;color:currentColor!important;margin-right:2px;vertical-align:-.12em}
@@ -746,12 +746,12 @@ html.thx *{transition:background-color .6s ease,color .6s ease,border-color .6s 
 :root[data-theme]{--pg-top:color-mix(in srgb,var(--card) 62%,transparent);--pg-mid:color-mix(in srgb,var(--card) 82%,transparent);--pg-bot:color-mix(in srgb,var(--card) 90%,transparent);--pg-glint:rgba(255,244,222,.07);--pg-rim:rgba(255,240,215,.14)}
 :root[data-day]{--pg-top:color-mix(in srgb,var(--card) 66%,transparent);--pg-mid:color-mix(in srgb,var(--card) 86%,transparent);--pg-bot:color-mix(in srgb,var(--card) 94%,transparent);--pg-glint:rgba(255,255,255,.55);--pg-rim:rgba(255,255,255,.85)}
 @supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){
-:root[data-theme] :is(.card,.venue,.ord,.fold,.tile:where(:not(.photo)),.chip3,.ck,.ckc,.rule,.tpl,.pdetail,.nearby a),
+:root[data-theme] :is(.card,.venue,.ord,.fold,.tile:where(:not(.photo)),.chip3,.ck,.ckc,.rule,.tpl,.pdetail,.nearby a,.nearby button),
 :root[data-theme] #amen .tile.photo{background:radial-gradient(120% 80% at 0% 0%,var(--pg-glint),transparent 55%),linear-gradient(170deg,var(--pg-top) 0%,var(--pg-mid) 38%,var(--pg-bot) 100%);box-shadow:inset 0 1px 0 var(--pg-rim),inset 1px 0 0 color-mix(in srgb,var(--pg-rim) 50%,transparent),var(--shadow,0 0 0 transparent)}
 /* text plates stay calm: the photo cards keep their image crisp, the gradient lives under the text */
 :root[data-theme] #amen .tile.photo .tx{background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--card) 30%,transparent))}
 }
-@media (prefers-reduced-transparency:reduce){:root[data-theme] :is(.card,.venue,.ord,.fold,.tile,.chip3,.ck,.ckc,.rule,.tpl,.pdetail,.nearby a){background:var(--card)!important}}
+@media (prefers-reduced-transparency:reduce){:root[data-theme] :is(.card,.venue,.ord,.fold,.tile,.chip3,.ck,.ckc,.rule,.tpl,.pdetail,.nearby a,.nearby button){background:var(--card)!important}}
 /* amenity cards borrow the quick-key finish (glass rim, rounded 18px, gentle lift on press) but not its float shadow or breathing glow */
 :root[data-theme] #amen .tile{border-radius:18px;border-color:var(--glass-border,var(--line));transition:transform .25s ease,box-shadow .25s ease}
 :root[data-theme] #amen .tile.photo .bg{border-bottom:1px solid var(--glass-border,var(--line))}
@@ -991,7 +991,7 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
       <div class="card rv"><h4>Grab Taxi</h4><p class="muted" style="margin:0">In GenSan, Grab sends metered taxis, so choose <b>Grab Taxi</b> for the quickest pickup. Flying early? Use <b>Reserve</b> the night before and sleep easy.</p></div>
       <div class="card rv"><h4>Tricycles at Bria's gate</h4><p class="muted" style="margin:0">Tricycles wait just outside the village gate, perfect for short trips to Robinsons or a nearby café. Agree on the fare first, and bring small bills.</p></div>
     </div>
-    <div class="card rv c" style="margin-top:16px"><p class="label">AROUND CASCADE</p><p class="muted" style="margin:0 0 12px">See what's close to the house on the map.</p><button class="btn gold" data-open="nearby"><span data-ic="map"></span>Nearby places, with directions</button><div class="nearby"><a href="https://www.google.com/maps/search/tourist+attractions/@6.1545469,125.1852321,15z"><span data-ic="compass"></span>Attractions</a><a href="https://www.google.com/maps/search/cafes/@6.1545469,125.1852321,15z"><span data-ic="coffee"></span>Cafés</a><a href="https://www.google.com/maps/search/restaurants/@6.1545469,125.1852321,15z"><span data-ic="utensils"></span>Restaurants</a><a href="https://www.google.com/maps/search/atm/@6.1545469,125.1852321,15z"><span data-ic="banknote"></span>ATMs</a><a href="https://www.google.com/maps/search/pharmacy/@6.1545469,125.1852321,15z"><span data-ic="pill"></span>Pharmacies</a><a href="https://www.google.com/maps/search/grocery+store/@6.1545469,125.1852321,15z"><span data-ic="cart"></span>Groceries</a></div></div>
+    <div class="card rv c" style="margin-top:16px"><p class="label">AROUND CASCADE</p><p class="muted" style="margin:0 0 12px">See what's close to the house on the map.</p><button class="btn gold" data-open="nearby"><span data-ic="map"></span>Nearby places, with directions</button><div class="nearby"><a href="https://www.google.com/maps/search/tourist+attractions/@6.1545469,125.1852321,15z"><span data-ic="compass"></span>Attractions</a><a href="https://www.google.com/maps/search/cafes/@6.1545469,125.1852321,15z"><span data-ic="coffee"></span>Cafés</a><button type="button" data-open="dmap"><span data-ic="utensils"></span>Restaurants</button><a href="https://www.google.com/maps/search/atm/@6.1545469,125.1852321,15z"><span data-ic="banknote"></span>ATMs</a><a href="https://www.google.com/maps/search/pharmacy/@6.1545469,125.1852321,15z"><span data-ic="pill"></span>Pharmacies</a><a href="https://www.google.com/maps/search/grocery+store/@6.1545469,125.1852321,15z"><span data-ic="cart"></span>Groceries</a></div></div>
   </div></div>
   <div id="places"></div>
   <div class="band soft" id="city-malls"><div class="wrap"><div class="head rv"><div class="orn">✦</div><h3>Shopping</h3><p class="intro">Air-conditioned afternoons, close by.</p></div><div id="malls"></div>
@@ -1002,7 +1002,7 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
 
 <!-- 4 DINING -->
 <section class="ch" id="table" aria-label="Chapter 4 of 6: Cascade Table">
-  <div class="cover"><div class="slides" data-slides="ranchero-main,soluna-courtyard,ranchero-plate,sevenmonkeys-drink,edsai-room"></div><div><span class="kicker">CHAPTER 4 OF 6</span><h1>Cascade Table</h1><p class="lede" id="lede-table">From a slow morning coffee to a table worth remembering.</p><div class="cta" style="justify-content:center"><a class="btn glass" href="https://www.google.com/maps/search/restaurants/@6.1545469,125.1852321,15z"><span data-ic="utensils"></span>Restaurants near Cascade</a><a class="btn glass" href="https://www.google.com/maps/search/cafes/@6.1545469,125.1852321,15z"><span data-ic="coffee"></span>Cafés nearby</a></div></div></div>
+  <div class="cover"><div class="slides" data-slides="ranchero-main,soluna-courtyard,ranchero-plate,sevenmonkeys-drink,edsai-room"></div><div><span class="kicker">CHAPTER 4 OF 6</span><h1>Cascade Table</h1><p class="lede" id="lede-table">From a slow morning coffee to a table worth remembering.</p><div class="cta" style="justify-content:center"><button type="button" class="btn glass" data-open="dmap"><span data-ic="utensils"></span>Restaurants near Cascade</button><a class="btn glass" href="https://www.google.com/maps/search/cafes/@6.1545469,125.1852321,15z"><span data-ic="coffee"></span>Cafés nearby</a></div></div></div>
   <div class="band soft"><div class="wrap">
     <div class="head rv"><div class="orn">✦</div><p class="intro">Our own favourites, chosen with care.</p><p class="muted" style="font-size:0.875rem;margin:12px 0 0"><span class="band-p">₱</span> under ₱300 a head · <span class="band-p">₱₱</span> ₱300 to ₱700 · <span class="band-p">₱₱₱</span> ₱700 to ₱1,500 · <span class="band-p">₱₱₱₱</span> above ₱1,500</p></div>
     <div class="filters" id="dfilter" role="group" aria-label="Filter dining"></div>
