@@ -106,7 +106,7 @@ test('C4 verified guest sees Wi-Fi from the RPC and an SVG QR; source has neithe
   expect(await ls(h.page, 'cg_dev')).toBe(call.p_client);
   expect(JSON.parse(await ls(h.page, 'ch_v2_token'))).toBe(TOK_GUEST);
   expect(h.mock.callsOf('guide_secrets_v1')[0].body.p_token).toBe(TOK_GUEST);
-  const src = fs.readFileSync(new URL('../guide-v9/index.html', import.meta.url), 'utf8');
+  const src = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   expect(src).not.toContain(WIFI.pass);
   expect(src).not.toContain(WIFI.ssid);
   expect(src).not.toMatch(/WIFI:T:WPA;S:[^$`]/);

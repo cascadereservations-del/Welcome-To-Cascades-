@@ -2,7 +2,7 @@
   "name": "guide-v9-acceptance",
   "private": true,
   "version": "1.0.0",
-  "description": "Playwright acceptance suite for guide-v9/index.html (static server plus mocked Supabase, no real network)",
+  "description": "Playwright acceptance suite for the site-root index.html (static server plus mocked Supabase, no real network)",
   "scripts": {
     "test": "playwright test"
   },

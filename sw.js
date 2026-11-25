@@ -7,7 +7,7 @@
  *   Google Fonts / Tailwind /
  *     FontAwesome (cdnjs)      → cache-first  (immutable CDN assets)
  *   Google Drive hero image    → stale-while-revalidate (instant + fresh)
- *   Supabase API (weather,KB)  → network-first, cache fallback
+ *   Supabase (weather, RPCs)    → network-only, never cached
  *   Open-Meteo AQI endpoint    → network-first, cache fallback
  *   Everything else            → network-only (maps, links, etc.)
  *
@@ -21,7 +21,7 @@
  *   + Cached API responses tagged with x-sw-cached-at header for debugging
  * ============================================================ */
 
-const SHELL_CACHE   = 'cascade-shell-v8';
+const SHELL_CACHE   = 'cascade-shell-v9';
 const RUNTIME_CACHE = 'cascade-runtime-v3';
 
 // Bump SHELL_CACHE name (above) whenever index.html changes — old cache auto-purges on activate.
@@ -35,6 +35,10 @@ const SHELL_URLS = [
   '/Welcome-To-Cascades-/',
   '/Welcome-To-Cascades-/index.html',
   '/Welcome-To-Cascades-/icon-192.png',
+  '/Welcome-To-Cascades-/apple-touch-icon-180.png',
+  '/Welcome-To-Cascades-/favicon-32.png',
+  '/Welcome-To-Cascades-/img/smartlock.webp',   // door guide image: must work offline at the door
+  '/Welcome-To-Cascades-/img/logo.png',
 ];
 
 // ── Install ─────────────────────────────────────────────────────────────────
@@ -85,9 +89,10 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // ── 2. Supabase (weather proxy, KB RPC, Edge Functions) → network-first
+  // ── 2. Supabase (weather proxy, RPCs, Edge Functions) → NEVER cached, network only.
+  //    The guest guide keeps its own weather copy in localStorage; stay secrets arrive by POST
+  //    (already ignored above) and must never land in a cache a later visitor could read.
   if (url.hostname.includes('supabase.co') || url.hostname.includes('supabase.net')) {
-    event.respondWith(networkFirst(request, RUNTIME_CACHE, { isApi: true }));
     return;
   }
 
@@ -145,7 +150,10 @@ async function navigationHandler(request) {
     return response;
   } catch {
     // Offline — serve cached index.html so guests don't get a blank screen
-    const cached = await caches.match('/Welcome-To-Cascades-/index.html')
+    // the copy stored by the last successful navigation first (it is the newest), then the precached shell
+    const cached = await caches.match(request)
+                || await caches.match(request, { ignoreSearch: true })
+                || await caches.match('/Welcome-To-Cascades-/index.html')
                 || await caches.match('/Welcome-To-Cascades-/');
     if (cached) return cached;
     return offlinePage();
