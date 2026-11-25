@@ -9,9 +9,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const out = path.join(here, 'out', 'e2e-real');
+const out = path.join(here, 'out', process.env.E2E_OUT || 'e2e-real');
 fs.mkdirSync(out, { recursive: true });
-const URL_ROOT = 'http://127.0.0.1:4391/Welcome-To-Cascades-/index.html?sw=1'; // the Pages path, with the real service worker
+const URL_ROOT = process.env.E2E_URL || 'http://127.0.0.1:4391/Welcome-To-Cascades-/index.html?sw=1'; // the Pages path, with the real service worker
 const pair = (v) => { const [date, initial] = String(v || '').split(':'); return { date, initial }; };
 const C = { now: pair(process.env.E2E_NOW), soon: pair(process.env.E2E_SOON), early: pair(process.env.E2E_EARLY), expired: process.env.E2E_EXPIRED, nodate: process.env.E2E_NODATE };
 const SECRET_KEYS = /password|phone|token|code|name|label/i;
