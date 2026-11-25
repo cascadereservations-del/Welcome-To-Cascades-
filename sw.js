@@ -245,7 +245,6 @@ function offlinePage() {
     <div style="font-size:3rem;margin-bottom:1rem;">🏡</div>
     <h1>Cascade Hideaway</h1>
     <p>You appear to be offline. Please reconnect to Wi-Fi — the guide will load automatically.</p>
-    <p style="margin-top:1rem;font-size:.85rem;">Wi-Fi: <strong>WelcomeToCascade 5G</strong><br/>Password: <strong>EnjoyYourStay@CH</strong></p>
   </div>
 </body>
 </html>`;
