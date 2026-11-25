@@ -1780,7 +1780,7 @@ function mapLoad(k){const m=MAPS[k],th=document.documentElement.dataset.day?'day
  f.src=m.u+'?embed=1&fit=1&theme='+th;m.th=th;m.f=f;$('#'+m.p+'-live').appendChild(f);m.tm=setTimeout(()=>mapFail(k,1),12e3)}
 /* the map app reports its height (CASCADE_MAP_HEIGHT) so the frame fits its content and the sheet is the only scroller */
 function mapFit(k,h){const p=$('#'+MAPS[k].p+'-live');p.style.height=h?h+'px':'';p.classList.toggle('fit',!!h)}
-addEventListener('message',e=>{const d=e.data;if(!d||d.type!=='CASCADE_MAP_HEIGHT')return;const k=Object.keys(MAPS).find(x=>MAPS[x].f&&MAPS[x].f.contentWindow===e.source);const h=Math.round(+d.h);if(k&&h>=240&&h<=6000)mapFit(k,h)});
+addEventListener('message',e=>{const d=e.data;if(!d||d.type!=='CASCADE_MAP_HEIGHT')return;const k=Object.keys(MAPS).find(x=>MAPS[x].f&&MAPS[x].f.contentWindow===e.source);const h=Math.round(+d.h);if(k&&h>=240&&h<=6000){const m=MAPS[k];if(m.st==='load'||m.st==='slow'){clearTimeout(m.tm);m.st='ok';$('#'+m.p+'-live .mstat').hidden=true}mapFit(k,h)}});
 $('#sh-nearby .mseg').addEventListener('click',e=>{const b=e.target.closest('[data-mt]');if(b){MAPS.nearby.user=1;mapTab('nearby',b.dataset.mt)}});
 $('#sh-nearby .mseg').addEventListener('keydown',e=>{const k=e.key;if(k!=='ArrowLeft'&&k!=='ArrowRight'&&k!=='Home'&&k!=='End')return;e.preventDefault();MAPS.nearby.user=1;mapTab('nearby',(k==='ArrowLeft'||k==='Home')?'live':'off',1)});
 $('#sh-nearby').addEventListener('click',e=>{if(e.target.closest('[data-mf]')){MAPS.nearby.user=1;mapTab('nearby','off',1)}});

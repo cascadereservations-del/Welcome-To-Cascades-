@@ -350,3 +350,13 @@ test('M2m the Restaurants nearby tile opens the Dining map sheet, not a Google l
   expect(await h.page.locator('.go4 a[href*="maps/search/restaurants"]').count()).toBe(0);
   await clean(h);
 });
+
+test('M2n a height report counts as loaded: the loading cover goes away even while the frame load event is still pending', async ({ browser }) => {
+  const h = await boot(browser);
+  const SLOW = `<!doctype html><meta charset="utf-8"><body style="margin:0;height:900px"><img src="${NEARBY}hang.png"><script>parent.postMessage({type:'CASCADE_MAP_HEIGHT',h:900},'*')</script>`;
+  await h.context.route(NEARBY + '**', (route) => { if (/hang\.png/.test(route.request().url())) return; return route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: SLOW }); });
+  await openSheet(h.page, 'nearby');
+  await expect(h.page.locator('#np-live')).toHaveClass(/fit/);
+  await expect(h.page.locator('#np-live .mstat')).toBeHidden();
+  await clean(h);
+});
