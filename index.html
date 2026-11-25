@@ -1223,6 +1223,7 @@ const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},se
 // live-guide format: values are JSON-encoded under the ch_v2_* keys
 const sget=k=>{const v=store.get(k);if(v==null)return null;try{return JSON.parse(v)}catch(e){return v}};
 const sset=(k,v)=>store.set(k,v==null?null:JSON.stringify(v));
+store.set('ch_wifi_v1',null); // legacy v7 key held the Wi-Fi password in plaintext
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>';
 const BAG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>';
@@ -1292,7 +1293,7 @@ function clearStay(){[SK.NAME,SK.CI,SK.CO,SK.NIGHTS,SK.COT,SK.VER,SK.ADMIN].forE
 let G={};
 const personalise=()=>{
  const ver=!!sget(SK.VER)||!!sget(SK.ADMIN);
- const name=ver?(String(sget(SK.NAME)||'').trim().split(/\s+/)[0]||''):(guestPass.has()?(store.get('cg_guest_name')||''):''),ci=ver?sget(SK.CI):null,co=ver?sget(SK.CO):null,t=today(),H=nowH();
+ const rawName=ver?(String(sget(SK.NAME)||'').trim().split(/\s+/)[0]||''):(guestPass.has()?(store.get('cg_guest_name')||''):''),name=/^[A-Za-z]$/.test(rawName)?'':rawName,ci=ver?sget(SK.CI):null,co=ver?sget(SK.CO):null,t=today(),H=nowH();
  const cot=fmtT(sget(SK.COT));
  const expired=ver&&!sget(SK.ADMIN)&&co&&t>addDays(String(co).slice(0,10),1);
  G={name,ci,co,ver,expired,cot};
@@ -1366,14 +1367,15 @@ function applyContact(sc){const nm=(sc&&sc.onground_name)||'Honey',ph=(sc&&sc.on
  $$('[data-og-name]').forEach(e=>e.textContent=nm);$$('[data-og-phone]').forEach(e=>e.textContent=pretty);$$('[data-og-tel]').forEach(e=>e.href='tel:'+tel)}
 function renderLocks(){const ok=(G.ver&&!G.expired)||!!sget(SK.ADMIN);
  const lockCard=(what)=>`<div class="locked"><p class="serif" style="font-size:1.4rem;margin:0 0 6px">${ic('lock')}${what}</p><p class="muted" style="margin:0 0 12px">Confirm your booking to see this. It takes your check-in date and one letter.</p><button class="btn gold" data-open="verify">✦ Confirm my booking</button></div>`;
+ const doorGuide=`<img src="img/smartlock.webp" alt="Smart lock guide: wake the keypad, enter your PIN and press #, turn the handle, close the door firmly" style="width:100%;border-radius:16px;margin:4px 0 12px;display:block">`;
  const sc=ok?secrets():null;applyContact(sc);
  if(!ok){$('#wifilock').innerHTML=lockCard('Your Wi-Fi details');$('#locklock').innerHTML=lockCard('Your door guide');return}
- if(!sc&&!sget('ch_v2_token')){$('#wifilock').innerHTML=lockCard('Your Wi-Fi details');$('#locklock').innerHTML=lockCard('Your door guide');return}
+ if(!sc&&!sget('ch_v2_token')){$('#wifilock').innerHTML=lockCard('Your Wi-Fi details');$('#locklock').innerHTML=doorGuide;return}
  if(!sc){$('#wifilock').innerHTML=`<div class="card c"><p class="muted" style="margin:0">Fetching your Wi-Fi details…</p><p class="muted" style="margin:8px auto 0;font-size:.875rem">They're also in your Airbnb check-in message.</p></div>`;
   loadSecrets().then(x=>{if(x||!sget('ch_v2_token'))renderLocks();else $('#wifilock').innerHTML=`<div class="card c"><p class="muted" style="margin:0">We couldn't load your Wi-Fi details just now. You'll find them in your Airbnb check-in message, or message us and we'll send them right away.</p><button class="btn" style="margin-top:12px" id="secretry">Try again</button></div>`})}
  else{const qr=wifiQR(sc.wifi_ssid||'',sc.wifi_password);
   $('#wifilock').innerHTML=`<div class="card c">${qr?`<div class="qrbox" role="img" aria-label="QR code to join ${esc(sc.wifi_ssid||'the Wi-Fi')}">${qr}</div><p class="muted" style="margin:8px auto 0;font-size:.875rem">Point your camera at the code to join</p>`:''}</div><div class="card"><p class="label">PASSWORD</p><p class="serif brk" style="font-size:1.75rem;margin:0 0 12px">${esc(sc.wifi_password)}</p><button class="btn gold" data-copy="${esc(sc.wifi_password)}">Copy password</button></div>`;revalSecrets()}
- $('#locklock').innerHTML=`<img src="img/smartlock.webp" alt="Smart lock guide: wake the keypad, enter your PIN and press #, turn the handle, close the door firmly" style="width:100%;border-radius:16px;margin:4px 0 12px;display:block">`}
+ $('#locklock').innerHTML=doorGuide}
 document.addEventListener('click',e=>{if(e.target.id==='secretry'){e.target.disabled=true;loadSecrets(true).then(()=>renderLocks())}});
 
 /* ---------- live gate: same RPCs, keys, steps, guest pass and expiry rules as the live guide ---------- */
@@ -1469,8 +1471,8 @@ $('#g-admin-link').addEventListener('click',()=>{$('#gpw').value='';$('#gpwerr')
 $('#g-pw-back').addEventListener('click',()=>gstep('date'));
 let adminBusy=false;
 async function adminGo(){if(adminBusy)return;const v=$('#gpw').value.trim(),err=t=>{$('#gpwerr').textContent=t;$('#gpwerr').hidden=false;$('#gpw').select()};if(!v){err('Please enter the access code.');return}
- adminBusy=true;let out;const cl=devId();try{try{out=await rpc('guide_staff_session_v1',{p_code:v,p_client:cl})}catch(e){if(!String(e.message).includes('404'))throw e;out=await rpc('verify_admin_pin',{p_code:v,p_client:cl})}}catch(e){adminBusy=false;err('Could not reach the server. Check your connection and try again.');return}
- adminBusy=false;if(out&&out.ok){sset('ch_v2_token',out.token||null);store.set(SEC_KEY,null);const ids=(Array.isArray(out.users)&&out.users.length?out.users:['Lloyd','Marifel','Honey']).filter(n=>n&&n!=='Others');$('#gids').innerHTML=ids.map(n=>`<button class="btn glass" data-aid="${esc(n)}">${esc(n)}</button>`).join('');gstep('admin')}
+ adminBusy=true;let out;const cl=devId();try{try{out=await rpc('guide_staff_session_v1',{p_code:v,p_client:cl})}catch(e){if(!String(e.message).includes('404'))throw e;out=await rpc('verify_admin_pin',{p_code:v,p_client:cl})}}catch(e){err('Could not reach the server. Check your connection and try again.');return}finally{adminBusy=false}
+ if(out&&out.ok){sset('ch_v2_token',out.token||null);store.set(SEC_KEY,null);const ids=(Array.isArray(out.users)&&out.users.length?out.users:['Lloyd','Marifel','Honey']).filter(n=>n&&n!=='Others');$('#gids').innerHTML=ids.map(n=>`<button class="btn glass" data-aid="${esc(n)}">${esc(n)}</button>`).join('');gstep('admin')}
  else if(out&&out.throttled)err('Too many attempts. Please wait 15 minutes and try again.');else err('That code didn\'t match. Please try again.')}
 $('#g-pw-go').addEventListener('click',adminGo);$('#gpw').addEventListener('keydown',e=>{if(e.key==='Enter')adminGo()});
 $('#gids').addEventListener('click',e=>{const b=e.target.closest('[data-aid]');if(!b)return;sset(SK.NAME,b.dataset.aid);sset(SK.ADMIN,true);sset(SK.VER,true);sset(SK.FIRST,Date.now());hideGate();personalise();toast(`Welcome, ${b.dataset.aid}. Preview tools are in the concierge.`)});
