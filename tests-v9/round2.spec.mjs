@@ -104,7 +104,9 @@ test('R2c cache older than 6 h and a changed password: the shown password update
   expect(h.mock.callsOf('guide_secrets_v1')).toHaveLength(1);
   const c = JSON.parse(await ls(h.page, 'cg_secrets'));
   expect(c.wifi_password).toBe(NEWPASS);
-  expect(Date.now() - c.at, 'the cache carries a fresh stamp').toBeLessThan(60000);
+  const pageNow = await h.page.evaluate(() => Date.now()); // page time (the fixed test clock), not the runner's clock
+  expect(pageNow - c.at, 'the cache carries a fresh stamp').toBeLessThan(60000);
+  expect(pageNow - c.at).toBeGreaterThanOrEqual(0);
   await clean(h);
 });
 for (const [label, fail] of [['HTTP 500', () => ({ status: 500, json: null })], ['network abort', () => 'abort'], ['ok:true with no password', () => ({ json: { ok: true } })]]) {
