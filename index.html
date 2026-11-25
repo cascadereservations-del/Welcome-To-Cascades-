@@ -635,8 +635,8 @@ html.thx *{transition:background-color .6s ease,color .6s ease,border-color .6s 
 .ghero{position:relative;height:200px}
 .gph{position:absolute;inset:0;background:#3D2B1F;overflow:hidden;-webkit-mask:linear-gradient(#000,#000) top/100% calc(100% - 46px) no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 52' preserveAspectRatio='none'%3E%3Cpath d='M0,0H400V26C360,12 300,46 240,30C160,8 80,52 0,28Z'/%3E%3C/svg%3E") bottom/100% 46px no-repeat;mask:linear-gradient(#000,#000) top/100% calc(100% - 46px) no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 52' preserveAspectRatio='none'%3E%3Cpath d='M0,0H400V26C360,12 300,46 240,30C160,8 80,52 0,28Z'/%3E%3C/svg%3E") bottom/100% 46px no-repeat}
 .gph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 70%;display:block}
-.gph::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(28,16,6,.08),rgba(28,16,6,.55) 62%,rgba(28,16,6,.16))}
-.gtag{position:absolute;z-index:2;left:0;right:0;bottom:3.3rem;margin:0;padding:0 1.25rem;font:italic 300 1.3rem/1.4 "Cormorant Garamond",serif;letter-spacing:.06em;color:#F7F2E8;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.gph::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(28,16,6,.08),rgba(28,16,6,.74) 62%,rgba(28,16,6,.16))}
+.gtag{position:absolute;z-index:2;left:0;right:0;bottom:3.3rem;margin:0;padding:0 1.25rem;font:italic 500 1.3rem/1.4 "Cormorant Garamond",serif;letter-spacing:.06em;color:#F7F2E8;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 .gbadgeic{position:absolute;z-index:4;left:50%;bottom:-27px;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;background:#fffdf8;display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(201,150,58,.4);box-shadow:0 4px 18px rgba(28,16,6,.28),0 1px 4px rgba(28,16,6,.12)}
 .gbadgeic img{width:36px;height:36px;object-fit:contain;display:block}
 .gbody{padding:calc(27px + 1rem) 1.75rem 1.3rem}
@@ -652,7 +652,7 @@ html.thx *{transition:background-color .6s ease,color .6s ease,border-color .6s 
 :root .gate .gcard .ginput::placeholder{color:#7d6c59;opacity:1}
 .gdatew{position:relative}
 .gdatew .ginput{padding-right:50px;text-align:left}
-.gdatew .ginput::-webkit-calendar-picker-indicator{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.gdatew .ginput::-webkit-calendar-picker-indicator{position:absolute;left:auto;right:0;width:50px;height:100%;opacity:0;cursor:pointer}
 .gcal{position:absolute;right:20px;top:50%;width:19px;height:19px;margin-top:-9.5px;color:#8A6320;pointer-events:none}
 :root .gate .gcard .gletter{border-radius:22px;border:1.5px solid var(--gk);background:var(--gf);color:var(--gi)}
 :root[data-day] .gate .gcard .gbadge{background:rgba(201,150,58,.1);border:1px solid rgba(201,150,58,.35);color:#3D2B1F}
@@ -1232,7 +1232,6 @@ html.expired #book,html.expired .dock,html.expired .sheet,html.expired .scrim,ht
       <button class="glink" id="g-retry2">← Try the booking details again</button>
     </div>
     <div class="gstep" id="g-success" hidden>
-      <div class="orn" style="color:#f2d79c">✦</div>
       <h2 id="g-sname">Welcome</h2>
       <div class="gorn" aria-hidden="true"><i></i><b></b><i></i></div>
       <p class="gsub" id="g-sinfo"></p>
